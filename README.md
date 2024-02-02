@@ -3,10 +3,15 @@ The focus of this project, led by Dr. Nhut Nguyen, is to develop an IDS using th
 
 ## Contributors
 [Peyton Barre](https://github.com/Peytonbarre)
+
 [Cole Elfstrom](https://github.com)
+
 [Sailesh Andra](https://github.com/SaileshAndra)
+
 [Caleb Ernst](https://github.com/CalebErnst01)
+
 [Kantha Kathiravan](https://github.com)
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
