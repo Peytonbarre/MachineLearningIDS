@@ -10,21 +10,45 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 import lightgbm as lgb # pip install lightgbm
 import catboost as cbt # pip install catboost
 import xgboost as xgb # pip install xgboost
-import time
+# import time
 from river import stream # pip install river
 from statistics import mode # pip install statistics
+from imblearn.over_sampling import SMOTE # pip install imblearn
 
-df = pd.read_csv("./data/CICIDS2017_sample_km.csv")
+# Note: for each modifiable variable, probably just set them as a function argument for the entire ML algorithm
+# Count of modifiable variables: 3
+
+# Set up data selection
+# Likely add a checklist and search bar to frontend HTML which selects uploaded data
+# Multiple compatible data files can be used at the same time
+
+# HTML frontend directly modifies csv_selected and the backend handles the rest
+
+csv_paths = ["./data/CICIDS2017_sample_km.csv"]
+csv_selected = np.zeros(len(csv_paths))
+
+# Since csv_selected isn't modified through frontend yet, this line is for testing
+csv_selected[0] = 1
+
+df = []
+for i in range(len(csv_paths)):
+    # If the data file is selected by the end user
+    if(csv_selected[0] == 1):
+        # Concatenate subsequent data files
+        df = pd.concat([df, pd.read_csv(csv_paths[i])], axis=0)
+
+# Beginning of parameters and hyperparameters (Allow end user to modify directly through HTML frontend)
+training_ratio = 0.8
+testing_ratio = 1 - training_ratio
 
 df.Label.value_counts()
 
 X = df.drop(['Label'],axis=1)
 y = df['Label']
-X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = 0.8, test_size = 0.2, random_state = 0) #shuffle
+X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = training_ratio, test_size = testing_ratio, random_state = 0) #shuffle
 
 pd.Series(y_train).value_counts()
 
-from imblearn.over_sampling import SMOTE # pip install imblearn
 smote=SMOTE(n_jobs=-1,sampling_strategy={2:1000,4:1000})
 
 X_train, y_train = smote.fit_resample(X_train, y_train)
