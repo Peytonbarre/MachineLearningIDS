@@ -10,6 +10,7 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 import lightgbm as lgb # pip install lightgbm
 import catboost as cbt # pip install catboost
 import xgboost as xgb # pip install xgboost
+
 # import time
 from river import stream # pip install river
 from statistics import mode # pip install statistics
@@ -45,6 +46,7 @@ df.Label.value_counts()
 
 X = df.drop(['Label'],axis=1)
 y = df['Label']
+
 X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = training_ratio, test_size = testing_ratio, random_state = 0) #shuffle
 
 pd.Series(y_train).value_counts()
