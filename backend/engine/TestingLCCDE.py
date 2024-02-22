@@ -25,18 +25,14 @@ from imblearn.over_sampling import SMOTE # pip install imblearn
 
 # HTML frontend directly modifies csv_selected and the backend handles the rest
 
-csv_paths = ["./data/CICIDS2017_sample_km.csv"]
-csv_selected = np.zeros(len(csv_paths))
+csv_paths = ["./backend/engine/data/CICIDS2017_sample_km.csv"]
+csv_selected = list(np.zeros(len(csv_paths)))
 
 # Since csv_selected isn't modified through frontend yet, this line is for testing
 csv_selected[0] = 1
 
-df = []
-for i in range(len(csv_paths)):
-    # If the data file is selected by the end user
-    if(csv_selected[0] == 1):
-        # Concatenate subsequent data files
-        df = pd.concat([df, pd.read_csv(csv_paths[i])], axis=0)
+# Select data file that user decided on, we do not know if data files will be compatible so we are not merging them
+df = pd.read_csv(csv_paths[csv_selected.index(1)])
 
 # Beginning of parameters and hyperparameters (Allow end user to modify directly through HTML frontend)
 training_ratio = 0.8
