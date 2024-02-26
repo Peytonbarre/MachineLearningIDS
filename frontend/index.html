@@ -22,13 +22,15 @@
             </ul>
         </nav>
 
-        <main class="content">
+        <main class="content" style="display: flex; flex-direction: column;">
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
             <canvas id="myChart"></canvas>
         </main>
         
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.1"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

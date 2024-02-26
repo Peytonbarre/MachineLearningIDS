@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "chart.heatmap.js": "^0.0.1-alpha"
+  }
+}

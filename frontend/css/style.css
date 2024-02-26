@@ -42,6 +42,20 @@ header {
     background-color: #444;
 }
 
+.midButton {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #777;
+}
+
+.midButton:hover {
+    background-color: #444;
+}
+
 .content {
     display: flex;
     justify-content: center;
