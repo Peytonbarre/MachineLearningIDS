@@ -152,5 +152,18 @@ async function fetchXGBChart() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.midButton');
+    var header  = document.getElementById('DashHeader');
+
+    //This changes the header background-color when a ML Algorithm button is pressed
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var color = window.getComputedStyle(button).getPropertyValue('background-color');
+            header.style.backgroundColor = color;
+        });
+    });
+});
+
 // Initial chart display
 showLineChart();

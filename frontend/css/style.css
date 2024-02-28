@@ -45,15 +45,41 @@ header {
 .midButton {
     text-decoration: none;
     color: #fff;
-    display: block;
+    display: inline-block;
     padding: 10px;
     margin-bottom: 10px;
+    margin-right: 20px;
     border-radius: 5px;
     background-color: #777;
+    width: 325px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.midButton:nth-child(1) {
+    margin-left: 40px;
+    background-color: #4428BC;
+}
+
+.midButton:nth-child(2) {
+    background-color: #A81000;
+}
+
+.midButton:nth-child(3) {
+    background-color: #007800;
+}
+
+.midButton:nth-child(4) {
+    background-color: #D800CC;
+}
+
+.midButton:nth-child(5) {
+    background-color: #F8B800;
 }
 
 .midButton:hover {
-    background-color: #444;
+    filter: brightness(0.8);
+    color: #fff; /* This doesn't override the shadow effect for some reason */
 }
 
 .content {
@@ -64,4 +90,10 @@ header {
     height: 80vh;
     padding: 20px;
     padding-top: 50px;
+}
+
+.ChangeAlgorithmContainer {
+    display: flex;
+    align-items: center;
+    flex: 1;
 }

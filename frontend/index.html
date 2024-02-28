@@ -8,8 +8,18 @@
 </head>
 <body>
 
-    <header>
+    <header id="DashHeader">
         <h1>IDS-ML Dashboard</h1>
+
+        <div class = "ChangeAlgorithmContainer">
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Extra Trees</a> <!-- CHANGE FETCH XGBCHART WITH OTHER IDS ALGOs-->
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Decision Tree</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Random Forest</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Stacking</a> <!-- DITTO -->
+            <!-- PUT DROP-DOWN Feature check-box selection button thingy HERE! -->
+        </div>
+
     </header>
 
     <div class="container">
@@ -22,8 +32,7 @@
             </ul>
         </nav>
 
-        <main class="content" style="display: flex; flex-direction: column;">
-            <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
+        <main class="content">
             <canvas id="myChart"></canvas>
         </main>
         
