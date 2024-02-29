@@ -8,17 +8,14 @@ from sklearn.datasets import load_digits
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 import time
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 
 classifiers = [('DecisionTree', DecisionTreeClassifier(), {'max_depth' : [5, 10, 15]}), 
               ('LogisticRegression', LogisticRegression(), {'C' : [0.1, 1, 10]})]
-              
 
 dataset = load_digits()
 n_features = dataset.data.shape[1]
 npieces = get_i(n_features)
-
-
 
 for tag, clf, param_grid in classifiers:
     """
@@ -27,9 +24,9 @@ for tag, clf, param_grid in classifiers:
     grid = GridSearchCV(clf, param_grid, cv = 10, scoring = 'accuracy')
     grid.fit(dataset.data, dataset.target)    
     
-    print "No Feature Selection"
-    print "Classifer: {}".format(tag)
-    print "Best score: {}\n".format(grid.best_score_)
+    print("No Feature Selection")
+    print("Classifer: {}".format(tag))
+    print("Best score: {}\n".format(grid.best_score_))
     
     """
     FCBF
@@ -45,10 +42,10 @@ for tag, clf, param_grid in classifiers:
     grid = GridSearchCV(clf, param_grid, cv = 10, scoring = 'accuracy')
     grid.fit(dataset.data[:,fcbf.idx_sel], dataset.target)
     
-    print "FCBF"
-    print "Classifer: {}".format(tag)
-    print "Best score: {}".format(grid.best_score_)
-    print "Elapsed Time: {}\n".format(elapsed_t)    
+    print("FCBF")
+    print("Classifer: {}".format(tag))
+    print("Best score: {}".format(grid.best_score_))
+    print("Elapsed Time: {}\n".format(elapsed_t))
     
     k = len(fcbf.idx_sel) #Number of selected features for FCBFK and FCBFiP
     
@@ -66,10 +63,10 @@ for tag, clf, param_grid in classifiers:
     grid = GridSearchCV(clf, param_grid, cv = 10, scoring = 'accuracy')
     grid.fit(dataset.data[:,fcbfk.idx_sel], dataset.target)
     
-    print "FCBF#"
-    print "Classifer: {}".format(tag)
-    print "Best score: {}".format(grid.best_score_)    
-    print "Elapsed Time: {}\n".format(elapsed_t)    
+    print("FCBF#")
+    print("Classifer: {}".format(tag))
+    print("Best score: {}".format(grid.best_score_))
+    print("Elapsed Time: {}\n".format(elapsed_t))
     
     """
     FCBiP
@@ -87,10 +84,10 @@ for tag, clf, param_grid in classifiers:
         grid = GridSearchCV(clf, param_grid, cv = 10, scoring = 'accuracy')
         grid.fit(dataset.data[:,fcbfip.idx_sel], dataset.target)
         
-        print "FCBFiP with {} pieces".format(i)
-        print "Classifer: {}".format(tag)
-        print "Best score: {}".format(grid.best_score_)    
-        print "Elapsed Time: {}\n".format(elapsed_t)   
+        print("FCBFiP with {} pieces".format(i))
+        print("Classifer: {}".format(tag))
+        print("Best score: {}".format(grid.best_score_))
+        print("Elapsed Time: {}\n".format(elapsed_t))
 """
 OUTPUT
 
@@ -171,5 +168,4 @@ FCBFiP with 32 pieces
 Classifer: LogisticRegression
 Best score: 0.903728436283
 Elapsed Time: 0.195168018341
-
 """

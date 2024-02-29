@@ -18,7 +18,7 @@ from hyperopt import hp, fmin, tpe, STATUS_OK, Trials
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 
 #Reading sample dataset
-df=pd.read_csv('./data/CICIDS2017_sample_km.csv')
+df=pd.read_csv("./backend/engine/data/CICIDS2017_sample_km.csv")
 
 features = df.dtypes[df.dtypes != 'object'].index
 
@@ -51,7 +51,18 @@ X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = 0.8, t
 X_train.shape
 pd.Series(y_train).value_counts()
 
-smote=SMOTE(n_jobs=-1,sampling_strategy={2:1000,4:1000})
+# Depreciated value "n_jobs=-1"
+# smote=SMOTE(n_jobs=-1,sampling_strategy={2:1000,4:1000})
+
+# n_jobs=-1 parameter states that it wants SMOTE to run on all computer cores
+# Avoid issue altogether with single core run (May slow down algorithm)
+smote=SMOTE(sampling_strategy={2:1000,4:1000})
+
+# Replacement value for "n_jobs=-1"
+# from sklearn.neighbors import KNeighborsClassifier
+# knn = KNeighborsClassifier(n_jobs=-1)
+# smote = SMOTE(sampling_strategy={2:1000,4:1000}, k_neighbors=knn)
+
 X_train, y_train = smote.fit_resample(X_train, y_train)
 pd.Series(y_train).value_counts()
 

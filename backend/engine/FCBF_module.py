@@ -48,8 +48,7 @@ def suGroup(x, n):
     return 1/float(m-1)*np.sum(SU_matrix, axis = 1)
 
 def isprime(a):
-    return all(a % i for i in xrange(2, a))
-
+    return all(a % i for i in range(2, a)) # Previously xrange
 
 """
 get
@@ -60,7 +59,6 @@ def get_i(a):
         a -= 1
     return filter(lambda x: a % x == 0, range(2,a))
 
-
 """
 FCBF - Fast Correlation Based Filter
 
@@ -70,9 +68,7 @@ Washington, D.C., August 21‐24, 2003.
 """
 
 class FCBF:
-    
     idx_sel = []
-    
     
     def __init__(self, th = 0.01):
         '''
@@ -81,7 +77,6 @@ class FCBF:
             th = The initial threshold 
         '''
         self.th = th
-
 
     def fit(self, x, y):
         '''
@@ -162,7 +157,6 @@ class FCBF:
         '''
         return x[:, self.idx_sel]  
 
-
 """
 FCBF# - Fast Correlation Based Filter 
 B. Senliol, G. Gulgezen, et al. Fast Correlation Based Filter (FCBF) with a Different Search Strategy. 
@@ -170,9 +164,7 @@ In Computer and Information Sciences (ISCIS ‘08) 23rd International Symposium 
 Istanbul, October 27‐29, 2008.
 """
 class FCBFK(FCBF):
-    
     idx_sel = []
-    
     
     def __init__(self, k = 10):
         '''
@@ -182,7 +174,6 @@ class FCBFK(FCBF):
             subset.
         '''
         self.k = k
-
 
     def fit(self, x, y):
         '''
@@ -227,16 +218,13 @@ class FCBFK(FCBF):
             """
             if x_list.shape[1] == 0: break
                 
-                
             SU_x = np.apply_along_axis(symmetricalUncertain, 0, 
                                        x_list, y)
             
             comp_SU = SU_x >= SU_list_2
             to_remove = np.where(comp_SU)[0] + j + 1 
             if to_remove.size > 0 and x.shape[1] > self.k:
-    
                 for i in reversed(to_remove):
-                    
                     x_sorted = np.delete(x_sorted, i, axis = 1)
                     SU_list = np.delete(SU_list, i, axis = 0)                
                     self.idx_sel.remove(self.idx_sel[i])
@@ -248,18 +236,14 @@ class FCBFK(FCBF):
             
         if len(self.idx_sel) > self.k:
             self.idx_sel = self.idx_sel[:self.k]
-            
-            
-            
+ 
 """
 FCBFiP - Fast Correlation Based Filter in Pieces
 """            
-            
+
 class FCBFiP(FCBF):
-    
     idx_sel = []
-
-
+    
     def __init__(self, k = 10, npieces = 2):
         '''
         Parameters
@@ -344,8 +328,3 @@ class FCBFiP(FCBF):
             ind =  np.argmax(scores_temp)
             scores_temp[ind] = -100000000
             self.idx_sel[i] = ind
-
-        
-        
-
-        
