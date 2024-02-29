@@ -152,5 +152,38 @@ async function fetchXGBChart() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.midButton');
+    var header  = document.getElementById('DashHeader');
+
+    //This changes the header background-color when a ML Algorithm button is pressed
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var color = window.getComputedStyle(button).getPropertyValue('background-color');
+            header.style.backgroundColor = color;
+        });
+    });
+});
+
+    //hides Features panel when exit button is clicked
+    document.getElementById('closeButton').addEventListener('click', function() {
+        document.getElementById('FeaturesPanel').style.display = 'none';
+        document.getElementById('FeaturesButton').style.backgroundColor = '';
+    });
+
+    //toggles display of feature panel via clicks to the 'Features...' button
+    function toggleFeatPanel() {
+        var panel = document.getElementById('FeaturesPanel');
+        var button = document.getElementById('FeaturesButton');
+
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            button.style.backgroundColor = '#444';
+        } else {
+            panel.style.display = 'none';
+            button.style.backgroundColor = '';
+        }
+    }
+
 // Initial chart display
 showLineChart();

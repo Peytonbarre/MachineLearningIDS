@@ -8,13 +8,32 @@
 </head>
 <body>
 
-    <header>
+    <header id="DashHeader">
         <h1>IDS-ML Dashboard</h1>
+
+        <div class = "ChangeAlgorithmContainer">
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Extra Trees</a> <!-- CHANGE FETCH XGBCHART WITH OTHER IDS ALGOs-->
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Decision Tree</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Random Forest</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>Stacking</a> <!-- DITTO -->
+        </div>
+
     </header>
 
     <div class="container">
         <nav class="sidebar">
             <ul>
+                <li><a href="#" id="FeaturesButton" onclick="toggleFeatPanel()">Features...</a></li>
+                    <div id="FeaturesPanel" class="FeaturesPanel">
+                        <ul>
+                            <li><a href="#">XGBoost</a></li>
+                            <li><a href="#">Forest</a></li>
+                            <li><a href="#">Decision Tree</a></li>
+                            <li><a href="#">Extra Trees</a></li>
+                        </ul>
+                        <button id="closeButton">EXIT</button>
+                    </div>
                 <li><a href="#" onclick=showLineChart()>Line</a></li>
                 <li><a href="#" onclick=showBarChart()>Bar</a></li>
                 <li><a href="#" onclick=showPieChart()>Pie</a></li>
@@ -22,8 +41,7 @@
             </ul>
         </nav>
 
-        <main class="content" style="display: flex; flex-direction: column;">
-            <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
+        <main class="content">
             <canvas id="myChart"></canvas>
         </main>
         
