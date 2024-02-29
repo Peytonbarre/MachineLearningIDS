@@ -97,3 +97,42 @@ header {
     align-items: center;
     flex: 1;
 }
+
+.FeaturesPanel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #9e9d9dda;
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.FeaturesPanel label {
+    display: block;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.FeaturesPanel input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#closeButton {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    width: 175px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #c41401;
+
+    font-size: 18px;
+}
