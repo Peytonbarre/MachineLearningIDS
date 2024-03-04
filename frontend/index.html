@@ -13,10 +13,10 @@
 
         <div class = "ChangeAlgorithmContainer">
             <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
-            <a href ="#" class="midButton" onclick=fetchXGBChart()>Extra Trees</a> <!-- CHANGE FETCH XGBCHART WITH OTHER IDS ALGOs-->
-            <a href ="#" class="midButton" onclick=fetchXGBChart()>Decision Tree</a> <!-- DITTO -->
-            <a href ="#" class="midButton" onclick=fetchXGBChart()>Random Forest</a> <!-- DITTO -->
-            <a href ="#" class="midButton" onclick=fetchXGBChart()>Stacking</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchETChart()>Extra Trees</a> <!-- CHANGE FETCH XGBCHART WITH OTHER IDS ALGOs-->
+            <a href ="#" class="midButton" onclick=fetchDTChart()>Decision Tree</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchRFChart()>Random Forest</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchSTACKChart()>Stacking</a> <!-- DITTO -->
         </div>
 
     </header>
@@ -44,11 +44,17 @@
         <main class="content">
             <canvas id="myChart"></canvas>
         </main>
+
+        <div id="loadingIndicator" class="hidden">
+            <div class="spinner"></div>
+            Loading...
+        </div>
         
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

@@ -18,7 +18,7 @@ from hyperopt import hp, fmin, tpe, STATUS_OK, Trials
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 
 #Reading sample dataset
-df=pd.read_csv('./data/CICIDS2017_sample_km.csv')
+df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
 
 features = df.dtypes[df.dtypes != 'object'].index
 
@@ -376,16 +376,181 @@ def getXGBoost():
     y_predict=xg.predict(X_test)
     y_true=y_test
     acurracy = xg_score
-
-    print('Accuracy of XGBoost: '+ str(xg_score))
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
-    print('Precision of XGBoost: '+(str(precision)))
-    print('Recall of XGBoost: '+(str(recall)))
-    print('F1-score of XGBoost: '+(str(fscore)))
-    print(classification_report(y_true,y_predict))
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
+
+def getExtraTrees():
+    def objective(params):
+        params = {
+            'n_estimators': int(params['n_estimators']), 
+            'max_depth': int(params['max_depth']),
+            'max_features': int(params['max_features']),
+            "min_samples_split":int(params['min_samples_split']),
+            "min_samples_leaf":int(params['min_samples_leaf']),
+            "criterion":str(params['criterion'])
+        }
+        clf = ExtraTreesClassifier( **params)
+        clf.fit(X_train,y_train)
+        score=clf.score(X_test,y_test)
+
+        return {'loss':-score, 'status': STATUS_OK }
+    # Define the hyperparameter configuration space
+    space = {
+        'n_estimators': hp.quniform('n_estimators', 10, 200, 1),
+        'max_depth': hp.quniform('max_depth', 5, 50, 1),
+        "max_features":hp.quniform('max_features', 1, 20, 1),
+        "min_samples_split":hp.quniform('min_samples_split',2,11,1),
+        "min_samples_leaf":hp.quniform('min_samples_leaf',1,11,1),
+        "criterion":hp.choice('criterion',['gini','entropy'])
+    }
+    best = fmin(fn=objective,
+                space=space,
+                algo=tpe.suggest,
+                max_evals=20)
+    et_hpo = ExtraTreesClassifier(n_estimators = 53, min_samples_leaf = 1, max_depth = 31, min_samples_split = 5, max_features = 20, criterion = 'entropy')
+    et_hpo.fit(X_train,y_train) 
+    et_score=et_hpo.score(X_test,y_test)
+    acurracy = et_score
+    y_predict=et_hpo.predict(X_test)
+    y_true=y_test
+    precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
+    cm=confusion_matrix(y_true,y_predict)
+    f,ax=plt.subplots(figsize=(5,5))
+    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
+
+def getDecisionTree():
+    def objective(params):
+        params = {
+            'max_depth': int(params['max_depth']),
+            'max_features': int(params['max_features']),
+            "min_samples_split":int(params['min_samples_split']),
+            "min_samples_leaf":int(params['min_samples_leaf']),
+            "criterion":str(params['criterion'])
+        }
+        clf = DecisionTreeClassifier( **params)
+        clf.fit(X_train,y_train)
+        score=clf.score(X_test,y_test)
+
+        return {'loss':-score, 'status': STATUS_OK }
+    # Define the hyperparameter configuration space
+    space = {
+        'max_depth': hp.quniform('max_depth', 5, 50, 1),
+        "max_features":hp.quniform('max_features', 1, 20, 1),
+        "min_samples_split":hp.quniform('min_samples_split',2,11,1),
+        "min_samples_leaf":hp.quniform('min_samples_leaf',1,11,1),
+        "criterion":hp.choice('criterion',['gini','entropy'])
+    }
+
+    best = fmin(fn=objective,
+                space=space,
+                algo=tpe.suggest,
+                max_evals=50)
+    dt_hpo = DecisionTreeClassifier(min_samples_leaf = 2, max_depth = 47, min_samples_split = 3, max_features = 19, criterion = 'gini')
+    dt_hpo.fit(X_train,y_train)
+    dt_score=dt_hpo.score(X_test,y_test)
+    y_predict=dt_hpo.predict(X_test)
+    y_true=y_test
+    precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
+    cm=confusion_matrix(y_true,y_predict)
+    f,ax=plt.subplots(figsize=(5,5))
+    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    dt_train=dt_hpo.predict(X_train)
+    dt_test=dt_hpo.predict(X_test)
+    et = ExtraTreesClassifier(random_state = 0)
+    et.fit(X_train,y_train) 
+    et_score=et.score(X_test,y_test)
+    accuracy = et_score
+    y_predict=et.predict(X_test)
+    y_true=y_test
+    precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
+    cm=confusion_matrix(y_true,y_predict)
+    f,ax=plt.subplots(figsize=(5,5))
+    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
+
+def getRandomForest():
+    def objective2(params):
+        params = {
+            'n_estimators': int(params['n_estimators']), 
+            'max_depth': int(params['max_depth']),
+            'max_features': int(params['max_features']),
+            "min_samples_split":int(params['min_samples_split']),
+            "min_samples_leaf":int(params['min_samples_leaf']),
+            "criterion":str(params['criterion'])
+        }
+        clf = RandomForestClassifier( **params)
+        clf.fit(X_train,y_train)
+        score=clf.score(X_test,y_test)
+
+        return {'loss':-score, 'status': STATUS_OK }
+    space = {
+        'n_estimators': hp.quniform('n_estimators', 10, 200, 1),
+        'max_depth': hp.quniform('max_depth', 5, 50, 1),
+        "max_features":hp.quniform('max_features', 1, 20, 1),
+        "min_samples_split":hp.quniform('min_samples_split',2,11,1),
+        "min_samples_leaf":hp.quniform('min_samples_leaf',1,11,1),
+        "criterion":hp.choice('criterion',['gini','entropy'])
+    }
+    best = fmin(fn=objective2,
+                space=space,
+                algo=tpe.suggest,
+                max_evals=20)
+    rf_hpo = RandomForestClassifier(n_estimators = 71, min_samples_leaf = 1, max_depth = 46, min_samples_split = 9, max_features = 20, criterion = 'entropy')
+    rf_hpo.fit(X_train,y_train)
+    rf_score=rf_hpo.score(X_test,y_test)
+    accuracy = rf_score
+    y_predict=rf_hpo.predict(X_test)
+    y_true=y_test
+    precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
+    cm=confusion_matrix(y_true,y_predict)
+    f,ax=plt.subplots(figsize=(5,5))
+    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    rf_train=rf_hpo.predict(X_train)
+    rf_test=rf_hpo.predict(X_test)
+    dt = DecisionTreeClassifier(random_state = 0)
+    dt.fit(X_train,y_train) 
+    dt_score=dt.score(X_test,y_test)
+    y_predict=dt.predict(X_test)
+    y_true=y_test
+    precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
+    cm=confusion_matrix(y_true,y_predict)
+    f,ax=plt.subplots(figsize=(5,5))
+    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
+
+def getStacking():
+    dt_train, dt_test = HPO_BO_TPE_DECISION_TREE()
+    rf_train, rf_test = HPO_BO_TPE_FOREST()
+    et_train, et_test = HPO_BO_TPE_EXTRA_TREES()
+    xg_train, xg_test = HPO_BO_TPE_XGBOOST()
+    base_predictions_train = pd.DataFrame( {
+    'DecisionTree': dt_train.ravel(),
+        'RandomForest': rf_train.ravel(),
+     'ExtraTrees': et_train.ravel(),
+     'XgBoost': xg_train.ravel(),
+    })
+    base_predictions_train.head(5)
+    dt_train=dt_train.reshape(-1, 1)
+    et_train=et_train.reshape(-1, 1)
+    rf_train=rf_train.reshape(-1, 1)
+    xg_train=xg_train.reshape(-1, 1)
+    dt_test=dt_test.reshape(-1, 1)
+    et_test=et_test.reshape(-1, 1)
+    rf_test=rf_test.reshape(-1, 1)
+    xg_test=xg_test.reshape(-1, 1)
+    x_train = np.concatenate(( dt_train, et_train, rf_train, xg_train), axis=1)
+    x_test = np.concatenate(( dt_test, et_test, rf_test, xg_test), axis=1)
+    stk = xgb.XGBClassifier().fit(x_train, y_train)
+    y_predict=stk.predict(x_test)
+    y_true=y_test
+    stk_score=accuracy_score(y_true,y_predict)
+    accuracy = stk_score
+    precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
+    cm=confusion_matrix(y_true,y_predict)
+    f,ax=plt.subplots(figsize=(5,5))
+    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())

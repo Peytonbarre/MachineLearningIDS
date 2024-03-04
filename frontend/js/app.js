@@ -1,3 +1,4 @@
+
 // Sample data for the charts
 const data = {
     labels: ['January', 'February', 'March', 'April', 'May'],
@@ -53,24 +54,80 @@ function destroyCurrentChart() {
 
 async function fetchXGBData() {
     try {
+        document.getElementById('loadingIndicator').classList.remove('hidden');
         const response = await fetch('http://127.0.0.1:5000//MTH_XGBoost');
         const data = await response.json();
+        document.getElementById('loadingIndicator').classList.add('hidden');
         return data;
     } catch (error) {
         console.error('Error fetching JSON data:', error);
+        document.getElementById('loadingIndicator').classList.add('hidden');
     }
 }
+
+async function fetchETData() {
+    try {
+        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const response = await fetch('http://127.0.0.1:5000//MTH_ET');
+        const data = await response.json();
+        document.getElementById('loadingIndicator').classList.add('hidden');
+        return data;
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+        document.getElementById('loadingIndicator').classList.add('hidden');
+    }
+}
+
+async function fetchDTData() {
+    try {
+        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const response = await fetch('http://127.0.0.1:5000//MTH_DT');
+        const data = await response.json();
+        document.getElementById('loadingIndicator').classList.add('hidden');
+        return data;
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+        document.getElementById('loadingIndicator').classList.add('hidden');
+    }
+}
+
+async function fetchRFData() {
+    try {
+        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const response = await fetch('http://127.0.0.1:5000//MTH_RF');
+        const data = await response.json();
+        document.getElementById('loadingIndicator').classList.add('hidden');
+        return data;
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+        document.getElementById('loadingIndicator').classList.add('hidden');
+    }
+}
+
+async function fetchSTACKData() {
+    try {
+        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const response = await fetch('http://127.0.0.1:5000//MTH_STACK');
+        const data = await response.json();
+        document.getElementById('loadingIndicator').classList.add('hidden');
+        return data;
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+        document.getElementById('loadingIndicator').classList.add('hidden');
+    }
+}
+
 const heatmapData = {
     labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7'],
     datasets: [{
         data: [
-            [3614, 5, 1, 7, 1, 5, 12],
-            [5, 388, 0, 0, 0, 0, 0],
-            [0, 0, 19, 0, 0, 0, 0],
-            [6, 0, 0, 598, 0, 0, 5],
-            [2, 0, 0, 0, 5, 0, 0],
-            [1, 0, 0, 0, 0, 250, 0],
-            [4, 0, 0, 0, 0, 0, 432]
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
         ],
         label: 'Heatmap Data',
     }],
@@ -80,9 +137,14 @@ function showHeatmap() {
     destroyCurrentChart()
     const newFormatData = convertToNewFormat(heatmapData.datasets[0].data);
     console.log(newFormatData)
+    const minValue = Math.min(...newFormatData.map(value => value.v));
+    const maxValue = Math.max(...newFormatData.map(value => value.v));
+    const colorScale = chroma.scale(['#f7fbff', '#4428BC']).domain([minValue, maxValue]);
+    const backgroundColors = newFormatData.map(value => colorScale(value.v).hex());
     const newDataset = [{
         label: 'My Matrix',
         data: newFormatData,
+        backgroundColor: backgroundColors,
         borderWidth: 1,
         width: ({chart}) => (chart.chartArea || {}).width / 7 - 1,
         height: ({chart}) =>(chart.chartArea || {}).height / 7 - 1,
@@ -126,7 +188,7 @@ function showHeatmap() {
                     display: false
                 }
                 }
-            }
+            },
         }
     });
 }
@@ -151,6 +213,51 @@ async function fetchXGBChart() {
         console.error('Error fetching JSON data:', error);
     }
 }
+
+async function fetchETChart() {
+    try {
+        const data = await fetchETData();
+        console.log(data)
+        heatmapData.datasets[0].data = data.cm;
+        showHeatmap();
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+    }
+}
+
+async function fetchDTChart() {
+    try {
+        const data = await fetchDTData();
+        console.log(data)
+        heatmapData.datasets[0].data = data.cm;
+        showHeatmap();
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+    }
+}
+
+async function fetchRFChart() {
+    try {
+        const data = await fetchRFData();
+        console.log(data)
+        heatmapData.datasets[0].data = data.cm;
+        showHeatmap();
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+    }
+}
+
+async function fetchSTACKChart() {
+    try {
+        const data = await fetchSTACKData();
+        console.log(data)
+        heatmapData.datasets[0].data = data.cm;
+        showHeatmap();
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     var buttons = document.querySelectorAll('.midButton');
