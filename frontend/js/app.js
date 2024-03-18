@@ -212,6 +212,8 @@ async function fetchXGBChart() {
     } catch (error) {
         console.error('Error fetching JSON data:', error);
     }
+    document.getElementById('FeaturesPanel1').style.display = 'none';
+    document.getElementById('FeaturesButton1').style.backgroundColor = '';
 }
 
 async function fetchETChart() {
@@ -223,6 +225,8 @@ async function fetchETChart() {
     } catch (error) {
         console.error('Error fetching JSON data:', error);
     }
+    document.getElementById('FeaturesPanel1').style.display = 'none';
+    document.getElementById('FeaturesButton1').style.backgroundColor = '';
 }
 
 async function fetchDTChart() {
@@ -234,6 +238,8 @@ async function fetchDTChart() {
     } catch (error) {
         console.error('Error fetching JSON data:', error);
     }
+    document.getElementById('FeaturesPanel1').style.display = 'none';
+    document.getElementById('FeaturesButton1').style.backgroundColor = '';
 }
 
 async function fetchRFChart() {
@@ -245,6 +251,8 @@ async function fetchRFChart() {
     } catch (error) {
         console.error('Error fetching JSON data:', error);
     }
+    document.getElementById('FeaturesPanel1').style.display = 'none';
+    document.getElementById('FeaturesButton1').style.backgroundColor = '';
 }
 
 async function fetchSTACKChart() {
@@ -256,6 +264,8 @@ async function fetchSTACKChart() {
     } catch (error) {
         console.error('Error fetching JSON data:', error);
     }
+    document.getElementById('FeaturesPanel1').style.display = 'none';
+    document.getElementById('FeaturesButton1').style.backgroundColor = '';
 }
 
 
@@ -273,15 +283,55 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
     //hides Features panel when exit button is clicked
-    document.getElementById('closeButton').addEventListener('click', function() {
-        document.getElementById('FeaturesPanel').style.display = 'none';
-        document.getElementById('FeaturesButton').style.backgroundColor = '';
+    document.getElementById('closeButton1').addEventListener('click', function() {
+        document.getElementById('FeaturesPanel1').style.display = 'none';
+        document.getElementById('FeaturesButton1').style.backgroundColor = '';
     });
 
     //toggles display of feature panel via clicks to the 'Features...' button
-    function toggleFeatPanel() {
-        var panel = document.getElementById('FeaturesPanel');
-        var button = document.getElementById('FeaturesButton');
+    function toggleFeatPanel1() {
+        var panel = document.getElementById('FeaturesPanel1');
+        var button = document.getElementById('FeaturesButton1');
+
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            button.style.backgroundColor = '#444';
+        } else {
+            panel.style.display = 'none';
+            button.style.backgroundColor = '';
+        }
+    }
+
+     //hides Features panel when exit button is clicked
+     document.getElementById('closeButton2').addEventListener('click', function() {
+        document.getElementById('FeaturesPanel2').style.display = 'none';
+        document.getElementById('FeaturesButton2').style.backgroundColor = '';
+    });
+
+    //toggles display of feature panel via clicks to the 'Features...' button
+    function toggleFeatPanel2() {
+        var panel = document.getElementById('FeaturesPanel2');
+        var button = document.getElementById('FeaturesButton2');
+
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            button.style.backgroundColor = '#444';
+        } else {
+            panel.style.display = 'none';
+            button.style.backgroundColor = '';
+        }
+    }
+
+     //hides Features panel when exit button is clicked
+     document.getElementById('closeButton3').addEventListener('click', function() {
+        document.getElementById('FeaturesPanel3').style.display = 'none';
+        document.getElementById('FeaturesButton3').style.backgroundColor = '';
+    });
+
+    //toggles display of feature panel via clicks to the 'Features...' button
+    function toggleFeatPanel3() {
+        var panel = document.getElementById('FeaturesPanel3');
+        var button = document.getElementById('FeaturesButton3');
 
         if (panel.style.display === 'none' || panel.style.display === '') {
             panel.style.display = 'block';

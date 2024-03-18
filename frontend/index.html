@@ -12,34 +12,62 @@
         <h1>IDS-ML Dashboard</h1>
 
         <div class = "ChangeAlgorithmContainer">
+            <!--
             <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
-            <a href ="#" class="midButton" onclick=fetchETChart()>Extra Trees</a> <!-- CHANGE FETCH XGBCHART WITH OTHER IDS ALGOs-->
-            <a href ="#" class="midButton" onclick=fetchDTChart()>Decision Tree</a> <!-- DITTO -->
-            <a href ="#" class="midButton" onclick=fetchRFChart()>Random Forest</a> <!-- DITTO -->
-            <a href ="#" class="midButton" onclick=fetchSTACKChart()>Stacking</a> <!-- DITTO -->
+            <a href ="#" class="midButton" onclick=fetchETChart()>Extra Trees</a>
+            <a href ="#" class="midButton" onclick=fetchDTChart()>Decision Tree</a> 
+            <a href ="#" class="midButton" onclick=fetchRFChart()>Random Forest</a> 
+            <a href ="#" class="midButton" onclick=fetchSTACKChart()>Stacking</a>
+            -->
+            <a href="#" class="midButton" id="FeaturesButton1" onclick="toggleFeatPanel1()">MTH</a>
+            <div id="FeaturesPanel1" class="FeaturesPanel1">
+                <h2 style="margin-bottom: 0;">MTH</h2>
+                <h2 style="margin-top: 0;">Parameters</h2>
+                <a href="#" onclick=fetchXGBChart()>XGBoost</a>
+                <a href="#" onclick=fetchETChart()>Extra Trees</a>
+                <a href="#" onclick=fetchDTChart()>Decision Tree</a>
+                <a href="#" onclick=fetchRFChart()>Random Forest</a>
+                <a href="#" onclick=fetchSTACKChart()>Stacking</a>
+                <button id="closeButton1">EXIT</button>
+            </div>
+            <a href="#" class="midButton" id="FeaturesButton2" onclick="toggleFeatPanel2()">LCCDE</a>
+            <div id="FeaturesPanel2" class="FeaturesPanel2">
+                <h2 style="margin-bottom: 0;">LCCDE</h2>
+                <h2 style="margin-top: 0;">Parameters</h2>
+                <a href="#">LightGBM</a>
+                <a href="#">XGBoost</a>
+                <a href="#">CatBoost</a>
+                <a href="#">LCCDE-Model</a>
+                <button id="closeButton2">EXIT</button>
+            </div>
+            <a href="#" class="midButton" id="FeaturesButton3" onclick="toggleFeatPanel3()">Tree-Based</a>
+            <div id="FeaturesPanel3" class="FeaturesPanel3">
+                <h2 style="margin-bottom: 0;">Tree-Based</h2>
+                <h2 style="margin-top: 0;">Parameters</h2>
+                <a href="#">Feature Selection Enabled</a>
+                <a href="#">Descision tree</a>
+                <a href="#">Random Forest</a>
+                <a href="#">Extra Trees</a>
+                <a href="#">XGBoost</a>
+                <a href="#">Stacking</a>
+                <button id="closeButton3">EXIT</button>
+            </div>
         </div>
 
     </header>
 
     <div class="container">
+        <!-- 
         <nav class="sidebar">
             <ul>
                 <li><a href="#" id="FeaturesButton" onclick="toggleFeatPanel()">Features...</a></li>
-                    <div id="FeaturesPanel" class="FeaturesPanel">
-                        <ul>
-                            <li><a href="#">XGBoost</a></li>
-                            <li><a href="#">Forest</a></li>
-                            <li><a href="#">Decision Tree</a></li>
-                            <li><a href="#">Extra Trees</a></li>
-                        </ul>
-                        <button id="closeButton">EXIT</button>
-                    </div>
                 <li><a href="#" onclick=showLineChart()>Line</a></li>
                 <li><a href="#" onclick=showBarChart()>Bar</a></li>
                 <li><a href="#" onclick=showPieChart()>Pie</a></li>
                 <li><a href="#" onclick=showDoughnutChart()>Doughnut</a></li>
             </ul>
         </nav>
+        -->
 
         <main class="content">
             <canvas id="myChart"></canvas>

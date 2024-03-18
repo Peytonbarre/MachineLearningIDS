@@ -87,7 +87,7 @@ header {
     justify-content: center;
     align-items: center;
     flex: 1;
-    height: 80vh;
+    height: 60vh;
     padding: 20px;
     padding-top: 50px;
 }
@@ -95,11 +95,15 @@ header {
 .ChangeAlgorithmContainer {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex: 1;
 }
 
-.FeaturesPanel {
+.FeaturesPanel1 {
     display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -110,18 +114,113 @@ header {
     border-radius: 5px;
 }
 
-.FeaturesPanel label {
+.FeaturesPanel1 a {
+    text-decoration: none;
     display: block;
+    padding: 10px;
+    width: 150px;
+    background-color: rgb(45, 45, 45);
     margin-bottom: 10px;
     color: white;
     font-size: 16px;
 }
 
-.FeaturesPanel input[type="checkbox"] {
+.FeaturesPanel1 input[type="checkbox"] {
     margin-right: 5px;
 }
 
-#closeButton {
+#closeButton1 {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    width: 175px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #c41401;
+    font-size: 18px;
+}
+
+.FeaturesPanel2 {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #9e9d9dda;
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.FeaturesPanel2 a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    width: 150px;
+    background-color: rgb(45, 45, 45);
+    margin-bottom: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.FeaturesPanel2 input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#closeButton2 {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    width: 175px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #c41401;
+
+    font-size: 18px;
+}
+
+.FeaturesPanel3 {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #9e9d9dda;
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.FeaturesPanel3 a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    width: 150px;
+    background-color: rgb(45, 45, 45);
+    margin-bottom: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.FeaturesPanel3 input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#closeButton3 {
     margin-top: 10px;
     text-decoration: none;
     color: #fff;
