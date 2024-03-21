@@ -265,3 +265,44 @@ header {
 .hidden {
     display: none;
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: fit-content;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    padding: 3px 5px;
+    border-radius: 4px;
+
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    transform: translateY(375%);
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: 100%;
+    left: 50%;
+    margin-left: -4px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #42464e transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
