@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <header id="DashHeader">
+        <h1>IDS-ML Dashboard</h1>
+
+        <div class = "ChangeAlgorithmContainer">
+            <!--
+            <a href ="#" class="midButton" onclick=fetchXGBChart()>XGBoost</a>
+            <a href ="#" class="midButton" onclick=fetchETChart()>Extra Trees</a>
+            <a href ="#" class="midButton" onclick=fetchDTChart()>Decision Tree</a> 
+            <a href ="#" class="midButton" onclick=fetchRFChart()>Random Forest</a> 
+            <a href ="#" class="midButton" onclick=fetchSTACKChart()>Stacking</a>
+            -->
+            <div class="tooltip">
+                <a href="#" class="midButton" id="FeaturesButton1" onclick="toggleFeatPanel1()">MTH</a>
+                <span class="tooltiptext">Multi-Tiered Hybrid: Compares signature and anomaly detection.</span>
+            </div>
+
+            <div id="FeaturesPanel1" class="FeaturesPanel1">
+                <h2 style="margin-bottom: 0;">MTH</h2>
+                <h2 style="margin-top: 0;">Parameters</h2>
+                <a href="#" onclick=fetchXGBChart()>XGBoost</a>
+                <a href="#" onclick=fetchETChart()>Extra Trees</a>
+                <a href="#" onclick=fetchDTChart()>Decision Tree</a>
+                <a href="#" onclick=fetchRFChart()>Random Forest</a>
+                <a href="#" onclick=fetchSTACKChart()>Stacking</a>
+                <button id="closeButton1">EXIT</button>
+            </div>
+
+
+            <div class="tooltip">
+                <a href="#" class="midButton" id="FeaturesButton2" onclick="toggleFeatPanel2()">LCCDE</a>
+                <span class="tooltiptext">Leader Class & Confidence Decision Ensemble: Runs and compares the proformance of XGBoost, LightGBM, & CatBoost.  Selects the best algorithm for the dataset.</span>
+            </div>
+
+            <div id="FeaturesPanel2" class="FeaturesPanel2">
+                <h2 style="margin-bottom: 0;">LCCDE</h2>
+                <h2 style="margin-top: 0;">Parameters</h2>
+                <a href="#">LightGBM</a>
+                <a href="#">XGBoost</a>
+                <a href="#">CatBoost</a>
+                <a href="#">LCCDE-Model</a>
+                <button id="closeButton2">EXIT</button>
+            </div>
+
+            <div class="tooltip">
+                <a href="#" class="midButton" id="FeaturesButton3" onclick="toggleFeatPanel3()">Tree-Based</a>
+                <span class="tooltiptext">This creates 4 tree-based models which are then stacked to create an final decision-making model.</span>
+            </div>
+
+            <div id="FeaturesPanel3" class="FeaturesPanel3">
+                <h2 style="margin-bottom: 0;">Tree-Based</h2>
+                <h2 style="margin-top: 0;">Parameters</h2>
+                <a href="#">Feature Selection Enabled</a>
+                <a href="#">Descision tree</a>
+                <a href="#">Random Forest</a>
+                <a href="#">Extra Trees</a>
+                <a href="#">XGBoost</a>
+                <a href="#">Stacking</a>
+                <button id="closeButton3">EXIT</button>
+            </div>
+        </div>
+
+    </header>
+
+    <div class="container">
+        <!-- 
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#" id="FeaturesButton" onclick="toggleFeatPanel()">Features...</a></li>
+                <li><a href="#" onclick=showLineChart()>Line</a></li>
+                <li><a href="#" onclick=showBarChart()>Bar</a></li>
+                <li><a href="#" onclick=showPieChart()>Pie</a></li>
+                <li><a href="#" onclick=showDoughnutChart()>Doughnut</a></li>
+            </ul>
+        </nav>
+        -->
+
+        <main class="content">
+            <canvas id="myChart"></canvas>
+        </main>
+
+        <div id="loadingIndicator" class="hidden">
+            <div class="spinner"></div>
+            Loading...
+        </div>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
