@@ -256,3 +256,67 @@ input[type=text]:focus {
     align-items: center;
     margin-bottom: 5px;
 }
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85%;
+    padding: 20px;
+}
+
+.graphContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 30vw;
+    height: 30vw;
+    background: whitesmoke; 
+    box-shadow: 0px 5px 10px rgb(184, 184, 184);
+    border-radius: 5px;
+}
+
+.rightAdd{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-color: rgb(159, 170, 191);
+    border-style: dotted;
+    z-index: 2;
+    border-width: 5px;
+    width: 3vw;
+    height: 30vw;
+    padding: 15px;
+    margin-left: 5px;
+}
+
+.rightAdd span{
+    font-size: 40px !important;
+    color: rgb(159, 170, 191);;
+}
+
+.leftAdd{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-color: rgb(159, 170, 191);
+    border-style: dotted;
+    z-index: 2;
+    border-width: 5px;
+    width: 30vw;
+    height: 3vw;
+    padding: 15px;
+    margin-top: 5px;
+}
+
+.leftAdd span{
+    font-size: 40px !important;
+    color: rgb(159, 170, 191);;
+}
+
+.upperContent{
+    display: flex;
+}
