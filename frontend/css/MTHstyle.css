@@ -256,3 +256,19 @@ input[type=text]:focus {
     align-items: center;
     margin-bottom: 5px;
 }
+
+.btn {
+    background: transparent;
+    color:white;
+    border: none;
+    outline: none;
+    transition: color 0.1s;
+}
+
+.btn:active {
+    color: grey;
+}
+
+.active {
+    background-color: transparent;
+}
