@@ -17,45 +17,55 @@ from imblearn.over_sampling import SMOTE
 from hyperopt import hp, fmin, tpe, STATUS_OK, Trials
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 
-#Reading sample dataset
-df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
+#After selecing features, train and split again
+def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
+    #Reading sample dataset
+    df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
 
-features = df.dtypes[df.dtypes != 'object'].index
+    features = df.dtypes[df.dtypes != 'object'].index
 
-#Dropping labels and reshaping
-X = df.drop(['Label'],axis=1).values
-y = df.iloc[:, -1].values.reshape(-1,1)
-y=np.ravel(y)
+    #Dropping labels and reshaping
+    X = df.drop(['Label'],axis=1).values
+    y = df.iloc[:, -1].values.reshape(-1,1)
+    y=np.ravel(y)
 
-#Splitting test and train into 20 80 split
-X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = 0.8, test_size = 0.2, random_state = 0,stratify = y)
+    #Splitting test and train into 20 80 split
+    X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = 0.8, test_size = 0.2, random_state = 0,stratify = y)
 
-#calculating importance scores
-importances = mutual_info_classif(X_train, y_train)
-f_list = sorted(zip(map(lambda x: round(x, 4), importances), features), reverse=True)
-Sum = 0
-fs = []
-for i in range(0, len(f_list)):
-    Sum = Sum + f_list[i][0]
-    fs.append(f_list[i][1])
-X_fs = df[fs].values
-X_fs.shape
+    #calculating importance scores
+    importances = mutual_info_classif(X_train, y_train)
+    f_list = sorted(zip(map(lambda x: round(x, 4), importances), features), reverse=True)
+    Sum = 0
+    fs = []
+    for i in range(0, len(f_list)):
+        Sum = Sum + f_list[i][0]
+        fs.append(f_list[i][1])
+    X_fs = df[fs].values
+    X_fs.shape
 
-#selecting features using the FCBF algorithm
-fcbf = FCBFK(k = 20)
-X_fss = fcbf.fit_transform(X_fs,y)
-X_fss.shape
+    #selecting features using the FCBF algorithm
+    fcbf = FCBFK(k = 20)
+    X_fss = fcbf.fit_transform(X_fs,y)
+    X_fss.shape
+    
+    X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = train_size, test_size = 1 - train_size, random_state = 0,stratify = y)
+    X_train.shape
+    pd.Series(y_train).value_counts()
 
-#after selecing features, train and split again
-X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = 0.8, test_size = 0.2, random_state = 0,stratify = y)
-X_train.shape
-pd.Series(y_train).value_counts()
+    pairs = smote_sampling_strategy.split(",")
+    sampling_dict = {}
+    
+    for pair in pairs:
+        key, value = pair.split(":")
+        sampling_dict[int(key)] = int(value)
 
-smote=SMOTE(n_jobs=-1,sampling_strategy={2:1000,4:1000})
-X_train, y_train = smote.fit_resample(X_train, y_train)
-pd.Series(y_train).value_counts()
+    smote=SMOTE(n_jobs=-1,sampling_strategy=sampling_dict)
+    X_train, y_train = smote.fit_resample(X_train, y_train)
+    pd.Series(y_train).value_counts()
+    return X_train, X_test, y_train, y_test
 
-def XGBoost():
+def XGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     xg = xgb.XGBClassifier(n_estimators = 10)
     xg.fit(X_train,y_train)
     xg_score=xg.score(X_test,y_test)
@@ -74,7 +84,9 @@ def XGBoost():
     plt.ylabel("y_true")
     plt.show()
 
-def HPO_BO_TPE_XGBOOST():
+def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
     def objective(params):
         params = {
             'n_estimators': int(params['n_estimators']), 
@@ -140,9 +152,9 @@ def HPO_BO_TPE_XGBOOST():
     xg_test=xg.predict(X_test)
     return xg_train, xg_test
 
+def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
-
-def HPO_BO_TPE_FOREST():
     def objective2(params):
         params = {
             'n_estimators': int(params['n_estimators']), 
@@ -213,7 +225,9 @@ def HPO_BO_TPE_FOREST():
     plt.show()
     return rf_train, rf_test
 
-def HPO_BO_TPE_DECISION_TREE():
+def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
     def objective(params):
         params = {
             'max_depth': int(params['max_depth']),
@@ -279,7 +293,9 @@ def HPO_BO_TPE_DECISION_TREE():
     plt.show()
     return dt_train, dt_test
 
-def HPO_BO_TPE_EXTRA_TREES():
+def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
     def objective(params):
         params = {
             'n_estimators': int(params['n_estimators']), 
@@ -330,11 +346,11 @@ def HPO_BO_TPE_EXTRA_TREES():
     et_test=et_hpo.predict(X_test)
     return et_train, et_test
 
-def stacking():
-    dt_train, dt_test = HPO_BO_TPE_DECISION_TREE()
-    rf_train, rf_test = HPO_BO_TPE_FOREST()
-    et_train, et_test = HPO_BO_TPE_EXTRA_TREES()
-    xg_train, xg_test = HPO_BO_TPE_XGBOOST()
+def stacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    dt_train, dt_test = HPO_BO_TPE_DECISION_TREE(train_size, smote_sampling_strategy)
+    rf_train, rf_test = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
+    et_train, et_test = HPO_BO_TPE_EXTRA_TREES(train_size, smote_sampling_strategy)
+    xg_train, xg_test = HPO_BO_TPE_XGBOOST(train_size, smote_sampling_strategy)
     base_predictions_train = pd.DataFrame( {
     'DecisionTree': dt_train.ravel(),
         'RandomForest': rf_train.ravel(),
@@ -369,7 +385,8 @@ def stacking():
     plt.ylabel("y_true")
     plt.show()
 
-def getXGBoost():
+def getXGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     xg = xgb.XGBClassifier(n_estimators = 10)
     xg.fit(X_train,y_train)
     xg_score=xg.score(X_test,y_test)
@@ -382,7 +399,9 @@ def getXGBoost():
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getExtraTrees():
+def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
     def objective(params):
         params = {
             'n_estimators': int(params['n_estimators']), 
@@ -422,7 +441,9 @@ def getExtraTrees():
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getDecisionTree():
+def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
     def objective(params):
         params = {
             'max_depth': int(params['max_depth']),
@@ -472,7 +493,9 @@ def getDecisionTree():
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getRandomForest():
+def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
     def objective2(params):
         params = {
             'n_estimators': int(params['n_estimators']), 
@@ -522,11 +545,13 @@ def getRandomForest():
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getStacking():
-    dt_train, dt_test = HPO_BO_TPE_DECISION_TREE()
-    rf_train, rf_test = HPO_BO_TPE_FOREST()
-    et_train, et_test = HPO_BO_TPE_EXTRA_TREES()
-    xg_train, xg_test = HPO_BO_TPE_XGBOOST()
+def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+
+    dt_train, dt_test = HPO_BO_TPE_DECISION_TREE(train_size, smote_sampling_strategy)
+    rf_train, rf_test = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
+    et_train, et_test = HPO_BO_TPE_EXTRA_TREES(train_size, smote_sampling_strategy)
+    xg_train, xg_test = HPO_BO_TPE_XGBOOST(train_size, smote_sampling_strategy)
     base_predictions_train = pd.DataFrame( {
     'DecisionTree': dt_train.ravel(),
         'RandomForest': rf_train.ravel(),
