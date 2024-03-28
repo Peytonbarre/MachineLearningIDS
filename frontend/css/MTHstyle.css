@@ -337,3 +337,51 @@ input[type=text]:focus {
 .upperContent{
     display: flex;
 }
+
+.runButton{
+    width: 70%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background: #04AA6D;
+    border-radius: 10px;
+    margin-left: 15%;
+    font-family: "Varela", sans-serif;
+    font-weight: 400 !important;
+    font-style: bold;
+    font-size: 30px !important;
+}
+
+.runButton:hover{
+    background: #02754a;
+}
+
+.cancelButton{
+    width: 70%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background: darkgray;
+    border-radius: 10px;
+    margin-left: 15%;
+    font-family: "Varela", sans-serif;
+    font-weight: 400 !important;
+    font-style: bold;
+    font-size: 30px !important;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.cancelButton:hover{
+    background: rgb(130, 130, 130);
+}
+
+.endButtons{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+}
