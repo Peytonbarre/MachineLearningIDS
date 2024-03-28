@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
     <script src="app.js"></script>
     <title>MTH Parameters</title>
 </head>
+
 <body>
     <div class="sidebar" id="sidebarRestrict">
         <div class="sidebarHeader">
@@ -19,7 +22,7 @@
         </div>
         <div class="divit">
             <div class="leftDivit">
-                    <span class="material-symbols-outlined">discover_tune</span>
+                <span class="material-symbols-outlined">discover_tune</span>
                 <h2>Parameters</h2>
             </div>
 
@@ -29,47 +32,47 @@
             </button>
         </div>
 
-    <div class="hideSection">
-        <div class="secondText">
+        <div class="hideSection">
+            <div class="secondText">
 
-            <!--Classifier expand/colapse list-->
-            <button class="btn">
-                <span class="material-symbols-outlined">expand_more</span>
-            </button>
-            <a>Classifier</a>
-        </div>
-        <a id="MTH" onclick=MTHSelected()>MTH</a>
-        <a id="LCCDE" onclick=LCCDESelected()>LCCDE</a>
-        <a id="Tree-Based" onclick=TreeSelected()>Tree-Based</a>
-        <div class="secondText">
-
-            <!--Sampling expand/colapse list-->
-            <button class="btn">
-                <span class="material-symbols-outlined">expand_more</span>
-            </button>
-
-            <a>Sampling</a>
-        </div>
-        <div class="slideText">
-            <h3 id="trainPercent">80% Train</h3>
-            <h3 id="testPercent">20% Test</h3>
-        </div>
-        <div class="slidecontainer">
-            <input type="range" min="0" max="100" value="80" class="slider" id="myRange">
-        </div>
-        <div class="SMOTESpacer">
-            <div class="SMOTEinput">
-                <input type="text" id="SMOTE1" value="2">
-                <h3>&nbsp:&nbsp</h3>
-                <input type="text" id="SMOTE2" value="1000">
+                <!--Classifier expand/colapse list-->
+                <button class="btn">
+                    <span class="material-symbols-outlined">expand_more</span>
+                </button>
+                <a>Classifier</a>
             </div>
-            <h3 class="SMOTEText">SMOTE Sample</h3>
-        </div>
-    </div> <!--END OF PARAMETERS DIV-->
+            <a id="MTH" onclick=MTHSelected()>MTH</a>
+            <a id="LCCDE" onclick=LCCDESelected()>LCCDE</a>
+            <a id="Tree-Based" onclick=TreeSelected()>Tree-Based</a>
+            <div class="secondText">
+
+                <!--Sampling expand/colapse list-->
+                <button class="btn">
+                    <span class="material-symbols-outlined">expand_more</span>
+                </button>
+
+                <a>Sampling</a>
+            </div>
+            <div class="slideText">
+                <h3 id="trainPercent">80% Train</h3>
+                <h3 id="testPercent">20% Test</h3>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="80" class="slider" id="myRange">
+            </div>
+            <div class="SMOTESpacer">
+                <div class="SMOTEinput">
+                    <input type="text" id="SMOTE1" value="2">
+                    <h3>&nbsp:&nbsp</h3>
+                    <input type="text" id="SMOTE2" value="1000">
+                </div>
+                <h3 class="SMOTEText">SMOTE Sample</h3>
+            </div>
+        </div> <!--END OF PARAMETERS DIV-->
 
         <div class="divit">
             <div class="leftDivit">
-                    <span class="material-symbols-outlined">analytics</span>
+                <span class="material-symbols-outlined">analytics</span>
                 <h2>Graphs</h2>
             </div>
 
@@ -78,31 +81,31 @@
                 <span class="material-symbols-outlined">expand_less</span>
             </button>
         </div>
-    <div class="MoreBullshit">
-        <div class="secondText">
+        <div class="MoreBullshit">
+            <div class="secondText">
 
-            <!--Graph Type expand/colapse list-->
-            <button class="btn">
-                <span class="material-symbols-outlined">chevron_right</span>
-            </button>
-            <a>Graph Type</a>
+                <!--Graph Type expand/colapse list-->
+                <button class="btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+                <a>Graph Type</a>
+            </div>
+            <div class="graphTypes">
+                <a>Matrix</a>
+                <a>Line</a>
+                <a>Bar</a>
+                <a>Pie</a>
+                <a>Callout</a>
+            </div>
+            <div class="secondText">
+
+                <!--Parameters expand/colapse list-->
+                <button class="btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+                <a>Parameters</a>
+            </div>
         </div>
-        <div class="graphTypes">
-            <a>Matrix</a>
-            <a>Line</a>
-            <a>Bar</a>
-            <a>Pie</a>
-            <a>Callout</a>
-        </div>
-        <div class="secondText">
-            
-            <!--Parameters expand/colapse list-->
-            <button class="btn">
-                <span class="material-symbols-outlined">chevron_right</span>
-            </button>
-            <a>Parameters</a>
-        </div>
-    </div>
 
         <div class="divit">
             <div class="leftDivit">
@@ -119,9 +122,10 @@
         </div>
         <div class="EvenMoreBullshit">
             <!--PUT LOG OF USER EVENTS IN HERE!-->
-        <div class="endButtons">
-            <a class="runButton">Generate</a>
-            <a class="cancelButton">Cancel</a>
+            <div class="endButtons">
+                <a class="runButton">Generate</a>
+                <a class="cancelButton">Cancel</a>
+            </div>
         </div>
     </div>
     <div class="main" id="scrollRestrict">
@@ -170,4 +174,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
     <script src="js/testapp.js"></script>
 </body>
+
 </html>
