@@ -36,9 +36,9 @@
             </button>
             <a>Classifier</a>
         </div>
-        <a id="MTH">MTH</a>
-        <a id="LCCDE">LCCDE</a>
-        <a id="Tree-Based">Tree-Based</a>
+        <a id="MTH" onclick=MTHSelected()>MTH</a>
+        <a id="LCCDE" onclick=LCCDESelected()>LCCDE</a>
+        <a id="Tree-Based" onclick=TreeSelected()>Tree-Based</a>
         <div class="secondText">
 
             <!--Sampling expand/colapse list-->
@@ -49,11 +49,11 @@
             <a>Sampling</a>
         </div>
         <div class="slideText">
-            <h3>80% Train</h3>
-            <h3>20% Test</h3>
+            <h3 id="trainPercent">80% Train</h3>
+            <h3 id="testPercent">20% Test</h3>
         </div>
         <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="80" class="slider" id="myRange">
+            <input type="range" min="0" max="100" value="80" class="slider" id="myRange">
         </div>
         <div class="SMOTESpacer">
             <div class="SMOTEinput">
@@ -131,13 +131,13 @@
                     <div class="graphContainer" id="content">
                         <canvas id="myChart"></canvas>
                     </div>
-                    <div class="rightAdd">
+                    <div class="rightAdd" onclick=addRight()>
                         <span class="material-symbols-outlined">
                             add_circle
                         </span>
                     </div>
                 </div>
-                <div class="leftAdd">
+                <div class="leftAdd" onclick=addBelow()>
                     <span class="material-symbols-outlined">
                         add_circle
                     </span>

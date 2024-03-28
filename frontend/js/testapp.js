@@ -98,4 +98,53 @@ function showHeatmap() {
     });
 }
 
+function MTHSelected(){
+    var MTHButton = document.getElementById('MTH');
+    var LCCDEButton = document.getElementById('LCCDE');
+    var TreeButton = document.getElementById('Tree-Based');
+    MTHButton.style.background = '#04AA6D';
+    LCCDEButton.style.background = 'darkgray';
+    TreeButton.style.background = 'darkgray';
+}
+
+function LCCDESelected(){
+    var MTHButton = document.getElementById('MTH');
+    var LCCDEButton = document.getElementById('LCCDE');
+    var TreeButton = document.getElementById('Tree-Based');
+    MTHButton.style.background = 'darkgray';
+    LCCDEButton.style.background = '#04AA6D';
+    TreeButton.style.background = 'darkgray';
+}
+
+function TreeSelected(){
+    var MTHButton = document.getElementById('MTH');
+    var LCCDEButton = document.getElementById('LCCDE');
+    var TreeButton = document.getElementById('Tree-Based');
+    MTHButton.style.background = 'darkgray';
+    LCCDEButton.style.background = 'darkgray';
+    TreeButton.style.background = '#04AA6D';
+}
+
+function addRight(){
+    var graph = document.createElement('div');
+    graph.classList.add('graph');
+    graph.textContent = 'Graph to the right';
+    document.querySelector('.upperContent').appendChild(graph);
+}
+
+function addBelow() {
+    var graph = document.createElement('div');  
+    graph.classList.add('graph');
+    graph.textContent = 'Graph below';
+    document.querySelector('.graphcontent').appendChild(graph);
+}
+
+document.querySelector('input')
+    .addEventListener('input', evt => {
+  trainText = document.getElementById('trainPercent');
+  testText = document.getElementById('testPercent');
+  trainText.textContent = evt.target.value + '% Train';
+  testText.textContent = (100 - evt.target.value) + '% Test';
+});
+
 showHeatmap();
