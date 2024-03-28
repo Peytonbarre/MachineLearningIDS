@@ -135,6 +135,9 @@ body{
     background: darkgray;
     border-radius: 20px;
     margin-left: 75px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #LCCDE{
@@ -148,6 +151,9 @@ body{
     background: darkgray;
     border-radius: 20px;
     margin-left: 75px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #Tree-Based{
@@ -161,6 +167,9 @@ body{
     background: #04AA6D;
     border-radius: 20px;
     margin-left: 75px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .slider {
@@ -333,4 +342,13 @@ input[type=text]:focus {
 
 .upperContent{
     display: flex;
+}
+
+.hideSection {
+    display: flex;
+    flex-direction: column;
+
+    display: none;
+}
+
 }

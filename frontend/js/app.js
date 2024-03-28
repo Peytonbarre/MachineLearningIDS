@@ -343,20 +343,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //toggles sidebar display
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.display === "block") {
-              content.style.display = "none";
-            } else {
-              content.style.display = "block";
-            }
-          });
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const btns = document.querySelectorAll('.btn');
+    
+        btns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('span.material-symbols-outlined');
+                const content = this.parentNode.nextElementSibling;
+    
+                if (content && content.classList.contains('hideSection')) {
+                    content.classList.remove('hideSection');
+                    icon.textContent = 'expand_less';
+                } else if (content) {
+                    content.classList.add('hideSection');
+                    icon.textContent = 'expand_more';
+                }
+            });
+        });
+    });
 
 // Initial chart display
 showLineChart();
