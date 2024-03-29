@@ -240,4 +240,69 @@ document.addEventListener('wheel', function(e) {
     }
 });
 
+function matrixSelected(){
+    var MatrixButton = document.getElementById('matrix');
+    var LineButton = document.getElementById('line');
+    var BarButton = document.getElementById('bar');
+    var PieButton = document.getElementById('pie');
+    var CalloutButton = document.getElementById('callout');
+    MatrixButton.style.background = '#04AA6D';
+    LineButton.style.background = 'darkgray';
+    BarButton.style.background = 'darkgray';
+    PieButton.style.background = 'darkgray';
+    CalloutButton.style.background = 'darkgray';
+}
+
+function lineSelected(){
+    var LineButton = document.getElementById('matrix');
+    var MatrixButton = document.getElementById('line');
+    var BarButton = document.getElementById('bar');
+    var PieButton = document.getElementById('pie');
+    var CalloutButton = document.getElementById('callout');
+    MatrixButton.style.background = '#04AA6D';
+    LineButton.style.background = 'darkgray';
+    BarButton.style.background = 'darkgray';
+    PieButton.style.background = 'darkgray';
+    CalloutButton.style.background = 'darkgray';
+}
+
+function barSelected(){
+    var LineButton = document.getElementById('matrix');
+    var BarButton = document.getElementById('line');
+    var MatrixButton = document.getElementById('bar');
+    var PieButton = document.getElementById('pie');
+    var CalloutButton = document.getElementById('callout');
+    MatrixButton.style.background = '#04AA6D';
+    LineButton.style.background = 'darkgray';
+    BarButton.style.background = 'darkgray';
+    PieButton.style.background = 'darkgray';
+    CalloutButton.style.background = 'darkgray';
+}
+
+function pieSelected(){
+    var PieButton = document.getElementById('matrix');
+    var LineButton = document.getElementById('line');
+    var BarButton = document.getElementById('bar');
+    var MatrixButton = document.getElementById('pie');
+    var CalloutButton = document.getElementById('callout');
+    MatrixButton.style.background = '#04AA6D';
+    LineButton.style.background = 'darkgray';
+    BarButton.style.background = 'darkgray';
+    PieButton.style.background = 'darkgray';
+    CalloutButton.style.background = 'darkgray';
+}
+
+function calloutSelected(){
+    var LineButton = document.getElementById('matrix');
+    var CalloutButton = document.getElementById('line');
+    var BarButton = document.getElementById('bar');
+    var PieButton = document.getElementById('pie');
+    var MatrixButton = document.getElementById('callout');
+    MatrixButton.style.background = '#04AA6D';
+    LineButton.style.background = 'darkgray';
+    BarButton.style.background = 'darkgray';
+    PieButton.style.background = 'darkgray';
+    CalloutButton.style.background = 'darkgray';
+}
+
 showHeatmap();
