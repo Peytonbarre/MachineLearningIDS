@@ -125,60 +125,95 @@ function TreeSelected(){
     TreeButton.style.background = '#04AA6D';
 }
 
+function displaySidebar(){
+    var idleState = document.getElementsByClassName('idleState');
+    var addGraph = document.getElementsByClassName('addingGraph');
+    for(let i=0; i<idleState.length; i++){
+        idleState[i].style.display = 'none';
+    }
+    for(let i=0; i<addGraph.length; i++){
+        addGraph[i].style.display = 'flex';
+    }
+}
+
+function generateGraph(){
+    // var idleState = document.getElementsByClassName('idleState');
+    // var addGraph = document.getElementsByClassName('addingGraph');
+    // for(let i=0; i<idleState.length; i++){
+    //     idleState[i].style.display = 'flex';
+    // }
+    // for(let i=0; i<addGraph.length; i++){
+    //     addGraph[i].style.display = 'none';
+    // }
+}
+
+function cancelGraph(){
+    var idleState = document.getElementsByClassName('idleState');
+    var addGraph = document.getElementsByClassName('addingGraph');
+    for(let i=0; i<idleState.length; i++){
+        idleState[i].style.display = 'flex';
+    }
+    for(let i=0; i<addGraph.length; i++){
+        addGraph[i].style.display = 'none';
+    }
+}
+
 function addRight() {
-    var graphContainer = document.createElement('div');
-    graphContainer.classList.add('graphContainer');
-    var canvas = document.createElement('canvas');
-    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-    canvas.id = uniqueId;
-    graphContainer.appendChild(canvas);
-    var rightAdd = document.querySelector('.rightAdd');
-    var graphContent = document.querySelector('.upperContent');
-    graphContent.insertBefore(graphContainer, rightAdd);
-    var ctx = canvas.getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+    displaySidebar();
+    // var graphContainer = document.createElement('div');
+    // graphContainer.classList.add('graphContainer');
+    // var canvas = document.createElement('canvas');
+    // var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    // canvas.id = uniqueId;
+    // graphContainer.appendChild(canvas);
+    // var rightAdd = document.querySelector('.rightAdd');
+    // var graphContent = document.querySelector('.upperContent');
+    // graphContent.insertBefore(graphContainer, rightAdd);
+    // var ctx = canvas.getContext('2d');
+    // var myChart = new Chart(ctx, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    //         datasets: [{
+    //             label: '# of Votes',
+    //             data: [12, 19, 3, 5, 2, 3],
+    //             backgroundColor: [
+    //                 'rgba(255, 99, 132, 0.2)',
+    //                 'rgba(54, 162, 235, 0.2)',
+    //                 'rgba(255, 206, 86, 0.2)',
+    //                 'rgba(75, 192, 192, 0.2)',
+    //                 'rgba(153, 102, 255, 0.2)',
+    //                 'rgba(255, 159, 64, 0.2)'
+    //             ],
+    //             borderColor: [
+    //                 'rgba(255, 99, 132, 1)',
+    //                 'rgba(54, 162, 235, 1)',
+    //                 'rgba(255, 206, 86, 1)',
+    //                 'rgba(75, 192, 192, 1)',
+    //                 'rgba(153, 102, 255, 1)',
+    //                 'rgba(255, 159, 64, 1)'
+    //             ],
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //                 beginAtZero: true
+    //             }
+    //         }
+    //     }
+    // });
 }
 
 function addBelow() {
-    var graph = document.createElement('div');  
-    graph.classList.add('graphContainer');
-    graph.textContent = 'Graph below';
-    var leftAdd = document.querySelector('.leftAdd');
-    var graphContent = document.querySelector('.graphcontent');
-    graphContent.insertBefore(graph, leftAdd);
+    displaySidebar();
+    // var graph = document.createElement('div');  
+    // graph.classList.add('graphContainer');
+    // graph.textContent = 'Graph below';
+    // var leftAdd = document.querySelector('.leftAdd');
+    // var graphContent = document.querySelector('.graphcontent');
+    // graphContent.insertBefore(graph, leftAdd);
 }
 
 document.querySelector('input')
@@ -622,5 +657,65 @@ function toggleSection(sectionClass) {
     // var buttonText = document.querySelector('#' + sectionClass + ' .btn span');
     // buttonText.textContent = section.classList.contains('hidden') ? 'expand_more' : 'expand_less';
 }
+
+document.getElementById('generateDataButton').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    var classifier;
+    var classifierList = document.getElementById('classifierList');
+    for(let i=0; i<classifierList.children.length; i++){
+        if(classifierList.children[i].style.background === 'rgb(4, 170, 109)'){
+            classifier = classifierList.children[i].textContent;
+        }
+    }
+    if(classifier === undefined){
+        console.error('Missing classsifier')
+    }
+    var slideValue = document.getElementById('myRange').value;
+    var SMOTEValue1 = document.getElementById('SMOTE1').value;
+    var SMOTEValue2 = document.getElementById('SMOTE2').value;
+    var graphType;
+    var graphList = document.getElementById('graphTypes');
+    for(let i=0; i<graphList.children.length; i++){
+        if(graphList.children[i].style.background === 'rgb(4, 170, 109)'){
+            graphType = graphList.children[i].textContent;
+        }
+    }
+    if(graphType === undefined){
+        console.error('Missing Graph Type')
+    }
+    var parameter;
+    var parametersList = document.getElementById('parametersList');
+    for(let i=0; i<parametersList.children.length; i++){
+        for(let j=0; j<parametersList.children[i].children.length; j++){
+            if(parametersList.children[i].children[j].style.background === 'rgb(4, 170, 109)'){
+                parameter = parametersList.children[i].children[j].textContent;
+            }
+        }
+    }
+    if(parameter === undefined){
+        console.error('Missing Parameter')
+    }
+    var formData = {
+        classifier: classifier,
+        slideValue: slideValue,
+        SMOTEValue: SMOTEValue1 + ':' + SMOTEValue2,
+        graphType: graphType,
+        parameter: parameter
+    };
+    console.log(formData);
+    // // Example: Send data to a server using fetch API
+    // fetch('your-server-endpoint', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(formData)
+    // }).then(response => {
+    //     // Handle the response as needed
+    // }).catch(error => {
+    //     // Handle errors
+    // });
+});
+
 
 showHeatmap();

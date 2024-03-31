@@ -613,3 +613,31 @@ input[type=text]:focus {
 .samplingList.hidden {
     display: none;
 }
+
+.addingGraph{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    display: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;
+}
+
+.addingGraph::-webkit-scrollbar {
+    display: none;
+}
+
+.idleState{
+    font-family: "Varela", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 18px;
+    color: whitesmoke;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

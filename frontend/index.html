@@ -20,139 +20,151 @@
         <div class="sidebarHeader">
             Add Graph
         </div>
-        <div class="divit">
-            <div class="leftDivit">
-                <span class="material-symbols-outlined">discover_tune</span>
-                <h2>Parameters</h2>
-            </div>
-
-            <!--Parameters expand/colapse list-->
-            <button class="btn" id="expandParameters">
-                <span class="material-symbols-outlined">expand_more</span>
-            </button>
-        </div>
-
-        <div class="hideSection">
-            <div class="secondText">
-
-                <!--Classifier expand/colapse list-->
-                <button class="btn" id="classifierButton">
-                    <span class="material-symbols-outlined">expand_more</span>
-                </button>
-                <a>Classifier</a>
-            </div>
-            <div class="classifierList">
-                <a id="MTH" onclick=MTHSelected()>MTH</a>
-                <a id="LCCDE" onclick=LCCDESelected()>LCCDE</a>
-                <a id="Tree-Based" onclick=TreeSelected()>Tree-Based</a>
-            </div>
-            <div class="secondText">
-
-                <!--Sampling expand/colapse list-->
-                <button class="btn" id="samplingButton">
-                    <span class="material-symbols-outlined">expand_more</span>
-                </button>
-
-                <a>Sampling</a>
-            </div>
-            <div class="samplingList">
-                <div class="slideText">
-                    <h3 id="trainPercent">80% Train</h3>
-                    <h3 id="testPercent">20% Test</h3>
-                </div>
-                <div class="slidecontainer">
-                    <input type="range" min="0" max="100" value="80" class="slider" id="myRange">
-                </div>
-                <div class="SMOTESpacer">
-                    <div class="SMOTEinput">
-                        <input type="text" id="SMOTE1" value="2">
-                        <h3>&nbsp:&nbsp</h3>
-                        <input type="text" id="SMOTE2" value="1000">
+            <div class="addingGraph">
+                <div class="divit">
+                    <div class="leftDivit">
+                        <span class="material-symbols-outlined">discover_tune</span>
+                        <h2>Parameters</h2>
                     </div>
-                    <h3 class="SMOTEText">SMOTE Sample</h3>
-                </div>
-            </div>
-        </div> <!--END OF PARAMETERS DIV-->
 
-        <div class="divit">
-            <div class="leftDivit">
-                <span class="material-symbols-outlined">analytics</span>
-                <h2>Graphs</h2>
-            </div>
-
-            <!--Graphs expand/colapse list-->
-            <button class="btn" id="graphsButton">
-                <span class="material-symbols-outlined">expand_more</span>
-            </button>
-        </div>
-        <div class="graphList">
-            <div class="secondText">
-
-                <!--Graph Type expand/colapse list-->
-                <button class="btn" id="expandGraphType">
-                    <span class="material-symbols-outlined">expand_more</span>
-                </button>
-                <a>Graph Type</a>
-            </div>
-            <div class="graphTypes">
-                <a id="matrix" onclick=matrixSelected()>Matrix</a>
-                <a id="line" onclick=lineSelected()>Line</a>
-                <a id="bar" onclick=barSelected()>Bar</a>
-                <a id="pie" onclick=pieSelected()>Pie</a>
-                <a id="callout" onclick=calloutSelected()>Callout</a>
-            </div>
-            <div class="secondText">
-
-                <!--Parameters expand/colapse list-->
-                <button class="btn" id="graphParametersButton">
-                    <span class="material-symbols-outlined">expand_more</span>
-                </button>
-                <a>Parameters</a>
-            </div>
-            <div class="parametersList">
-                <div class="MatrixParameters">
-                    <a id="confusionMatrix" onclick=confusionMatrixSelected()>Confusion Matrix</a>
+                    <!--Parameters expand/colapse list-->
+                    <button class="btn" id="expandParameters">
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
                 </div>
-                <div class="LineParameters">
-                    <a id="avgOfEvent" onclick=avgOfEventSelected()>Average of Event Metrics</a> 
-                </div>
-                <div class="BarParameters">
-                    <a id="precisionByEvent" onclick=precisionByEventSelected()>Precision By Event</a>
-                    <a id="recallByEvent" onclick=recallByEventSelected()>Recall By Event</a>
-                    <a id="f1ByEvent" onclick=f1ByEventSelected()>F-1 Score By Event</a>
-                    <a id="supportByEvent" onclick=supportByEventSelected()>Support By Event</a>
-                </div>
-                <div class="PieParameters">
-                    <a id="classifierComposition" onclick=classifierCompositionSelected()>Classifier Composition</a>
-                </div>
-                <div class="CalloutParameters">
-                    <a id="avgAccuracy" onclick=avgAccuracySelected()>Average Accuracy</a>
-                    <a id="avgPrecision" onclick=avgPrecisionSelected()>Average Precision</a>
-                    <a id="avgRecall" onclick=avgRecall()>Average Recall</a>
-                    <a id="avgf1Score" onclick=avgf1ScoreSelected()>Average F-1 Score</a>
-                </div>
-            </div>
-        </div>
 
-        <div class="divit">
-            <div class="leftDivit">
-                <span class="material-symbols-outlined">
-                    history
-                </span>
-                <h2>History</h2>
-            </div>
+                <div class="hideSection">
+                    <div class="secondText">
 
-            <!--History expand/colapse list-->
-            <button class="btn">
-                <span class="material-symbols-outlined">expand_more</span>
-            </button>
-        </div>
-        <div class="EvenMoreBullshit">
-            <!--PUT LOG OF USER EVENTS IN HERE!-->
-            <div class="endButtons">
-                <a class="runButton">Generate</a>
-                <a class="cancelButton">Cancel</a>
+                        <!--Classifier expand/colapse list-->
+                        <button class="btn" id="classifierButton">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </button>
+                        <a>Classifier</a>
+                    </div>
+                    <div class="classifierList" id="classifierList">
+                        <a id="MTH" onclick=MTHSelected()>MTH</a>
+                        <a id="LCCDE" onclick=LCCDESelected()>LCCDE</a>
+                        <a id="Tree-Based" onclick=TreeSelected()>Tree-Based</a>
+                    </div>
+                    <div class="secondText">
+
+                        <!--Sampling expand/colapse list-->
+                        <button class="btn" id="samplingButton">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </button>
+
+                        <a>Sampling</a>
+                    </div>
+                    <div class="samplingList">
+                        <div class="slideText">
+                            <h3 id="trainPercent">80% Train</h3>
+                            <h3 id="testPercent">20% Test</h3>
+                        </div>
+                        <div class="slidecontainer">
+                            <input type="range" min="0" max="100" value="80" class="slider" id="myRange">
+                        </div>
+                        <div class="SMOTESpacer">
+                            <div class="SMOTEinput">
+                                <input type="text" id="SMOTE1" value="2">
+                                <h3>&nbsp:&nbsp</h3>
+                                <input type="text" id="SMOTE2" value="1000">
+                            </div>
+                            <h3 class="SMOTEText">SMOTE Sample</h3>
+                        </div>
+                    </div>
+                </div> <!--END OF PARAMETERS DIV-->
+
+                <div class="divit">
+                    <div class="leftDivit">
+                        <span class="material-symbols-outlined">analytics</span>
+                        <h2>Graphs</h2>
+                    </div>
+
+                    <!--Graphs expand/colapse list-->
+                    <button class="btn" id="graphsButton">
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                </div>
+                <div class="graphList">
+                    <div class="secondText">
+
+                        <!--Graph Type expand/colapse list-->
+                        <button class="btn" id="expandGraphType">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </button>
+                        <a>Graph Type</a>
+                    </div>
+                    <div class="graphTypes" id="graphTypes">
+                        <a id="matrix" onclick=matrixSelected()>Matrix</a>
+                        <a id="line" onclick=lineSelected()>Line</a>
+                        <a id="bar" onclick=barSelected()>Bar</a>
+                        <a id="pie" onclick=pieSelected()>Pie</a>
+                        <a id="callout" onclick=calloutSelected()>Callout</a>
+                    </div>
+                    <div class="secondText">
+
+                        <!--Parameters expand/colapse list-->
+                        <button class="btn" id="graphParametersButton">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </button>
+                        <a>Parameters</a>
+                    </div>
+                    <div class="parametersList" id="parametersList">
+                        <div class="MatrixParameters">
+                            <a id="confusionMatrix" onclick=confusionMatrixSelected()>Confusion Matrix</a>
+                        </div>
+                        <div class="LineParameters">
+                            <a id="avgOfEvent" onclick=avgOfEventSelected()>Average of Event Metrics</a>
+                        </div>
+                        <div class="BarParameters">
+                            <a id="precisionByEvent" onclick=precisionByEventSelected()>Precision By Event</a>
+                            <a id="recallByEvent" onclick=recallByEventSelected()>Recall By Event</a>
+                            <a id="f1ByEvent" onclick=f1ByEventSelected()>F-1 Score By Event</a>
+                            <a id="supportByEvent" onclick=supportByEventSelected()>Support By Event</a>
+                        </div>
+                        <div class="PieParameters">
+                            <a id="classifierComposition" onclick=classifierCompositionSelected()>Classifier Composition</a>
+                        </div>
+                        <div class="CalloutParameters">
+                            <a id="avgAccuracy" onclick=avgAccuracySelected()>Average Accuracy</a>
+                            <a id="avgPrecision" onclick=avgPrecisionSelected()>Average Precision</a>
+                            <a id="avgRecall" onclick=avgRecall()>Average Recall</a>
+                            <a id="avgf1Score" onclick=avgf1ScoreSelected()>Average F-1 Score</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divit">
+                    <div class="leftDivit">
+                        <span class="material-symbols-outlined">
+                            history
+                        </span>
+                        <h2>History</h2>
+                    </div>
+
+                    <!--History expand/colapse list-->
+                    <button class="btn">
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                </div>
+                <div class="EvenMoreBullshit">
+                    <!--PUT LOG OF USER EVENTS IN HERE!-->
+                    <div class="endButtons">
+                        <a class="runButton" id="generateDataButton">Generate</a>
+                        <a class="cancelButton" onclick=cancelGraph()>Cancel</a>
+                    </div>
+                </div>
+                <form id="dataForm">
+                    <input type="hidden" name="classifier">
+                    <input type="hidden" name="slideValue">
+                    <input type="hidden" name="SMOTEValue">
+                    <input type="hidden" name="graphType">
+                    <input type="hidden" name="parameter">
+                </form>
             </div>
+        <div class="idleState">
+            <h2>Please click '+' to add a graph</h2>
         </div>
     </div>
     <div class="main" id="scrollRestrict">
