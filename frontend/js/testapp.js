@@ -582,33 +582,45 @@ function avgf1ScoreSelected(){
 
 document.getElementById('expandParameters').addEventListener('click', function() {
     toggleSection('hideSection');
+    var button = document.getElementById('expandParameters')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
 document.getElementById('classifierButton').addEventListener('click', function() {
     toggleSection('classifierList');
+    var button = document.getElementById('classifierButton')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
 document.getElementById('samplingButton').addEventListener('click', function() {
     toggleSection('samplingList');
+    var button = document.getElementById('samplingButton')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
 document.getElementById('graphsButton').addEventListener('click', function() {
     toggleSection('graphList');
+    var button = document.getElementById('graphsButton')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
 document.getElementById('expandGraphType').addEventListener('click', function() {
     toggleSection('graphTypes');
+    var button = document.getElementById('expandGraphType')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
 document.getElementById('graphParametersButton').addEventListener('click', function() {
     toggleSection('parametersList');
+    var button = document.getElementById('graphParametersButton')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
 function toggleSection(sectionClass) {
     var section = document.querySelector('.' + sectionClass);
     section.classList.toggle('hidden');
-    var buttonText = document.querySelector('#' + sectionClass + ' .btn span');
-    buttonText.textContent = section.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+    // var buttonText = document.querySelector('#' + sectionClass + ' .btn span');
+    // buttonText.textContent = section.classList.contains('hidden') ? 'expand_more' : 'expand_less';
 }
 
 showHeatmap();
