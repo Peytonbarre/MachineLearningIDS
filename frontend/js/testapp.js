@@ -241,6 +241,7 @@ document.addEventListener('wheel', function(e) {
 });
 
 function matrixSelected(){
+    var confusionMatrixButton = document.getElementById('confusionMatrix');
     var MatrixButton = document.getElementById('matrix');
     var LineButton = document.getElementById('line');
     var BarButton = document.getElementById('bar');
@@ -251,6 +252,37 @@ function matrixSelected(){
     BarButton.style.background = 'darkgray';
     PieButton.style.background = 'darkgray';
     CalloutButton.style.background = 'darkgray';
+    confusionMatrixButton.style.background = 'darkgray';
+    var matrixParametersItems = document.getElementsByClassName('MatrixParameters');
+    var lineParametersItems = document.getElementsByClassName('LineParameters');
+    var barParametersItems = document.getElementsByClassName('BarParameters');
+    var pieParametersItems = document.getElementsByClassName('PieParameters');
+    var calloutParametersItems = document.getElementsByClassName('CalloutParameters');
+    for(let i=0; i<matrixParametersItems.length; i++){
+        let element = matrixParametersItems[i];
+        element.style.display = 'flex';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<lineParametersItems.length; i++){
+        let element = lineParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<barParametersItems.length; i++){
+        let element = barParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<pieParametersItems.length; i++){
+        let element = pieParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<calloutParametersItems.length; i++){
+        let element = calloutParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
 }
 
 function lineSelected(){
@@ -259,11 +291,43 @@ function lineSelected(){
     var BarButton = document.getElementById('bar');
     var PieButton = document.getElementById('pie');
     var CalloutButton = document.getElementById('callout');
+    var avgOfEventButton = document.getElementById('avgOfEvent');
+    avgOfEventButton.style.background = 'darkgray';
     MatrixButton.style.background = '#04AA6D';
     LineButton.style.background = 'darkgray';
     BarButton.style.background = 'darkgray';
     PieButton.style.background = 'darkgray';
     CalloutButton.style.background = 'darkgray';
+    var matrixParametersItems = document.getElementsByClassName('MatrixParameters');
+    var lineParametersItems = document.getElementsByClassName('LineParameters');
+    var barParametersItems = document.getElementsByClassName('BarParameters');
+    var pieParametersItems = document.getElementsByClassName('PieParameters');
+    var calloutParametersItems = document.getElementsByClassName('CalloutParameters');
+    for(let i=0; i<matrixParametersItems.length; i++){
+        let element = matrixParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<lineParametersItems.length; i++){
+        let element = lineParametersItems[i];
+        element.style.display = 'flex';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<barParametersItems.length; i++){
+        let element = barParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<pieParametersItems.length; i++){
+        let element = pieParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<calloutParametersItems.length; i++){
+        let element = calloutParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
 }
 
 function barSelected(){
@@ -272,11 +336,49 @@ function barSelected(){
     var MatrixButton = document.getElementById('bar');
     var PieButton = document.getElementById('pie');
     var CalloutButton = document.getElementById('callout');
+    var precisionByEvent = document.getElementById('precisionByEvent');
+    var recallByEvent = document.getElementById('recallByEvent');
+    var f1ByEvent = document.getElementById('f1ByEvent');
+    var supportByEvent = document.getElementById('supportByEvent');
+    precisionByEvent.style.background = 'darkgray';
+    recallByEvent.style.background = 'darkgray';
+    f1ByEvent.style.background = 'darkgray';
+    supportByEvent.style.background = 'darkgray';
     MatrixButton.style.background = '#04AA6D';
     LineButton.style.background = 'darkgray';
     BarButton.style.background = 'darkgray';
     PieButton.style.background = 'darkgray';
     CalloutButton.style.background = 'darkgray';
+    var matrixParametersItems = document.getElementsByClassName('MatrixParameters');
+    var lineParametersItems = document.getElementsByClassName('LineParameters');
+    var barParametersItems = document.getElementsByClassName('BarParameters');
+    var pieParametersItems = document.getElementsByClassName('PieParameters');
+    var calloutParametersItems = document.getElementsByClassName('CalloutParameters');
+    for(let i=0; i<matrixParametersItems.length; i++){
+        let element = matrixParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<lineParametersItems.length; i++){
+        let element = lineParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<barParametersItems.length; i++){
+        let element = barParametersItems[i];
+        element.style.display = 'flex';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<pieParametersItems.length; i++){
+        let element = pieParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<calloutParametersItems.length; i++){
+        let element = calloutParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
 }
 
 function pieSelected(){
@@ -285,11 +387,43 @@ function pieSelected(){
     var BarButton = document.getElementById('bar');
     var MatrixButton = document.getElementById('pie');
     var CalloutButton = document.getElementById('callout');
+    var classifierComposition = document.getElementById('classifierComposition');
+    classifierComposition.style.background = 'darkgray';
     MatrixButton.style.background = '#04AA6D';
     LineButton.style.background = 'darkgray';
     BarButton.style.background = 'darkgray';
     PieButton.style.background = 'darkgray';
     CalloutButton.style.background = 'darkgray';
+    var matrixParametersItems = document.getElementsByClassName('MatrixParameters');
+    var lineParametersItems = document.getElementsByClassName('LineParameters');
+    var barParametersItems = document.getElementsByClassName('BarParameters');
+    var pieParametersItems = document.getElementsByClassName('PieParameters');
+    var calloutParametersItems = document.getElementsByClassName('CalloutParameters');
+    for(let i=0; i<matrixParametersItems.length; i++){
+        let element = matrixParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<lineParametersItems.length; i++){
+        let element = lineParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<barParametersItems.length; i++){
+        let element = barParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<pieParametersItems.length; i++){
+        let element = pieParametersItems[i];
+        element.style.display = 'flex';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<calloutParametersItems.length; i++){
+        let element = calloutParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
 }
 
 function calloutSelected(){
@@ -298,11 +432,183 @@ function calloutSelected(){
     var BarButton = document.getElementById('bar');
     var PieButton = document.getElementById('pie');
     var MatrixButton = document.getElementById('callout');
+    var avgAccuracy = document.getElementById('avgAccuracy')
+    var avgPrecision = document.getElementById('avgPrecision')
+    var avgRecall = document.getElementById('avgRecall')
+    var avgf1Score = document.getElementById('avgf1Score')
+    avgAccuracy.style.background = 'darkgray';
+    avgPrecision.style.background = 'darkgray';
+    avgRecall.style.background = 'darkgray';
+    avgf1Score.style.background = 'darkgray';
     MatrixButton.style.background = '#04AA6D';
     LineButton.style.background = 'darkgray';
     BarButton.style.background = 'darkgray';
     PieButton.style.background = 'darkgray';
     CalloutButton.style.background = 'darkgray';
+    var matrixParametersItems = document.getElementsByClassName('MatrixParameters');
+    var lineParametersItems = document.getElementsByClassName('LineParameters');
+    var barParametersItems = document.getElementsByClassName('BarParameters');
+    var pieParametersItems = document.getElementsByClassName('PieParameters');
+    var calloutParametersItems = document.getElementsByClassName('CalloutParameters');
+    for(let i=0; i<matrixParametersItems.length; i++){
+        let element = matrixParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<lineParametersItems.length; i++){
+        let element = lineParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<barParametersItems.length; i++){
+        let element = barParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<pieParametersItems.length; i++){
+        let element = pieParametersItems[i];
+        element.style.display = 'none';
+        element.style.flexDirection = 'column';
+    }
+    for(let i=0; i<calloutParametersItems.length; i++){
+        let element = calloutParametersItems[i];
+        element.style.display = 'flex';
+        element.style.flexDirection = 'column';
+    }
+}
+
+function confusionMatrixSelected(){
+    var confusionMatrixButton = document.getElementById('confusionMatrix');
+    confusionMatrixButton.style.background = '#04AA6D';
+}
+
+function avgOfEventSelected(){
+    var avgOfEventButton = document.getElementById('avgOfEvent');
+    avgOfEventButton.style.background = '#04AA6D';
+}
+
+function precisionByEventSelected(){
+    var precisionByEvent = document.getElementById('precisionByEvent');
+    var recallByEvent = document.getElementById('recallByEvent');
+    var f1ByEvent = document.getElementById('f1ByEvent');
+    var supportByEvent = document.getElementById('supportByEvent');
+    precisionByEvent.style.background = '#04AA6D';
+    recallByEvent.style.background = 'darkgray';
+    f1ByEvent.style.background = 'darkgray';
+    supportByEvent.style.background = 'darkgray';
+}
+
+function recallByEventSelected(){
+    var precisionByEvent = document.getElementById('precisionByEvent');
+    var recallByEvent = document.getElementById('recallByEvent');
+    var f1ByEvent = document.getElementById('f1ByEvent');
+    var supportByEvent = document.getElementById('supportByEvent');
+    precisionByEvent.style.background = 'darkgray';
+    recallByEvent.style.background = '#04AA6D';
+    f1ByEvent.style.background = 'darkgray';
+    supportByEvent.style.background = 'darkgray';
+}
+
+function f1ByEventSelected(){
+    var precisionByEvent = document.getElementById('precisionByEvent');
+    var recallByEvent = document.getElementById('recallByEvent');
+    var f1ByEvent = document.getElementById('f1ByEvent');
+    var supportByEvent = document.getElementById('supportByEvent');
+    precisionByEvent.style.background = 'darkgray';
+    recallByEvent.style.background = 'darkgray';
+    f1ByEvent.style.background = '#04AA6D';
+    supportByEvent.style.background = 'darkgray';
+}
+
+function supportByEventSelected(){
+    var precisionByEvent = document.getElementById('precisionByEvent');
+    var recallByEvent = document.getElementById('recallByEvent');
+    var f1ByEvent = document.getElementById('f1ByEvent');
+    var supportByEvent = document.getElementById('supportByEvent');
+    precisionByEvent.style.background = 'darkgray';
+    recallByEvent.style.background = 'darkgray';
+    f1ByEvent.style.background = 'darkgray';
+    supportByEvent.style.background = '#04AA6D';
+}
+
+function classifierCompositionSelected(){
+    var classifierComposition = document.getElementById('classifierComposition');
+    classifierComposition.style.background = '#04AA6D';
+}
+
+function avgAccuracySelected(){
+    var avgAccuracy = document.getElementById('avgAccuracy')
+    var avgPrecision = document.getElementById('avgPrecision')
+    var avgRecall = document.getElementById('avgRecall')
+    var avgf1Score = document.getElementById('avgf1Score')
+    avgAccuracy.style.background = '#04AA6D';
+    avgPrecision.style.background = 'darkgray';
+    avgRecall.style.background = 'darkgray';
+    avgf1Score.style.background = 'darkgray';
+}
+
+function avgPrecisionSelected(){
+    var avgAccuracy = document.getElementById('avgAccuracy')
+    var avgPrecision = document.getElementById('avgPrecision')
+    var avgRecall = document.getElementById('avgRecall')
+    var avgf1Score = document.getElementById('avgf1Score')
+    avgAccuracy.style.background = 'darkgray';
+    avgPrecision.style.background = '#04AA6D';
+    avgRecall.style.background = 'darkgray';
+    avgf1Score.style.background = 'darkgray';
+}
+
+function avgRecall(){
+    var avgAccuracy = document.getElementById('avgAccuracy')
+    var avgPrecision = document.getElementById('avgPrecision')
+    var avgRecall = document.getElementById('avgRecall')
+    var avgf1Score = document.getElementById('avgf1Score')
+    avgAccuracy.style.background = 'darkgray';
+    avgPrecision.style.background = 'darkgray';
+    avgRecall.style.background = '#04AA6D';
+    avgf1Score.style.background = 'darkgray';
+}
+
+function avgf1ScoreSelected(){
+    var avgAccuracy = document.getElementById('avgAccuracy')
+    var avgPrecision = document.getElementById('avgPrecision')
+    var avgRecall = document.getElementById('avgRecall')
+    var avgf1Score = document.getElementById('avgf1Score')
+    avgAccuracy.style.background = 'darkgray';
+    avgPrecision.style.background = 'darkgray';
+    avgRecall.style.background = 'darkgray';
+    avgf1Score.style.background = '#04AA6D';
+}
+
+document.getElementById('expandParameters').addEventListener('click', function() {
+    toggleSection('hideSection');
+});
+
+document.getElementById('classifierButton').addEventListener('click', function() {
+    toggleSection('classifierList');
+});
+
+document.getElementById('samplingButton').addEventListener('click', function() {
+    toggleSection('samplingList');
+});
+
+document.getElementById('graphsButton').addEventListener('click', function() {
+    toggleSection('graphList');
+});
+
+document.getElementById('expandGraphType').addEventListener('click', function() {
+    toggleSection('graphTypes');
+});
+
+document.getElementById('graphParametersButton').addEventListener('click', function() {
+    toggleSection('parametersList');
+});
+
+function toggleSection(sectionClass) {
+    var section = document.querySelector('.' + sectionClass);
+    section.classList.toggle('hidden');
+    var buttonText = document.querySelector('#' + sectionClass + ' .btn span');
+    buttonText.textContent = section.classList.contains('hidden') ? 'expand_more' : 'expand_less';
 }
 
 showHeatmap();

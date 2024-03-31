@@ -132,14 +132,14 @@ body {
 
 #MTH {
     margin-top: 5px;
-    margin-bottom: 2px;
+    margin-bottom: 7px;
     width: 150px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     vertical-align: center;
     background: darkgray;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-left: 75px;
 
     display: flex;
@@ -148,15 +148,14 @@ body {
 
 
 #LCCDE {
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-bottom: 7px;
     width: 150px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     vertical-align: center;
     background: darkgray;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-left: 75px;
 
     display: flex;
@@ -164,15 +163,14 @@ body {
 }
 
 #Tree-Based {
-    margin-top: 2px;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     width: 150px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     vertical-align: center;
     background: darkgray;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-left: 75px;
 
     display: flex;
@@ -376,8 +374,6 @@ input[type=text]:focus {
 .hideSection {
     display: flex;
     flex-direction: column;
-
-    display: none;
 }
 
 .runButton {
@@ -467,4 +463,153 @@ input[type=text]:focus {
 
 #callout:hover{
     background: rgb(130, 130, 130);
+}
+
+.MatrixParameters{
+    display: none;
+}
+
+.LineParameters{
+    display: none;
+}
+
+.BarParameters{
+    display: none;
+}
+
+.PieParameters{
+    display: none;
+}
+
+.CalloutParameters{
+    display: none;
+}
+
+.MatrixParameters a{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: 30px;
+    background: darkgray;
+}
+
+.LineParameters a{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: darkgray;
+}
+
+.BarParameters a{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: darkgray;
+}
+
+.PieParameters a{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: darkgray;
+}
+
+.CalloutParameters a{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: darkgray;
+}
+
+.MatrixParameters a:hover{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: 30px;
+    background: rgb(130, 130, 130);
+}
+
+.LineParameters a:hover{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: rgb(130, 130, 130);
+}
+
+.BarParameters a:hover{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: rgb(130, 130, 130);
+}
+
+.PieParameters a:hover{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: rgb(130, 130, 130);
+}
+
+.CalloutParameters a:hover{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin-left: 90px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 175px;
+    height: auto;
+    background: rgb(130, 130, 130);
+}
+
+.hideSection.hidden,
+.graphList.hidden,
+.graphTypes.hidden,
+.parametersList.hidden,
+.classifierList.hidden,
+.samplingList.hidden {
+    display: none;
 }
