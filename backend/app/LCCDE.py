@@ -65,12 +65,12 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     lg_f1=f1_score(y_test, y_pred, average=None)
 
     # Plot the confusion matrix
-    cm=confusion_matrix(y_test,y_pred)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
+    # cm=confusion_matrix(y_test,y_pred)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # plt.xlabel("y_pred")
+    # plt.ylabel("y_true")
+    # plt.show()
 
     # %%time
     # Train the XGBoost algorithm
@@ -92,12 +92,12 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     xg_f1=f1_score(y_test, y_pred, average=None)
 
     # Plot the confusion matrix
-    cm=confusion_matrix(y_test,y_pred)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
+    # cm=confusion_matrix(y_test,y_pred)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # plt.xlabel("y_pred")
+    # plt.ylabel("y_true")
+    # plt.show()
 
     # %%time
     # Train the CatBoost algorithm
@@ -116,12 +116,12 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     cb_f1=f1_score(y_test, y_pred, average=None)
 
     # Plot the confusion matrix
-    cm=confusion_matrix(y_test,y_pred)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
+    # cm=confusion_matrix(y_test,y_pred)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # plt.xlabel("y_pred")
+    # plt.ylabel("y_true")
+    # plt.show()
 
     # Leading model list for each class
     model=[]

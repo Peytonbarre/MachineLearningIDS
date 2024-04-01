@@ -17,8 +17,13 @@ from imblearn.over_sampling import SMOTE
 from hyperopt import hp, fmin, tpe, STATUS_OK, Trials
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 
+using_stacking = False
+y_test_stacking = []
+y_train_stacking = []
+
 #After selecing features, train and split again
 def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
+    global using_stacking, y_test_stacking, y_train_stacking
     #Reading sample dataset
     df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
 
@@ -30,7 +35,11 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     y=np.ravel(y)
 
     #Splitting test and train into 20 80 split
-    X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = 0.8, test_size = 0.2, random_state = 0,stratify = y)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, test_size = 0.2, random_state = 0, stratify = y)
+
+    if using_stacking:
+        y_test_stacking.append(y_test)
+        y_train_stacking.append(y_train)
 
     #calculating importance scores
     importances = mutual_info_classif(X_train, y_train)
@@ -323,9 +332,14 @@ def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 
     return et_train, et_test
 
 def stacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    global using_stacking, y_test_stacking, y_train_stacking
+    using_stacking = True
+    y_test_stacking = []
+    y_train_stacking = []
+    
     dt_train, dt_test = HPO_BO_TPE_DECISION_TREE(train_size, smote_sampling_strategy)
-    rf_train, rf_test = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
     et_train, et_test = HPO_BO_TPE_EXTRA_TREES(train_size, smote_sampling_strategy)
+    rf_train, rf_test = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
     xg_train, xg_test = HPO_BO_TPE_XGBOOST(train_size, smote_sampling_strategy)
     base_predictions_train = pd.DataFrame( {
     'DecisionTree': dt_train.ravel(),
@@ -344,9 +358,9 @@ def stacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     xg_test=xg_test.reshape(-1, 1)
     x_train = np.concatenate(( dt_train, et_train, rf_train, xg_train), axis=1)
     x_test = np.concatenate(( dt_test, et_test, rf_test, xg_test), axis=1)
-    stk = xgb.XGBClassifier().fit(x_train, y_train)
+    stk = xgb.XGBClassifier().fit(x_train, y_train_stacking)
     y_predict=stk.predict(x_test)
-    y_true=y_test
+    y_true=y_test_stacking
     stk_score=accuracy_score(y_true,y_predict)
     print('Accuracy of Stacking: '+ str(stk_score))
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
@@ -368,8 +382,8 @@ def getXGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     acurracy = xg_score
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
 def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
@@ -410,8 +424,8 @@ def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     y_true=y_test
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
 def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
@@ -450,8 +464,8 @@ def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
     y_true=y_test
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     dt_train=dt_hpo.predict(X_train)
     dt_test=dt_hpo.predict(X_test)
     et = ExtraTreesClassifier(random_state = 0)
@@ -462,8 +476,8 @@ def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
     y_true=y_test
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
 def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
@@ -503,8 +517,8 @@ def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
     y_true=y_test
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     rf_train=rf_hpo.predict(X_train)
     rf_test=rf_hpo.predict(X_test)
     dt = DecisionTreeClassifier(random_state = 0)
@@ -514,8 +528,8 @@ def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
     y_true=y_test
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
 def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
@@ -553,6 +567,6 @@ def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     accuracy = stk_score
     precision,recall,fscore,none= precision_recall_fscore_support(y_true, y_predict, average='weighted') 
     cm=confusion_matrix(y_true,y_predict)
-    f,ax=plt.subplots(figsize=(5,5))
-    sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
+    # f,ax=plt.subplots(figsize=(5,5))
+    # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
