@@ -48,7 +48,7 @@ def suGroup(x, n):
     return 1/float(m-1)*np.sum(SU_matrix, axis = 1)
 
 def isprime(a):
-    return all(a % i for i in xrange(2, a))
+    return all(a % i for i in range(2, a)) # Previously xrange was range
 
 
 """
