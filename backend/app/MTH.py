@@ -48,7 +48,7 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     X_fss = fcbf.fit_transform(X_fs,y)
     X_fss.shape
     
-    X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = train_size, test_size = 1 - train_size, random_state = 0,stratify = y)
+    X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = float(train_size)/100, test_size = (1 - float(train_size)/100), random_state = 0,stratify = y)
     X_train.shape
     pd.Series(y_train).value_counts()
 
@@ -80,9 +80,6 @@ def XGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
 
 def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -127,9 +124,7 @@ def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:10
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
+
 
     rf = RandomForestClassifier(random_state = 0)
     rf.fit(X_train,y_train) 
@@ -145,9 +140,6 @@ def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:10
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
     xg_train=xg.predict(X_train)
     xg_test=xg.predict(X_test)
     return xg_train, xg_test
@@ -199,10 +191,6 @@ def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:100
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
-
     rf_train=rf_hpo.predict(X_train)
     rf_test=rf_hpo.predict(X_test)
 
@@ -220,9 +208,6 @@ def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:100
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
     return rf_train, rf_test
 
 def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
@@ -269,9 +254,6 @@ def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
     dt_train=dt_hpo.predict(X_train)
     dt_test=dt_hpo.predict(X_test)
     et = ExtraTreesClassifier(random_state = 0)
@@ -288,9 +270,6 @@ def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
     return dt_train, dt_test
 
 def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
@@ -339,9 +318,6 @@ def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
     et_train=et_hpo.predict(X_train)
     et_test=et_hpo.predict(X_test)
     return et_train, et_test
@@ -381,9 +357,6 @@ def stacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    plt.xlabel("y_pred")
-    plt.ylabel("y_true")
-    plt.show()
 
 def getXGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -549,9 +522,13 @@ def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     dt_train, dt_test = HPO_BO_TPE_DECISION_TREE(train_size, smote_sampling_strategy)
+    print("Decision Tree Complete")
     rf_train, rf_test = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
+    print("Random Forest Complete")
     et_train, et_test = HPO_BO_TPE_EXTRA_TREES(train_size, smote_sampling_strategy)
+    print("ET Complete")
     xg_train, xg_test = HPO_BO_TPE_XGBOOST(train_size, smote_sampling_strategy)
+    print("XGBoost Complete")
     base_predictions_train = pd.DataFrame( {
     'DecisionTree': dt_train.ravel(),
         'RandomForest': rf_train.ravel(),

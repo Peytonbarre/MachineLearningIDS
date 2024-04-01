@@ -156,6 +156,7 @@
                     </div>
                 </div>
                 <form id="dataForm">
+                    <input type="hidden" name="coord">
                     <input type="hidden" name="classifier">
                     <input type="hidden" name="slideValue">
                     <input type="hidden" name="SMOTEValue">
@@ -191,19 +192,21 @@
         <main class="content" id="container">
             <div class="graphcontent">
                 <div class="upperContent">
-                    <div class="graphContainer" id="content">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                    <div class="rightAdd" onclick=addRight()>
+                    <div class="contentSeperator">
+                        <div class="graphContainer" id="content">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="rightAdd" onclick=addRight()>
+                            <span class="material-symbols-outlined">
+                                add_circle
+                            </span>
+                        </div>
+                    </div>  
+                    <div class="leftAdd" onclick=addBelow()>
                         <span class="material-symbols-outlined">
                             add_circle
                         </span>
                     </div>
-                </div>
-                <div class="leftAdd" onclick=addBelow()>
-                    <span class="material-symbols-outlined">
-                        add_circle
-                    </span>
                 </div>
             </div>
         </main>

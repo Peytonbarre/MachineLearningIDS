@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import MTH
+import MTH, LCCDE
 
 app = Flask(__name__)
 CORS(app)
@@ -8,6 +8,34 @@ CORS(app)
 @app.route('/')
 def home():
     return "Welcome to IDS-ML!"
+
+@app.route('/processParameters', methods=['POST'])
+def processParameters():
+    data = request.json
+    #{"classifier":"LCCDE","slideValue":"59","SMOTEValue":"2:1000","graphType":"Matrix","parameter":"Confusion Matrix"}
+    SMOTE = data.get('SMOTEValue')
+    trainValue = data.get('slideValue')
+    classifier = data.get('classifier')
+    graphType = data.get('graphType')
+    parameter = data.get('parameter')
+    if classifier == 'MTH':
+        data = MTH.getStacking(trainValue, SMOTE)
+        print('================== ')
+        print(data[6])
+
+    elif classifier == 'LCCDE':
+        #LCCDE.applyDefaultHyperparameters()
+        print("LCCDE")
+    elif classifier == 'Tree-Based':
+        print("Tree-Based")
+    response = {
+        "status": "good"
+    }
+
+    if graphType == 'Matrix':
+        data = data[6]
+    
+    return jsonify(data)
 
 @app.route('/MTH_XGBoost', methods=['GET'])
 def MTH_XGBoost():

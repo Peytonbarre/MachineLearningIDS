@@ -160,60 +160,87 @@ function cancelGraph(){
 
 function addRight() {
     displaySidebar();
-    // var graphContainer = document.createElement('div');
-    // graphContainer.classList.add('graphContainer');
-    // var canvas = document.createElement('canvas');
-    // var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-    // canvas.id = uniqueId;
-    // graphContainer.appendChild(canvas);
-    // var rightAdd = document.querySelector('.rightAdd');
-    // var graphContent = document.querySelector('.upperContent');
-    // graphContent.insertBefore(graphContainer, rightAdd);
-    // var ctx = canvas.getContext('2d');
-    // var myChart = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    //         datasets: [{
-    //             label: '# of Votes',
-    //             data: [12, 19, 3, 5, 2, 3],
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 0.2)',
-    //                 'rgba(54, 162, 235, 0.2)',
-    //                 'rgba(255, 206, 86, 0.2)',
-    //                 'rgba(75, 192, 192, 0.2)',
-    //                 'rgba(153, 102, 255, 0.2)',
-    //                 'rgba(255, 159, 64, 0.2)'
-    //             ],
-    //             borderColor: [
-    //                 'rgba(255, 99, 132, 1)',
-    //                 'rgba(54, 162, 235, 1)',
-    //                 'rgba(255, 206, 86, 1)',
-    //                 'rgba(75, 192, 192, 1)',
-    //                 'rgba(153, 102, 255, 1)',
-    //                 'rgba(255, 159, 64, 1)'
-    //             ],
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-    //             y: {
-    //                 beginAtZero: true
-    //             }
-    //         }
-    //     }
-    // });
+    //var graphContainers = document.querySelectorAll('.graphContainer');
+    //graphContainers.forEach(function(container) {
+    //    var graphContent = container.closest('.contentSeperator');
+    //    var rightAdd = container.nextElementSibling;
+    //    
+    //    if (!rightAdd || rightAdd.classList.contains('leftAdd')) {
+    //        var addButton = document.createElement('div');
+    //        addButton.classList.add('rightAdd');
+    //        addButton.onclick = addRight;
+    //        addButton.innerHTML = '<span class="material-symbols-outlined">add_circle</span>';
+    //        graphContent.insertBefore(addButton, container.nextElementSibling);
+    //    }
+    //});
+    //var graphContainer = document.createElement('div');
+    //graphContainer.classList.add('graphContainer');
+    //var canvas = document.createElement('canvas');
+    //var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    //canvas.id = uniqueId;
+    //graphContainer.appendChild(canvas);
+    //var rightAdd = document.querySelector('.rightAdd');
+    //var leftAdd = document.querySelector('.leftAdd');
+    //var graphContent = document.querySelector('.contentSeperator');
+    //graphContent.insertBefore(graphContainer, rightAdd);
+    //var ctx = canvas.getContext('2d');
+    //var myChart = new Chart(ctx, {
+    //    type: 'bar',
+    //    data: {
+    //        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    //        datasets: [{
+    //            label: '# of Votes',
+    //            data: [12, 19, 3, 5, 2, 3],
+    //            backgroundColor: [
+    //                'rgba(255, 99, 132, 0.2)',
+    //                'rgba(54, 162, 235, 0.2)',
+    //                'rgba(255, 206, 86, 0.2)',
+    //                'rgba(75, 192, 192, 0.2)',
+    //                'rgba(153, 102, 255, 0.2)',
+    //                'rgba(255, 159, 64, 0.2)'
+    //            ],
+    //            borderColor: [
+    //                'rgba(255, 99, 132, 1)',
+    //                'rgba(54, 162, 235, 1)',
+    //                'rgba(255, 206, 86, 1)',
+    //                'rgba(75, 192, 192, 1)',
+    //                'rgba(153, 102, 255, 1)',
+    //                'rgba(255, 159, 64, 1)'
+    //            ],
+    //            borderWidth: 1
+    //        }]
+    //    },
+    //    options: {
+    //        scales: {
+    //            y: {
+    //                beginAtZero: true
+    //            }
+    //        }
+    //    }
+    //});
 }
 
 function addBelow() {
-    displaySidebar();
-    // var graph = document.createElement('div');  
-    // graph.classList.add('graphContainer');
-    // graph.textContent = 'Graph below';
-    // var leftAdd = document.querySelector('.leftAdd');
-    // var graphContent = document.querySelector('.graphcontent');
-    // graphContent.insertBefore(graph, leftAdd);
+    //displaySidebar();
+    //var graphContainers = document.querySelectorAll('.graphContainer');
+    //graphContainers.forEach(function(container) {
+    //    var graphContent = container.closest('.graphcontent');
+    //    var leftAdd = container.previousElementSibling;
+//
+    //    if (!leftAdd || leftAdd.classList.contains('rightAdd')) {
+    //        var addButton = document.createElement('div');
+    //        addButton.classList.add('leftAdd');
+    //        addButton.onclick = addBelow;
+    //        addButton.innerHTML = '<span class="material-symbols-outlined">add_circle</span>';
+    //        graphContent.insertBefore(addButton, container);
+    //    }
+    //});
+    //var graph = document.createElement('div');  
+    //graph.classList.add('graphContainer');
+    //graph.textContent = 'Graph below';
+    //var leftAdd = document.querySelector('.leftAdd');
+    //var graphContent = document.querySelector('.graphcontent');
+    //graphContent.insertBefore(graph, leftAdd);
 }
 
 document.querySelector('input')
@@ -702,20 +729,174 @@ document.getElementById('generateDataButton').addEventListener('click', function
         graphType: graphType,
         parameter: parameter
     };
-    console.log(formData);
-    // // Example: Send data to a server using fetch API
-    // fetch('your-server-endpoint', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(formData)
-    // }).then(response => {
-    //     // Handle the response as needed
-    // }).catch(error => {
-    //     // Handle errors
-    // });
+    cancelGraph();
+    fetch('http://localhost:5000/processParameters', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(formData)
+     }).then(response => {
+         console.log(response)
+         addRightHelper(graphType, parameter, response);
+     }).catch(error => {
+         console.error(error)
+     });
 });
 
+function addRightHelper(graphType, parameter, data){
+    var graphContainers = document.querySelectorAll('.graphContainer');
+    graphContainers.forEach(function(container) {
+        var graphContent = container.closest('.contentSeperator');
+        var rightAdd = container.nextElementSibling;
+        
+        if (!rightAdd || rightAdd.classList.contains('leftAdd')) {
+            var addButton = document.createElement('div');
+            addButton.classList.add('rightAdd');
+            addButton.onclick = addRight;
+            addButton.innerHTML = '<span class="material-symbols-outlined">add_circle</span>';
+            graphContent.insertBefore(addButton, container.nextElementSibling);
+        }
+    });
+    var graphContainer = document.createElement('div');
+    graphContainer.classList.add('graphContainer');
+    var canvas = document.createElement('canvas');
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    canvas.id = uniqueId;
+    graphContainer.appendChild(canvas);
+    var rightAdd = document.querySelector('.rightAdd');
+    var graphContent = document.querySelector('.contentSeperator');
+    graphContent.insertBefore(graphContainer, rightAdd);
+    var ctx = canvas.getContext('2d');
+    if(graphType === 'Matrix'){
+        const newHeatMapData = {
+            labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7'],
+            datasets: [{
+                data: data,
+                label: 'Heatmap Data',
+            }],
+        };
+        const container = document.getElementById('content');
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+        ctx.canvas.width = containerWidth;
+        ctx.canvas.height = containerHeight;
+        console.log(newHeatMapData)
+        const newFormatData = convertToNewFormat(newHeatMapData.datasets[0].data);
+        const minValue = Math.min(...newFormatData.map(value => value.v));
+        const maxValue = Math.max(...newFormatData.map(value => value.v));
+        const colorScale = chroma.scale(['#f7fbff', '#04AA6D']).domain([minValue, maxValue]);
+        const backgroundColors = newFormatData.map(value => colorScale(value.v).hex());
+        const newDataset = [{
+            label: 'My Matrix',
+            data: newFormatData,
+            backgroundColor: backgroundColors,
+            borderWidth: 1,
+            width: ({chart}) => (chart.chartArea || {}).width / 7 - 1,
+            height: ({chart}) =>(chart.chartArea || {}).height / 7 - 1,
+        }];
+        currentChart = new Chart(ctx, {
+            type: 'matrix',
+            data: {
+                labels: heatmapData.labels,
+                datasets: newDataset,
+            },
+            options: {
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                    callbacks: {
+                        title() {
+                        return '';
+                        },
+                        label(context) {
+                        const v = context.dataset.data[context.dataIndex];
+                        return ['x: ' + v.x, 'y: ' + v.y, 'v: ' + v.v];
+                        }
+                    }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            stepSize: 1
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        offset: true,
+                    ticks: {
+                        stepSize: 1
+                    },
+                        grid: {
+                        display: false
+                    }
+                    }
+                },
+            }
+        });
+     }
+}
+
+//var graphContainers = document.querySelectorAll('.graphContainer');
+//graphContainers.forEach(function(container) {
+//    var graphContent = container.closest('.contentSeperator');
+//    var rightAdd = container.nextElementSibling;
+//    
+//    if (!rightAdd || rightAdd.classList.contains('leftAdd')) {
+//        var addButton = document.createElement('div');
+//        addButton.classList.add('rightAdd');
+//        addButton.onclick = addRight;
+//        addButton.innerHTML = '<span class="material-symbols-outlined">add_circle</span>';
+//        graphContent.insertBefore(addButton, container.nextElementSibling);
+//    }
+//});
+//var graphContainer = document.createElement('div');
+//graphContainer.classList.add('graphContainer');
+//var canvas = document.createElement('canvas');
+//var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+//canvas.id = uniqueId;
+//graphContainer.appendChild(canvas);
+//var rightAdd = document.querySelector('.rightAdd');
+//var leftAdd = document.querySelector('.leftAdd');
+//var graphContent = document.querySelector('.contentSeperator');
+//graphContent.insertBefore(graphContainer, rightAdd);
+//var ctx = canvas.getContext('2d');
+//var myChart = new Chart(ctx, {
+//    type: 'bar',
+//    data: {
+//        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+//        datasets: [{
+//            label: '# of Votes',
+//            data: [12, 19, 3, 5, 2, 3],
+//            backgroundColor: [
+//                'rgba(255, 99, 132, 0.2)',
+//                'rgba(54, 162, 235, 0.2)',
+//                'rgba(255, 206, 86, 0.2)',
+//                'rgba(75, 192, 192, 0.2)',
+//                'rgba(153, 102, 255, 0.2)',
+//                'rgba(255, 159, 64, 0.2)'
+//            ],
+//            borderColor: [
+//                'rgba(255, 99, 132, 1)',
+//                'rgba(54, 162, 235, 1)',
+//                'rgba(255, 206, 86, 1)',
+//                'rgba(75, 192, 192, 1)',
+//                'rgba(153, 102, 255, 1)',
+//                'rgba(255, 159, 64, 1)'
+//            ],
+//            borderWidth: 1
+//        }]
+//    },
+//    options: {
+//        scales: {
+//            y: {
+//                beginAtZero: true
+//            }
+//        }
+//    }
+//});
 
 showHeatmap();

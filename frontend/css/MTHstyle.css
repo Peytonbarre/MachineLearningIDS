@@ -342,6 +342,7 @@ input[type=text]:focus {
 }
 
 .leftAdd {
+    display: none !important;
     margin-left: 10px;
     display: flex;
     align-items: center;
@@ -369,6 +370,7 @@ input[type=text]:focus {
 
 .upperContent {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .hideSection {
@@ -640,4 +642,9 @@ input[type=text]:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.contentSeperator{
+    display: flex;
+
 }
