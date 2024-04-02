@@ -1,9 +1,14 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from sqlalchemy import create_engine, insert
+from datetime import datetime
+import pandas as pd
 import MTH, LCCDE
 
 app = Flask(__name__)
 CORS(app)
+
+engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
 
 @app.route('/')
 def home():
@@ -18,24 +23,41 @@ def processParameters():
     classifier = data.get('classifier')
     graphType = data.get('graphType')
     parameter = data.get('parameter')
-    if classifier == 'MTH':
-        data = MTH.getStacking(trainValue, SMOTE)
-        print('================== ')
-        print(data[6])
 
-    elif classifier == 'LCCDE':
-        #LCCDE.applyDefaultHyperparameters()
-        print("LCCDE")
-    elif classifier == 'Tree-Based':
-        print("Tree-Based")
+    query = "SELECT * FROM history as h WHERE h.Model like \'" + classifier + "\' AND h.smote like \'" + SMOTE + "\' AND h.trainVal = " + str(trainValue) 
+    result = pd.read_sql(query, engine)
+    if result.size != 0:
+        print("Already found! " + result.iloc[0])
+    else:
+        currentTime = datetime.now()
+        addQuery = "INSERT INTO history (TimeStamps, Model, smote, trainVal) VALUES (\'" + str(currentTime) + "\',\'" + classifier + "\',\'" + SMOTE + "\',\'" + str(trainValue) + "\')"
+        insert()
+        print(addQuery)
+
+    #TODO
+    
+    ##if classifier == 'MTH':
+    ##    data = MTH.getStacking(trainValue, SMOTE)
+    ##    print('================== ')
+    ##    print(data[6])
+    ##
+    ###TODO
+    ##elif classifier == 'LCCDE':
+    ##    #LCCDE.applyDefaultHyperparameters()
+    ##    print("LCCDE")
+    ##
+    ###TODO
+    ##elif classifier == 'Tree-Based':
+    ##    print("Tree-Based")
+    ##
+    ##if graphType == 'Matrix':
+    ##    data = data[6]
+    ##
+
     response = {
         "status": "good"
     }
-
-    if graphType == 'Matrix':
-        data = data[6]
-    
-    return jsonify(data)
+    return jsonify(response)
 
 @app.route('/MTH_XGBoost', methods=['GET'])
 def MTH_XGBoost():

@@ -201,58 +201,72 @@ function addRight() {
         })
         rowIterator += 1;
     })
-    // lastCols = rows[rows.length-1]
-    // console.log(lastCols);
-    // lastCols.childNodes[1].forEach((graphCanvas) => {
-    //     //console.log(graphCanvas.childNodes.slice(1,graphCanvas.childNodes.length-1));
-    //     //console.log(graphCanvas.childNodes);
-    // });
-
-//     var graphContainer = document.createElement('div');
-//     graphContainer.classList.add('graphContainer');
-//     var canvas = document.createElement('canvas');
-//     var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-//     canvas.id = uniqueId;
-//     graphContainer.appendChild(canvas);
-//     var rightAdd = document.querySelector('.rightAdd');
-//     var leftAdd = document.querySelector('.leftAdd');
-//     var graphContent = document.querySelector('.contentSeperator');
-//     graphContent.insertBefore(graphContainer, rightAdd);
-//     var ctx = canvas.getContext('2d');
-//     var myChart = new Chart(ctx, {
-//        type: 'bar',
-//        data: {
-//            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-//            datasets: [{
-//                label: '# of Votes',
-//                data: [12, 19, 3, 5, 2, 3],
-//                backgroundColor: [
-//                    'rgba(255, 99, 132, 0.2)',
-//                    'rgba(54, 162, 235, 0.2)',
-//                    'rgba(255, 206, 86, 0.2)',
-//                    'rgba(75, 192, 192, 0.2)',
-//                    'rgba(153, 102, 255, 0.2)',
-//                    'rgba(255, 159, 64, 0.2)'
-//                ],
-//                borderColor: [
-//                    'rgba(255, 99, 132, 1)',
-//                    'rgba(54, 162, 235, 1)',
-//                    'rgba(255, 206, 86, 1)',
-//                    'rgba(75, 192, 192, 1)',
-//                    'rgba(153, 102, 255, 1)',
-//                    'rgba(255, 159, 64, 1)'
-//                ],
-//                borderWidth: 1
-//            }]
-//        },
-//        options: {
-//            scales: {
-//                y: {
-//                    beginAtZero: true
-//                }
-//            }
-//        }
-//     });
+    var newRow = document.createElement('div');
+    newRow.classList.add('rows');
+    var newCol = document.createElement('div');
+    newCol.classList.add('cols')
+    var newGraphCanvas = document.createElement('div');
+    newGraphCanvas.classList.add('graphCanvas')
+    var newContentSeperator = document.createElement('div');
+    newContentSeperator.classList.add('contentSeperator');
+    var newgraphContainer = document.createElement('div');
+    newgraphContainer.classList.add('graphContainer');
+    var canvas = document.createElement('canvas');
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    canvas.id = uniqueId;
+    newgraphContainer.appendChild(canvas);
+    newContentSeperator.appendChild(newgraphContainer);
+    newGraphCanvas.appendChild(newContentSeperator);
+    newCol.appendChild(newGraphCanvas);
+    newRow.appendChild(newCol);
+    console.log(newRow)
+    /*    
+    var graphContainer = document.createElement('div');
+    graphContainer.classList.add('graphContainer');
+    var canvas = document.createElement('canvas');
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    canvas.id = uniqueId;
+    graphContainer.appendChild(canvas);
+    var rightAdd = document.querySelector('.rightAdd');
+    var leftAdd = document.querySelector('.leftAdd');
+    var graphContent = document.querySelector('.contentSeperator');
+    graphContent.insertBefore(graphContainer, rightAdd);
+    var ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+           datasets: [{
+               label: '# of Votes',
+               data: [12, 19, 3, 5, 2, 3],
+               backgroundColor: [
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(54, 162, 235, 0.2)',
+                   'rgba(255, 206, 86, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(153, 102, 255, 0.2)',
+                   'rgba(255, 159, 64, 0.2)'
+               ],
+               borderColor: [
+                   'rgba(255, 99, 132, 1)',
+                   'rgba(54, 162, 235, 1)',
+                   'rgba(255, 206, 86, 1)',
+                   'rgba(75, 192, 192, 1)',
+                   'rgba(153, 102, 255, 1)',
+                   'rgba(255, 159, 64, 1)'
+               ],
+               borderWidth: 1
+           }]
+       },
+       options: {
+           scales: {
+               y: {
+                   beginAtZero: true
+               }
+           }
+       }
+    });
+    */
 }
 
 function addBelow() {
