@@ -3,13 +3,13 @@ from flask_cors import CORS
 from sqlalchemy import create_engine, insert, text
 from datetime import datetime
 import pandas as pd
-import MTH, LCCDE
+import MTH, LCCDE, TreeBased
 #pip install mysqlclient
 
 app = Flask(__name__)
 CORS(app)
 
-engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data', echo=True)
+engine = create_engine('mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data', echo=True)
 
 @app.route('/')
 def home():
@@ -38,24 +38,32 @@ def processParameters():
             conn.execute(text(addQuery))
             conn.commit()
 
-    #TODO
-    ##if classifier == 'MTH':
-    ##    data = MTH.getStacking(trainValue, SMOTE)
-    ##    print('================== ')
-    ##    print(data[6])
-    ##
-    ###TODO
-    ##elif classifier == 'LCCDE':
-    ##    #LCCDE.applyDefaultHyperparameters()
-    ##    print("LCCDE")
-    ##
-    ###TODO
-    ##elif classifier == 'Tree-Based':
-    ##    print("Tree-Based")
-    ##
-    ##if graphType == 'Matrix':
-    ##    data = data[6]
-    ##
+    #TODO: Add derivation for these parameters in the classifier files
+    #Confusion Matrix       [*]
+    #Average of Event       [ ]
+    #Prevision by Event     [ ]
+    #Recall by Event        [ ]
+    #F1 by Event            [ ]
+    #Support by Event       [ ]
+    #Classifier Composition [ ]
+    #Average Accuracy       [ ]
+    #Average F1 Score       [ ]
+
+    #TODO: Make sure this is working
+    if classifier == 'MTH':
+       data = MTH.getStacking(trainValue, SMOTE)
+    
+    #TODO: Make sure this is working
+    elif classifier == 'LCCDE':
+       data = LCCDE.applyDefaultHyperparameters(trainValue, SMOTE)
+    
+    #TODO: Make sure this is working
+    elif classifier == 'Tree-Based':
+       data = TreeBased.applyDefaultHyperparameters(trainValue, SMOTE)
+    
+    if graphType == 'Matrix':
+       data = data[6]
+    
 
     response = {
         "status": "good"
