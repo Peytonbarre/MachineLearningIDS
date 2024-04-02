@@ -160,64 +160,99 @@ function cancelGraph(){
 
 function addRight() {
     displaySidebar();
-    //var graphContainers = document.querySelectorAll('.graphContainer');
-    //graphContainers.forEach(function(container) {
-    //    var graphContent = container.closest('.contentSeperator');
-    //    var rightAdd = container.nextElementSibling;
-    //    
-    //    if (!rightAdd || rightAdd.classList.contains('leftAdd')) {
-    //        var addButton = document.createElement('div');
-    //        addButton.classList.add('rightAdd');
-    //        addButton.onclick = addRight;
-    //        addButton.innerHTML = '<span class="material-symbols-outlined">add_circle</span>';
-    //        graphContent.insertBefore(addButton, container.nextElementSibling);
-    //    }
-    //});
-    //var graphContainer = document.createElement('div');
-    //graphContainer.classList.add('graphContainer');
-    //var canvas = document.createElement('canvas');
-    //var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-    //canvas.id = uniqueId;
-    //graphContainer.appendChild(canvas);
-    //var rightAdd = document.querySelector('.rightAdd');
-    //var leftAdd = document.querySelector('.leftAdd');
-    //var graphContent = document.querySelector('.contentSeperator');
-    //graphContent.insertBefore(graphContainer, rightAdd);
-    //var ctx = canvas.getContext('2d');
-    //var myChart = new Chart(ctx, {
-    //    type: 'bar',
-    //    data: {
-    //        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    //        datasets: [{
-    //            label: '# of Votes',
-    //            data: [12, 19, 3, 5, 2, 3],
-    //            backgroundColor: [
-    //                'rgba(255, 99, 132, 0.2)',
-    //                'rgba(54, 162, 235, 0.2)',
-    //                'rgba(255, 206, 86, 0.2)',
-    //                'rgba(75, 192, 192, 0.2)',
-    //                'rgba(153, 102, 255, 0.2)',
-    //                'rgba(255, 159, 64, 0.2)'
-    //            ],
-    //            borderColor: [
-    //                'rgba(255, 99, 132, 1)',
-    //                'rgba(54, 162, 235, 1)',
-    //                'rgba(255, 206, 86, 1)',
-    //                'rgba(75, 192, 192, 1)',
-    //                'rgba(153, 102, 255, 1)',
-    //                'rgba(255, 159, 64, 1)'
-    //            ],
-    //            borderWidth: 1
-    //        }]
-    //    },
-    //    options: {
-    //        scales: {
-    //            y: {
-    //                beginAtZero: true
-    //            }
-    //        }
-    //    }
-    //});
+    var graphContainers = document.querySelectorAll('.graphContainer');
+    graphContainers.forEach(function(container) {
+       var graphContent = container.closest('.contentSeperator');
+       var rightAdd = container.nextElementSibling;
+       
+       if (!rightAdd || rightAdd.classList.contains('leftAdd')) {
+           var addButton = document.createElement('div');
+           addButton.classList.add('rightAdd');
+           addButton.onclick = addRight;
+           addButton.innerHTML = '<span class="material-symbols-outlined">add_circle</span>';
+           graphContent.insertBefore(addButton, container.nextElementSibling);
+       }
+    });
+
+    var rows = document.querySelectorAll('.cols');
+    var rowIterator = 0;
+    // console.log(rows[2].childNodes[1])
+    rows.forEach((cols) => {
+        var colIterator = 0;
+        cols.childNodes.forEach((canvas) => {
+            if(canvas.nodeType !== Node.TEXT_NODE){
+                // console.log(canvas);
+                if(typeof rows[rowIterator+1] === 'undefined' || typeof rows[rowIterator+1].childNodes[colIterator*2+1] === 'undefined'){
+                    console.log(+ String(rowIterator) + ' ' + String(colIterator))
+                    console.log(canvas)
+                    canvas.childNodes[3].style.display = 'flex';
+                }else{
+                    canvas.childNodes[3].style.display = 'none';
+                    canvas.style.padding = ""
+                }
+
+                if(typeof rows[rowIterator].childNodes[(colIterator+1)*2+1] === 'undefined'){
+                    canvas.childNodes[1].childNodes[3].style.display = 'flex';
+                }else{
+                    canvas.childNodes[1].childNodes[3].style.display = 'none';
+                }
+                colIterator += 1;
+            }
+        })
+        rowIterator += 1;
+    })
+    // lastCols = rows[rows.length-1]
+    // console.log(lastCols);
+    // lastCols.childNodes[1].forEach((graphCanvas) => {
+    //     //console.log(graphCanvas.childNodes.slice(1,graphCanvas.childNodes.length-1));
+    //     //console.log(graphCanvas.childNodes);
+    // });
+
+//     var graphContainer = document.createElement('div');
+//     graphContainer.classList.add('graphContainer');
+//     var canvas = document.createElement('canvas');
+//     var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+//     canvas.id = uniqueId;
+//     graphContainer.appendChild(canvas);
+//     var rightAdd = document.querySelector('.rightAdd');
+//     var leftAdd = document.querySelector('.leftAdd');
+//     var graphContent = document.querySelector('.contentSeperator');
+//     graphContent.insertBefore(graphContainer, rightAdd);
+//     var ctx = canvas.getContext('2d');
+//     var myChart = new Chart(ctx, {
+//        type: 'bar',
+//        data: {
+//            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+//            datasets: [{
+//                label: '# of Votes',
+//                data: [12, 19, 3, 5, 2, 3],
+//                backgroundColor: [
+//                    'rgba(255, 99, 132, 0.2)',
+//                    'rgba(54, 162, 235, 0.2)',
+//                    'rgba(255, 206, 86, 0.2)',
+//                    'rgba(75, 192, 192, 0.2)',
+//                    'rgba(153, 102, 255, 0.2)',
+//                    'rgba(255, 159, 64, 0.2)'
+//                ],
+//                borderColor: [
+//                    'rgba(255, 99, 132, 1)',
+//                    'rgba(54, 162, 235, 1)',
+//                    'rgba(255, 206, 86, 1)',
+//                    'rgba(75, 192, 192, 1)',
+//                    'rgba(153, 102, 255, 1)',
+//                    'rgba(255, 159, 64, 1)'
+//                ],
+//                borderWidth: 1
+//            }]
+//        },
+//        options: {
+//            scales: {
+//                y: {
+//                    beginAtZero: true
+//                }
+//            }
+//        }
+//     });
 }
 
 function addBelow() {

@@ -342,7 +342,6 @@ input[type=text]:focus {
 }
 
 .leftAdd {
-    display: none !important;
     margin-left: 10px;
     display: flex;
     align-items: center;
@@ -646,5 +645,13 @@ input[type=text]:focus {
 
 .contentSeperator{
     display: flex;
+}
 
+.rows{
+    display: flex;
+    flex-direction: column;
+}
+
+.cols{
+    display: flex;
 }
