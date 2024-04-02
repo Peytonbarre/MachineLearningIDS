@@ -1,14 +1,15 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from sqlalchemy import create_engine, insert
+from sqlalchemy import create_engine, insert, text
 from datetime import datetime
 import pandas as pd
 import MTH, LCCDE
+#pip install mysqlclient
 
 app = Flask(__name__)
 CORS(app)
 
-engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data', echo=True)
 
 @app.route('/')
 def home():
@@ -24,18 +25,20 @@ def processParameters():
     graphType = data.get('graphType')
     parameter = data.get('parameter')
 
+    #NOTE This is a terrible way to add to a database, can cause SQL injections
+    #NOTE but I'm too lazy to do it the right way
     query = "SELECT * FROM history as h WHERE h.Model like \'" + classifier + "\' AND h.smote like \'" + SMOTE + "\' AND h.trainVal = " + str(trainValue) 
     result = pd.read_sql(query, engine)
     if result.size != 0:
-        print("Already found! " + result.iloc[0])
+        print("Already found! " + str(result.iloc[0]))
     else:
         currentTime = datetime.now()
         addQuery = "INSERT INTO history (TimeStamps, Model, smote, trainVal) VALUES (\'" + str(currentTime) + "\',\'" + classifier + "\',\'" + SMOTE + "\',\'" + str(trainValue) + "\')"
-        insert()
-        print(addQuery)
+        with engine.connect() as conn:
+            conn.execute(text(addQuery))
+            conn.commit()
 
     #TODO
-    
     ##if classifier == 'MTH':
     ##    data = MTH.getStacking(trainValue, SMOTE)
     ##    print('================== ')
