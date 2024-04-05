@@ -16,18 +16,22 @@ from FCBF_module import FCBF, FCBFK, FCBFiP, get_i
 from imblearn.over_sampling import SMOTE
 from hyperopt import hp, fmin, tpe, STATUS_OK, Trials
 from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sqlalchemy import create_engine #pip install sqlalchemy
+#pip install mysqlclient
 
 using_stacking = False
 y_test_stacking = []
 y_train_stacking = []
+engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+query = "SELECT * FROM csvdata"
 
 #After selecing features, train and split again
 def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     global using_stacking, y_test_stacking, y_train_stacking
+
     #Reading sample dataset
     df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
-
-    features = df.dtypes[df.dtypes != 'object'].index
+    features = pd.read_sql(query, engine)
 
     #Dropping labels and reshaping
     X = df.drop(['Label'],axis=1).values

@@ -1,9 +1,15 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import MTH, LCCDE
+from sqlalchemy import create_engine, text
+from datetime import datetime
+import pandas as pd
+import MTH, LCCDE, TreeBased
+#pip install mysqlclient
 
 app = Flask(__name__)
 CORS(app)
+
+engine = create_engine('mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data', echo=True)
 
 @app.route('/')
 def home():
@@ -13,29 +19,88 @@ def home():
 def processParameters():
     data = request.json
     #{"classifier":"LCCDE","slideValue":"59","SMOTEValue":"2:1000","graphType":"Matrix","parameter":"Confusion Matrix"}
+    
     SMOTE = data.get('SMOTEValue')
     trainValue = data.get('slideValue')
     classifier = data.get('classifier')
     graphType = data.get('graphType')
     parameter = data.get('parameter')
-    if classifier == 'MTH':
-        data = MTH.getStacking(trainValue, SMOTE)
-        print('================== ')
-        print(data[6])
 
+    #NOTE This is a terrible way to add to a database, can cause SQL injections
+    #NOTE but I'm too lazy to do it the right way
+    #TODO When done with metric derivation, make this SQL statement add ALL metrics for each query (move below)
+    query = "SELECT * FROM history as h WHERE h.Model like \'" + classifier + "\' AND h.smote like \'" + SMOTE + "\' AND h.trainVal = " + str(trainValue) 
+    result = pd.read_sql(query, engine)
+    if result.size != 0:
+        print("Already found! " + str(result.iloc[0]))
+    else:
+        currentTime = datetime.now()
+        addQuery = "INSERT INTO history (TimeStamps, Model, smote, trainVal) VALUES (\'" + str(currentTime) + "\',\'" + classifier + "\',\'" + SMOTE + "\',\'" + str(trainValue) + "\')"
+        with engine.connect() as conn:
+            conn.execute(text(addQuery))
+            conn.commit()
+
+    #TODO: Add derivation for these parameters in the classifier files
+    #Confusion Matrix       [*]
+    #Average of Event       [ ]
+    #Prevision by Event     [ ]
+    #Recall by Event        [ ]
+    #F1 by Event            [ ]
+    #Support by Event       [ ]
+    #Classifier Composition [ ]
+    #Average Accuracy       [ ]
+    #Average F1 Score       [ ]
+
+    #TODO: Make sure this is working
+    if classifier == 'MTH':
+       data = MTH.getStacking(trainValue, SMOTE)
+    #TODO: Make sure this is working
     elif classifier == 'LCCDE':
-        #LCCDE.applyDefaultHyperparameters()
-        print("LCCDE")
+       data = LCCDE.applyDefaultHyperparameters(trainValue, SMOTE)
+    #TODO: Make sure this is working
     elif classifier == 'Tree-Based':
-        print("Tree-Based")
+       data = TreeBased.applyDefaultHyperparameters(trainValue, SMOTE)
+    
+    if graphType == 'Matrix':
+        data = data[6]
+    elif graphType == 'Line':
+        #TODO: Change this to Average of event parameter
+        data = data[6]
+    elif graphType == 'Bar':
+        if parameter == 'Precision by Event':
+            #TODO: Change to Precision by Event parameter
+            data = data[6]
+        elif parameter == 'Recall by Event':
+            #TODO: Change to Recall by Event parameter
+            data = data[6]
+        elif parameter == 'F1 by Event':
+            #TODO: Change to F1 by Event parameter
+            data = data[6]
+        elif parameter == 'Support by Event':
+            #TODO: Change to Support by Event parameter
+            data = data[6]
+    elif graphType == 'Pie':
+        #TODO: Change to classifier composition
+        data = data[6]
+    elif graphType == 'Callout':
+        if parameter == 'Avg Accuracy':
+            #TODO
+            data = data[0]
+        elif parameter == 'Avg Precision':
+            #TODO
+            data = data[0]
+        elif parameter == 'Avg Recall':
+            #TODO
+            data = data[0]
+        elif parameter == 'Avg F1':
+            #TODO
+            data = data[0]
+
     response = {
         "status": "good"
     }
 
-    if graphType == 'Matrix':
-        data = data[6]
-    
-    return jsonify(data)
+    return jsonify(response)
 
 @app.route('/MTH_XGBoost', methods=['GET'])
 def MTH_XGBoost():
