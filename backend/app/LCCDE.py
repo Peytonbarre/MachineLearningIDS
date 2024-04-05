@@ -49,8 +49,11 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     X_train, y_train = smote.fit_resample(X_train, y_train)
 
     pd.Series(y_train).value_counts()
+    return X_train, X_test, y_train, y_test
 
-    # %%time
+def LCCDE_LIGHTGBM(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+    # \%\%time
     # Train the LightGBM algorithm
     import lightgbm as lgb
     lg = lgb.LGBMClassifier()
@@ -71,8 +74,11 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
+    return lg, lg_f1
 
-    # %%time
+def LCCDE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+    # \%\%time
     # Train the XGBoost algorithm
     import xgboost as xgb
     xg = xgb.XGBClassifier()
@@ -98,8 +104,11 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
+    return xg, xg_f1
 
-    # %%time
+def LCCDE_CATBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+    # \%\%time
     # Train the CatBoost algorithm
     import catboost as cbt
     cb = cbt.CatBoostClassifier(verbose=0,boosting_type='Plain')
@@ -122,7 +131,12 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
+    return cb, cb_f1
 
+def LCCDE_STACKING(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+    lg, lg_f1 = LCCDE_LIGHTGBM(train_size, smote_sampling_strategy)
+    xg, xg_f1 = LCCDE_XGBOOST(train_size, smote_sampling_strategy)
+    cb, cb_f1 = LCCDE_CATBOOST(train_size, smote_sampling_strategy)
     # Leading model list for each class
     model=[]
     for i in range(len(lg_f1)):
@@ -211,8 +225,9 @@ def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1
             yp.append(y_pred) # Save the predicted classes for all tested samples
         return yt, yp
 
-    # %%time
+    # \%\%time
     # Implementing LCCDE
+    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     yt, yp = LCCDE(X_test, y_test, m1 = lg, m2 = xg, m3 = cb)
 
     # The performance of the proposed lCCDE model
