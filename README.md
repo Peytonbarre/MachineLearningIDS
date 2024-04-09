@@ -10,7 +10,7 @@ The focus of this project, led by Dr. Nhut Nguyen, is to develop an IDS using th
 
 [Caleb Ernst](https://github.com/CalebErnst01)
 
-[Kantha Kathiravan](https://github.com)
+[Kantha Kathiravan](https://github.com/SaberSiblings)
 
 
 ## License

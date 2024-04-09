@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from sqlalchemy import create_engine, text
@@ -8,8 +9,8 @@ import MTH, LCCDE, TreeBased
 
 app = Flask(__name__)
 CORS(app)
-
-engine = create_engine('mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data', echo=True)
+DATABASE_URL = os.getenv('DATABASE_URL','mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+engine = create_engine('DATABASE_URL', echo=True)
 
 @app.route('/')
 def home():
@@ -26,18 +27,20 @@ def processParameters():
     graphType = data.get('graphType')
     parameter = data.get('parameter')
 
-    #NOTE This is a terrible way to add to a database, can cause SQL injections
-    #NOTE but I'm too lazy to do it the right way
+    
+  
     #TODO When done with metric derivation, make this SQL statement add ALL metrics for each query (move below)
-    query = "SELECT * FROM history as h WHERE h.Model like \'" + classifier + "\' AND h.smote like \'" + SMOTE + "\' AND h.trainVal = " + str(trainValue) 
-    result = pd.read_sql(query, engine)
-    if result.size != 0:
+    # Use parameterized query to prevent SQL injection
+    query = text("SELECT * FROM history WHERE Model = :classifier AND smote = :SMOTE AND trainVal = :trainValue")
+    result = pd.read_sql(query, engine, params={"classifier": classifier, "SMOTE": SMOTE, "trainValue": trainValue}) 
+
+    if not result.empty:
         print("Already found! " + str(result.iloc[0]))
     else:
         currentTime = datetime.now()
-        addQuery = "INSERT INTO history (TimeStamps, Model, smote, trainVal) VALUES (\'" + str(currentTime) + "\',\'" + classifier + "\',\'" + SMOTE + "\',\'" + str(trainValue) + "\')"
+        addQuery = text("INSERT INTO history (TimeStamps, Model, smote, trainVal) VALUES (:currentTime, :classifier, :SMOTE, :trainValue)")
         with engine.connect() as conn:
-            conn.execute(text(addQuery))
+            conn.execute(addQuery, {"currentTime": currentTime, "classifier": classifier, "SMOTE": SMOTE, "trainValue": trainValue})
             conn.commit()
 
     #TODO: Add derivation for these parameters in the classifier files
