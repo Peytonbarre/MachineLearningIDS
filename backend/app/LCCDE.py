@@ -15,19 +15,26 @@ import xgboost as xgb # pip install xgboost
 from river import stream # pip install river
 from statistics import mode # pip install statistics
 from imblearn.over_sampling import SMOTE # pip install imblearn
+from sqlalchemy import create_engine #pip install sqlalchemy
+#pip install mysqlclient
 
 # Note: for each modifiable variable, probably just set them as a function argument for the entire ML algorithm
 # Count of modifiable variables: 3
 # Beginning of parameters and hyperparameters (Allow end user to modify directly through HTML frontend)
+
+engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+query = "SELECT * FROM csvdata"
+
 def applyDefaultHyperparameters(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
-    csv_paths = ["./backend/app/data/CICIDS2017_sample_km.csv"]
-    csv_selected = list(np.zeros(len(csv_paths)))
+    # csv_paths = ["./backend/app/data/CICIDS2017_sample_km.csv"]
+    # csv_selected = list(np.zeros(len(csv_paths)))
 
     # Using main csv file
-    csv_selected[0] = 1
+    # csv_selected[0] = 1
 
     # Select data file that user decided on
-    df = pd.read_csv(csv_paths[csv_selected.index(1)])
+    # df = pd.read_csv(csv_paths[csv_selected.index(1)])
+    df = pd.read_sql(query, engine)
     df.Label.value_counts()
 
     X = df.drop(['Label'],axis=1)

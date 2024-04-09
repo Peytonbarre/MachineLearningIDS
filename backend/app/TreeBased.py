@@ -14,6 +14,8 @@ from sklearn.tree import DecisionTreeClassifier
 import xgboost as xgb
 from xgboost import plot_importance
 from imblearn.over_sampling import SMOTE
+from sqlalchemy import create_engine #pip install sqlalchemy
+#pip install mysqlclient
 
 using_stacking = False
 y_test_stacking = []
@@ -22,21 +24,25 @@ y_train_stacking = []
 modified_datafile = False
 df = []
 
+engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+query = "SELECT * FROM csvdata"
+
 #After selecing features, train and split again
 def dataframeSetup():
     global modified_datafile
 
     if not modified_datafile:
         #Read dataset
-        csv_paths = ["./backend/app/data/CICIDS2017_sample_km.csv"]
-        csv_selected = list(np.zeros(len(csv_paths)))
+        # csv_paths = ["./backend/app/data/CICIDS2017_sample_km.csv"]
+        # csv_selected = list(np.zeros(len(csv_paths)))
 
         # Using main csv file
-        csv_selected[0] = 1
+        # csv_selected[0] = 1
 
         # Select data file that user decided on
-        df = pd.read_csv(csv_paths[csv_selected.index(1)])
-
+        # df = pd.read_csv(csv_paths[csv_selected.index(1)])
+        df = pd.read_sql(query, engine)
+        
         # Randomly sample instances from majority classes
         df_minor = df[(df['Label']=='WebAttack')|(df['Label']=='Bot')|(df['Label']=='Infiltration')]
         df_BENIGN = df[(df['Label']=='BENIGN')]

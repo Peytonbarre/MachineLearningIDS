@@ -30,8 +30,8 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     global using_stacking, y_test_stacking, y_train_stacking
 
     #Reading sample dataset
-    df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
-    features = pd.read_sql(query, engine)
+    #df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
+    df = pd.read_sql(query, engine)
 
     #Dropping labels and reshaping
     X = df.drop(['Label'],axis=1).values

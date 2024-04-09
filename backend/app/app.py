@@ -51,6 +51,8 @@ def processParameters():
     #Average Accuracy       [ ]
     #Average F1 Score       [ ]
 
+    #Data so far: acurracy, precision, recall, fscore, y_true, y_predict, cm
+
     #TODO: Make sure this is working
     if classifier == 'MTH':
        data = MTH.getStacking(trainValue, SMOTE)
@@ -102,75 +104,79 @@ def processParameters():
 
     return jsonify(response)
 
-@app.route('/MTH_XGBoost', methods=['GET'])
-def MTH_XGBoost():
-    acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getXGBoost()
-    data = {
-        "accuracy": acurracy,
-        "precision": precision,
-        "recall": recall,
-        "fscore": fscore,
-        "y_true": y_true,
-        "y_predict": y_predict,
-        "cm": cm
-    }
-    return jsonify(data)
+##
+## Code below is depricated, we probably won't use this but leaving it here just in case
+##
 
-@app.route('/MTH_ET', methods=['GET'])
-def MTH_ET():
-    acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getExtraTrees()
-    data = {
-        "accuracy": acurracy,
-        "precision": precision,
-        "recall": recall,
-        "fscore": fscore,
-        "y_true": y_true,
-        "y_predict": y_predict,
-        "cm": cm
-    }
-    return jsonify(data)
+# @app.route('/MTH_XGBoost', methods=['GET'])
+# def MTH_XGBoost():
+#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getXGBoost()
+#     data = {
+#         "accuracy": acurracy,
+#         "precision": precision,
+#         "recall": recall,
+#         "fscore": fscore,
+#         "y_true": y_true,
+#         "y_predict": y_predict,
+#         "cm": cm
+#     }
+#     return jsonify(data)
 
-@app.route('/MTH_DT', methods=['GET'])
-def MTH_DT():
-    acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getDecisionTree()
-    data = {
-        "accuracy": acurracy,
-        "precision": precision,
-        "recall": recall,
-        "fscore": fscore,
-        "y_true": y_true,
-        "y_predict": y_predict,
-        "cm": cm
-    }
-    return jsonify(data)
+# @app.route('/MTH_ET', methods=['GET'])
+# def MTH_ET():
+#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getExtraTrees()
+#     data = {
+#         "accuracy": acurracy,
+#         "precision": precision,
+#         "recall": recall,
+#         "fscore": fscore,
+#         "y_true": y_true,
+#         "y_predict": y_predict,
+#         "cm": cm
+#     }
+#     return jsonify(data)
 
-@app.route('/MTH_RF', methods=['GET'])
-def MTH_RF():
-    acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getRandomForest()
-    data = {
-        "accuracy": acurracy,
-        "precision": precision,
-        "recall": recall,
-        "fscore": fscore,
-        "y_true": y_true,
-        "y_predict": y_predict,
-        "cm": cm
-    }
-    return jsonify(data)
+# @app.route('/MTH_DT', methods=['GET'])
+# def MTH_DT():
+#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getDecisionTree()
+#     data = {
+#         "accuracy": acurracy,
+#         "precision": precision,
+#         "recall": recall,
+#         "fscore": fscore,
+#         "y_true": y_true,
+#         "y_predict": y_predict,
+#         "cm": cm
+#     }
+#     return jsonify(data)
 
-@app.route('/MTH_STACK', methods=['GET'])
-def MTH_STACK():
-    acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getStacking()
-    data = {
-        "accuracy": acurracy,
-        "precision": precision,
-        "recall": recall,
-        "fscore": fscore,
-        "y_true": y_true,
-        "y_predict": y_predict,
-        "cm": cm
-    }
-    return jsonify(data)
+# @app.route('/MTH_RF', methods=['GET'])
+# def MTH_RF():
+#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getRandomForest()
+#     data = {
+#         "accuracy": acurracy,
+#         "precision": precision,
+#         "recall": recall,
+#         "fscore": fscore,
+#         "y_true": y_true,
+#         "y_predict": y_predict,
+#         "cm": cm
+#     }
+#     return jsonify(data)
+
+# @app.route('/MTH_STACK', methods=['GET'])
+# def MTH_STACK():
+#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getStacking()
+#     data = {
+#         "accuracy": acurracy,
+#         "precision": precision,
+#         "recall": recall,
+#         "fscore": fscore,
+#         "y_true": y_true,
+#         "y_predict": y_predict,
+#         "cm": cm
+#     }
+#     return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)
