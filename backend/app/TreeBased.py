@@ -117,7 +117,7 @@ def GET_TB_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "4:1500"):
 
     dt_train=dt.predict(X_train)
     dt_test=dt.predict(X_test)
-    return dt_train, dt_test
+    return dt_train, dt_test, dt_score, precision, recall, fscore
 
 def GET_TB_RANDOM_FOREST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -142,7 +142,7 @@ def GET_TB_RANDOM_FOREST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
 
     rf_train=rf.predict(X_train)
     rf_test=rf.predict(X_test)
-    return rf_train, rf_test
+    return rf_train, rf_test, rf_score, precision, recall, fscore
 
 def GET_TB_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -167,7 +167,7 @@ def GET_TB_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "4:1500"):
 
     et_train=et.predict(X_train)
     et_test=et.predict(X_test)
-    return et_train, et_test
+    return et_train, et_test, et_score, precision, recall, fscore
 
 def GET_TB_XGBOOST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -192,7 +192,7 @@ def GET_TB_XGBOOST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
 
     xg_train=xg.predict(X_train)
     xg_test=xg.predict(X_test)
-    return xg_train, xg_test
+    return xg_train, xg_test, xg_score, precision, recall, fscore
 
 def GET_TB_STACKING(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     global using_stacking, y_test_stacking, y_train_stacking
@@ -200,10 +200,10 @@ def GET_TB_STACKING(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     y_test_stacking = []
     y_train_stacking = []
     
-    dt_train, dt_test = GET_TB_DECISION_TREE(train_size, smote_sampling_strategy)
-    et_train, et_test = GET_TB_EXTRA_TREES(train_size, smote_sampling_strategy)
-    rf_train, rf_test = GET_TB_RANDOM_FOREST(train_size, smote_sampling_strategy)
-    xg_train, xg_test = GET_TB_XGBOOST(train_size, smote_sampling_strategy)
+    dt_train, dt_test, _, _, _, _ = GET_TB_DECISION_TREE(train_size, smote_sampling_strategy)
+    et_train, et_test, _, _, _, _ = GET_TB_EXTRA_TREES(train_size, smote_sampling_strategy)
+    rf_train, rf_test, _, _, _, _ = GET_TB_RANDOM_FOREST(train_size, smote_sampling_strategy)
+    xg_train, xg_test, _, _, _, _ = GET_TB_XGBOOST(train_size, smote_sampling_strategy)
     # Use the outputs of 4 base models to construct a new ensemble model
     base_predictions_train = pd.DataFrame( {
         'DecisionTree': dt_train.ravel(),
@@ -242,6 +242,9 @@ def GET_TB_STACKING(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
+
+    # TO-DO: Review finalized MTH model for return values
+    # return 
 
 def FEATURE_SELECTION(train_size = 0.8, smote_sampling_strategy = "4:1500"): # Note: NOT A MODEL ALGORITHM
     global df

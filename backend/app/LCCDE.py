@@ -67,12 +67,16 @@ def LCCDE_LIGHTGBM(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
     lg.fit(X_train, y_train)
     y_pred = lg.predict(X_test)
     print(classification_report(y_test,y_pred))
-    print("Accuracy of LightGBM: "+ str(accuracy_score(y_test, y_pred)))
-    print("Precision of LightGBM: "+ str(precision_score(y_test, y_pred, average='weighted')))
-    print("Recall of LightGBM: "+ str(recall_score(y_test, y_pred, average='weighted')))
-    print("Average F1 of LightGBM: "+ str(f1_score(y_test, y_pred, average='weighted')))
-    print("F1 of LightGBM for each type of attack: "+ str(f1_score(y_test, y_pred, average=None)))
-    lg_f1=f1_score(y_test, y_pred, average=None)
+    lg_accuracy = accuracy_score(y_test, y_pred)
+    lg_precision = precision_score(y_test, y_pred, average='weighted')
+    lg_recall = recall_score(y_test, y_pred, average='weighted')
+    lg_f1score = f1_score(y_test, y_pred, average='weighted')
+    lg_f1each = f1_score(y_test, y_pred, average=None)
+    print("Accuracy of LightGBM: "+ str(lg_accuracy))
+    print("Precision of LightGBM: "+ str(lg_precision))
+    print("Recall of LightGBM: "+ str(lg_recall))
+    print("Average F1 of LightGBM: "+ str(lg_f1score))
+    print("F1 of LightGBM for each type of attack: "+ str(lg_f1each))
 
     # Plot the confusion matrix
     # cm=confusion_matrix(y_test,y_pred)
@@ -81,7 +85,7 @@ def LCCDE_LIGHTGBM(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
-    return lg, lg_f1
+    return lg, lg_f1each, lg_accuracy, lg_precision, lg_recall, lg_f1score
 
 def LCCDE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -97,12 +101,16 @@ def LCCDE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
 
     y_pred = xg.predict(X_test_x)
     print(classification_report(y_test,y_pred))
+    xg_accuracy = accuracy_score(y_test, y_pred)
+    xg_precision = precision_score(y_test, y_pred, average='weighted')
+    xg_recall = recall_score(y_test, y_pred, average='weighted')
+    xg_f1score = f1_score(y_test, y_pred, average='weighted')
+    xg_f1each = f1_score(y_test, y_pred, average=None)
     print("Accuracy of XGBoost: "+ str(accuracy_score(y_test, y_pred)))
     print("Precision of XGBoost: "+ str(precision_score(y_test, y_pred, average='weighted')))
     print("Recall of XGBoost: "+ str(recall_score(y_test, y_pred, average='weighted')))
     print("Average F1 of XGBoost: "+ str(f1_score(y_test, y_pred, average='weighted')))
     print("F1 of XGBoost for each type of attack: "+ str(f1_score(y_test, y_pred, average=None)))
-    xg_f1=f1_score(y_test, y_pred, average=None)
 
     # Plot the confusion matrix
     # cm=confusion_matrix(y_test,y_pred)
@@ -111,7 +119,7 @@ def LCCDE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
-    return xg, xg_f1
+    return xg, xg_f1each, xg_accuracy, xg_precision, xg_recall, xg_f1score
 
 def LCCDE_CATBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -124,12 +132,16 @@ def LCCDE_CATBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
     cb.fit(X_train, y_train)
     y_pred = cb.predict(X_test)
     print(classification_report(y_test,y_pred))
+    cb_accuracy = accuracy_score(y_test, y_pred)
+    cb_precision = precision_score(y_test, y_pred, average='weighted')
+    cb_recall = recall_score(y_test, y_pred, average='weighted')
+    cb_f1score = f1_score(y_test, y_pred, average='weighted')
+    cb_f1each = f1_score(y_test, y_pred, average=None)
     print("Accuracy of CatBoost: "+ str(accuracy_score(y_test, y_pred)))
     print("Precision of CatBoost: "+ str(precision_score(y_test, y_pred, average='weighted')))
     print("Recall of CatBoost: "+ str(recall_score(y_test, y_pred, average='weighted')))
     print("Average F1 of CatBoost: "+ str(f1_score(y_test, y_pred, average='weighted')))
     print("F1 of CatBoost for each type of attack: "+ str(f1_score(y_test, y_pred, average=None)))
-    cb_f1=f1_score(y_test, y_pred, average=None)
 
     # Plot the confusion matrix
     # cm=confusion_matrix(y_test,y_pred)
@@ -138,12 +150,12 @@ def LCCDE_CATBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
-    return cb, cb_f1
+    return cb, cb_f1each, cb_accuracy, cb_precision, cb_recall, cb_f1score
 
 def LCCDE_STACKING(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
-    lg, lg_f1 = LCCDE_LIGHTGBM(train_size, smote_sampling_strategy)
-    xg, xg_f1 = LCCDE_XGBOOST(train_size, smote_sampling_strategy)
-    cb, cb_f1 = LCCDE_CATBOOST(train_size, smote_sampling_strategy)
+    lg, lg_f1, _, _, _, _ = LCCDE_LIGHTGBM(train_size, smote_sampling_strategy)
+    xg, xg_f1, _, _, _, _ = LCCDE_XGBOOST(train_size, smote_sampling_strategy)
+    cb, cb_f1, _, _, _, _ = LCCDE_CATBOOST(train_size, smote_sampling_strategy)
     # Leading model list for each class
     model=[]
     for i in range(len(lg_f1)):
@@ -234,17 +246,25 @@ def LCCDE_STACKING(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
 
     # \%\%time
     # Implementing LCCDE
-    X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
+    _, X_test, _, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     yt, yp = LCCDE(X_test, y_test, m1 = lg, m2 = xg, m3 = cb)
 
     # The performance of the proposed lCCDE model
-    print("Accuracy of LCCDE: "+ str(accuracy_score(yt, yp)))
-    print("Precision of LCCDE: "+ str(precision_score(yt, yp, average='weighted')))
-    print("Recall of LCCDE: "+ str(recall_score(yt, yp, average='weighted')))
-    print("Average F1 of LCCDE: "+ str(f1_score(yt, yp, average='weighted')))
-    print("F1 of LCCDE for each type of attack: "+ str(f1_score(yt, yp, average=None)))
+    stk_accuracy = accuracy_score(yt, yp)
+    stk_precision = precision_score(yt, yp, average='weighted')
+    stk_recall = recall_score(yt, yp, average='weighted')
+    stk_f1score = f1_score(yt, yp, average='weighted')
+    stk_f1each = f1_score(yt, yp, average=None)
+    print("Accuracy of LCCDE: "+ str(stk_accuracy))
+    print("Precision of LCCDE: "+ str(stk_precision))
+    print("Recall of LCCDE: "+ str(stk_recall))
+    print("Average F1 of LCCDE: "+ str(stk_f1score))
+    print("F1 of LCCDE for each type of attack: "+ str(stk_f1each))
 
     # Comparison: The F1-scores for each base model
     print("F1 of LightGBM for each type of attack: "+ str(lg_f1))
     print("F1 of XGBoost for each type of attack: "+ str(xg_f1))
     print("F1 of CatBoost for each type of attack: "+ str(cb_f1))
+
+    # TO-DO: Review finalized MTH model for return values
+    # return 
