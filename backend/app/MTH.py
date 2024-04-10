@@ -30,8 +30,9 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     global using_stacking, y_test_stacking, y_train_stacking
 
     #Reading sample dataset
-    #df=pd.read_csv('./backend/app/data/CICIDS2017_sample_km.csv')
+    #df=pd.read_csv('./MachineLearningIDS/backend/app/data/CICIDS2017_sample_km.csv')
     df = pd.read_sql(query, engine)
+
 
     #Dropping labels and reshaping
     X = df.drop(['Label'],axis=1).values
@@ -41,28 +42,39 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     #Splitting test and train into 20 80 split
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, test_size = 0.2, random_state = 0, stratify = y)
 
+    #?
     if using_stacking:
         y_test_stacking.append(y_test)
         y_train_stacking.append(y_train)
 
     #calculating importance scores
     importances = mutual_info_classif(X_train, y_train)
-    f_list = sorted(zip(map(lambda x: round(x, 4), importances), features), reverse=True)
+    f_list = sorted(zip(map(lambda x: round(x, 4), importances), df), reverse=True)
     Sum = 0
     fs = []
     for i in range(0, len(f_list)):
         Sum = Sum + f_list[i][0]
         fs.append(f_list[i][1])
+
+    f_list2 = sorted(zip(map(lambda x: round(x, 4), importances/Sum), df), reverse=True)
+    Sum2 = 0
+    fs = []
+    for i in range(0, len(f_list2)):
+        Sum2 = Sum2 + f_list2[i][0]
+        fs.append(f_list2[i][1])
+        if Sum2>=0.9:
+            break     
+
     X_fs = df[fs].values
-    X_fs.shape
 
     #selecting features using the FCBF algorithm
     fcbf = FCBFK(k = 20)
     X_fss = fcbf.fit_transform(X_fs,y)
-    X_fss.shape
-    
-    X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = float(train_size)/100, test_size = (1 - float(train_size)/100), random_state = 0,stratify = y)
-    X_train.shape
+
+      
+    trainSizePlaceholder = float(train_size)
+    testSizePlaceholder = round((1 - trainSizePlaceholder), 1)
+    X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = trainSizePlaceholder, test_size = testSizePlaceholder, random_state = 0,stratify = y)
     pd.Series(y_train).value_counts()
 
     pairs = smote_sampling_strategy.split(",")
@@ -70,9 +82,10 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     
     for pair in pairs:
         key, value = pair.split(":")
+        #this doesn't work!!
         sampling_dict[int(key)] = int(value)
 
-    smote=SMOTE(n_jobs=-1,sampling_strategy=sampling_dict)
+    smote=SMOTE(n_jobs=-1,sampling_strategy={2:1000,4:1000})
     X_train, y_train = smote.fit_resample(X_train, y_train)
     pd.Series(y_train).value_counts()
     return X_train, X_test, y_train, y_test
@@ -155,7 +168,7 @@ def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:10
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     xg_train=xg.predict(X_train)
     xg_test=xg.predict(X_test)
-    return xg_train, xg_test
+    return xg_train, xg_test, xg_score, precision, recall, fscore
 
 def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -221,7 +234,7 @@ def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:100
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    return rf_train, rf_test
+    return rf_train, rf_test, rf_score, precision, recall, fscore
 
 def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -283,7 +296,7 @@ def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000
     cm=confusion_matrix(y_true,y_predict)
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    return dt_train, dt_test
+    return dt_train, dt_test, dt_score, precision, recall, fscore
 
 def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
@@ -333,7 +346,7 @@ def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     et_train=et_hpo.predict(X_train)
     et_test=et_hpo.predict(X_test)
-    return et_train, et_test
+    return et_train, et_test, et_score, precision, recall, fscore
 
 def stacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     global using_stacking, y_test_stacking, y_train_stacking
@@ -536,16 +549,16 @@ def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
     # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000,4:1000"):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
-    dt_train, dt_test = HPO_BO_TPE_DECISION_TREE(train_size, smote_sampling_strategy)
+    dt_train, dt_test, dt_score, dt_precision, dt_recall, dt_fscore = HPO_BO_TPE_DECISION_TREE(train_size, smote_sampling_strategy)
     print("Decision Tree Complete")
-    rf_train, rf_test = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
+    rf_train, rf_test, rf_score, rf_precision, rf_recall, rf_fscore = HPO_BO_TPE_FOREST(train_size, smote_sampling_strategy)
     print("Random Forest Complete")
-    et_train, et_test = HPO_BO_TPE_EXTRA_TREES(train_size, smote_sampling_strategy)
+    et_train, et_test, et_score, et_precision, et_recall, et_fscore = HPO_BO_TPE_EXTRA_TREES(train_size, smote_sampling_strategy)
     print("ET Complete")
-    xg_train, xg_test = HPO_BO_TPE_XGBOOST(train_size, smote_sampling_strategy)
+    xg_train, xg_test, xg_score, xg_precision, xg_recall, xg_fscore = HPO_BO_TPE_XGBOOST(train_size, smote_sampling_strategy)
     print("XGBoost Complete")
     base_predictions_train = pd.DataFrame( {
     'DecisionTree': dt_train.ravel(),
@@ -573,4 +586,28 @@ def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     cm=confusion_matrix(y_true,y_predict)
     # f,ax=plt.subplots(figsize=(5,5))
     # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
-    return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
+
+    #Line graph
+    AvgofEvent = [
+        #dt
+        [dt_score, dt_precision, dt_recall, dt_fscore],
+        #rf
+        [rf_score, rf_precision, rf_recall, rf_fscore],
+        #et
+        [et_score, et_precision, et_recall, et_fscore],
+        #xg
+        [xg_score, xg_precision, xg_recall, xg_fscore],
+        #stk
+        [stk_score, precision, recall, fscore],
+    ]
+
+    #Bar Graph
+    precisionScores = [dt_precision, rf_precision, et_precision, xg_precision, precision]
+    f1Scores = [dt_fscore, rf_fscore, et_fscore, xg_fscore, fscore]
+    recallScores = [dt_recall, rf_recall, et_recall, xg_recall, recall]
+    accuracyScores = [dt_score, rf_score, et_score, xg_score, stk_score]
+
+    #Pie Chart
+    
+
+    return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), cm.tolist(), AvgofEvent, precisionScores, f1Scores, recallScores, accuracyScores)
