@@ -103,9 +103,27 @@ def processParameters():
 
     return jsonify(response)
 
+<<<<<<< Updated upstream
 ##
 ## Code below is depricated, we probably won't use this but leaving it here just in case
 ##
+=======
+
+
+@app.route('/MTH_XGBoost', methods=['GET'])
+def MTH_XGBoost():
+    acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getXGBoost()
+    data = {
+        "accuracy": acurracy,
+        "precision": precision,
+        "recall": recall,
+        "fscore": fscore,
+        "y_true": y_true,
+        "y_predict": y_predict,
+        "cm": cm
+    }
+    return jsonify(data)
+>>>>>>> Stashed changes
 
 # @app.route('/MTH_XGBoost', methods=['GET'])
 # def MTH_XGBoost():
