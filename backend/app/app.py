@@ -39,11 +39,7 @@ def processParameters():
 
     if not result.empty:
         print("Already found! " + str(result.iloc[0]))
-        #TODO
-        data
     else:
-        #Data so far: acurracy, precision, recall, fscore, y_true, y_predict, cm
-        #TODO: Make sure this is working
         if classifier == 'MTH':
             data = MTH.getStacking(trainValue, SMOTE)
         #TODO: Make sure this is working
@@ -52,6 +48,12 @@ def processParameters():
         #TODO: Make sure this is working
         elif classifier == 'Tree-Based':
             data = TreeBased.applyDefaultHyperparameters(trainValue, SMOTE)
+
+        currentTime = datetime.now()
+        addQuery = text("INSERT INTO history (TimeStamps, Model, Accuracy, Precisions, Recall, F1_Score, CM, smote, trainVal, Avg_of_event, PrecisionScores, f1Scores, recallScores, accuracyScores) VALUES (:currentTime, :classifier, :Accuracy, :Precisions, :Recall, :F1_Score, :CM, :SMOTE, :trainValue, :Avg_of_event, :PrecisionScores, :f1Scores, :recallScores, :accuracyScores)")
+        with engine.connect() as conn:
+            conn.execute(addQuery, {"currentTime": currentTime, "classifier": classifier, "Accuracy": data[0], "Precisions": data[1], "Recall": data[2], "F1_Score": data[3], "CM": data[4], "SMOTE": SMOTE, "trainValue": trainValue, "Avg_of_event": data[5], "PrecisionScores": data[6], "f1Scores": data[7] , "recallScores": data[8], "accuracyScores": data[9]})
+            conn.commit()
     
     #TODO: Add derivation for these parameters in the classifier files
     #Confusion Matrix       [*]
@@ -65,18 +67,18 @@ def processParameters():
     #Average F1 Score       [ ]
 
     if graphType == 'Matrix':
-        data = data[6]
+        data = data[4]
     elif graphType == 'Line':
-        data = data[7]
+        data = data[5]
     elif graphType == 'Bar':
         if parameter == 'Precision by Event':
-            data = data[8]
+            data = data[6]
         elif parameter == 'Recall by Event':
-            data = data[10]
+            data = data[8]
         elif parameter == 'F1 by Event':
-            data = data[9]
+            data = data[7]
         elif parameter == 'Accuracy by Event':
-            data = data[11]
+            data = data[9]
     elif graphType == 'Pie':
         #TODO: Change to classifier composition
         data = data[6]
@@ -84,22 +86,16 @@ def processParameters():
         if parameter == 'Avg Accuracy':
             data = data[0]
         elif parameter == 'Avg Precision':
-            data = data[0]
+            data = data[1]
         elif parameter == 'Avg Recall':
-            data = data[0]
+            data = data[2]
         elif parameter == 'Avg F1':
-            data = data[0]
+            data = data[3]
 
     response = {
         "status": "good",
         "data": data
     }
-
-    currentTime = datetime.now()
-    addQuery = text("INSERT INTO history (TimeStamps, Model, smote, trainVal) VALUES (:currentTime, :classifier, :SMOTE, :trainValue)")
-    with engine.connect() as conn:
-        conn.execute(addQuery, {"currentTime": currentTime, "classifier": classifier, "SMOTE": SMOTE, "trainValue": trainValue})
-        conn.commit()
 
     return jsonify(response)
 
