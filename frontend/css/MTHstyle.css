@@ -321,8 +321,8 @@ input[type=text]:focus {
     align-items: center;
     justify-content: center;
     position: relative;
-    border-color: rgb(159, 170, 191);
-    border-style: dotted;
+    border-color: rgb(167, 170, 177);
+    border-style: solid;
     z-index: 2;
     border-width: 5px;
     width: 2vw;
@@ -340,6 +340,7 @@ input[type=text]:focus {
 
 .rightAdd:hover {
     border-color: rgb(114, 117, 124);
+    z-index: 900;
 }
 
 .leftAdd {
@@ -349,8 +350,8 @@ input[type=text]:focus {
     align-items: center;
     justify-content: center;
     position: relative;
-    border-color: rgb(159, 170, 191);
-    border-style: dotted;
+    border-color: rgb(167, 170, 177);
+    border-style: solid;
     z-index: 2;
     border-width: 5px;
     width: 30vw;
@@ -365,6 +366,7 @@ input[type=text]:focus {
 
 .leftAdd:hover {
     border-color: rgb(114, 117, 124);
+    z-index: 900;
 }
 
 .upperContent {

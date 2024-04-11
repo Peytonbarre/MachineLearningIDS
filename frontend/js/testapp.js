@@ -172,14 +172,13 @@ function updateBoxes(){
                 //If next col doesn't exist OR next col's ...
                 //if(typeof rows[rowIterator+1] === 'undefined' || typeof rows[rowIterator+1].childNodes[colIterator*2+1] === 'undefined'){
                 if(typeof cols.childNodes[colIterator+3] === 'undefined'){    
-                    console.log("LAST: " + String(rowIterator) + ' ' + String(colIterator))
                     canvas.childNodes[1].childNodes[1].childNodes[3].style.display = 'flex';
                 }else{
                     canvas.childNodes[1].childNodes[1].childNodes[3].style.display = 'none';
                     canvas.style.padding = ""
                 }
                 
-                if(typeof rowContainer.childNodes[rowIterator+2].childNodes[altColIterator] == 'undefined'){
+                if(typeof rowContainer.childNodes[rowIterator+2] == 'undefined' || typeof rowContainer.childNodes[rowIterator+2].childNodes[altColIterator] == 'undefined'){
                     canvas.childNodes[1].childNodes[3].style.display = 'flex';
                 }else{
                     //console.log(rowContainer.childNodes[rowIterator+2])
@@ -194,24 +193,17 @@ function updateBoxes(){
 }
 
 function addRight(id) {
-    console.log("ID: " + id)
-    newCol = String(id).split(" ")[0]
-    newRow = String(id).split(" ")[1]
+    newCol = String(id).split(" ")[1]
+    newRow = String(id).split(" ")[0]
     displaySidebar();
     var row = document.getElementsByClassName('rows')
-
-    //Index of Rows
-    var colPos = document.getElementsByClassName('upperContent')[0].childNodes.length-2
-    console.log(newCol)
-    
-    //Index of Cols
-    var rowPos = (row.length-1)*3 + 1
-    console.log(newRow)
 
     var copiedContainer = document.querySelector('#myContent')
     var containerClone = copiedContainer.cloneNode(true)
     var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
     containerClone.id = uniqueId
+    containerClone.childNodes[1].childNodes[3].childNodes[1].id = String(newRow + " " + (parseInt(newCol)+3))
+    containerClone.childNodes[3].childNodes[1].id = String(newRow + " " + (parseInt(newCol)+3))
 
     var newCol = document.createElement('div');
     newCol.classList.add('cols')
@@ -219,9 +211,9 @@ function addRight(id) {
     newCol.appendChild(containerClone)
     newCol.appendChild(document.createTextNode(''))
 
-    row[0].appendChild(document.createTextNode(''))
-    row[0].appendChild(newCol)
-    row[0].appendChild(document.createTextNode(''))
+    row[(newRow-1)/2].appendChild(document.createTextNode(''))
+    row[(newRow-1)/2].appendChild(newCol)
+    row[(newRow-1)/2].appendChild(document.createTextNode(''))
 
 
     updateBoxes();
@@ -308,14 +300,19 @@ function addRight(id) {
     */
 }
 
-function addBelow() {
+function addBelow(id) {
     displaySidebar();
     
+    newCol = String(id).split(" ")[1]
+    newRow = String(id).split(" ")[0]
+
     //Copy the container and give it an ID
     var copiedContainer = document.querySelector('#myContent')
     var containerClone = copiedContainer.cloneNode(true)
     var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
     containerClone.id = uniqueId
+    containerClone.childNodes[1].childNodes[3].childNodes[1].id = String((parseInt(newRow)+2) + " " + newCol)
+    containerClone.childNodes[3].childNodes[1].id = String((parseInt(newRow)+2) + " " + newCol)
 
     //Create new col
     var newCol = document.createElement('div');
@@ -329,7 +326,9 @@ function addBelow() {
     newRow.classList.add('rows')
     newRow.appendChild(newCol)
     newRow.appendChild(document.createTextNode(''))
+    //(parseInt(newRow)+1)/2]
 
+    console.log(document.getElementsByClassName('upperContent')[0].childNodes)
     var upperContent = document.getElementsByClassName('upperContent')[0]
     upperContent.appendChild(newRow)
     upperContent.appendChild(document.createTextNode(''))
