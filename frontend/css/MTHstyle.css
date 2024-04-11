@@ -317,7 +317,6 @@ input[type=text]:focus {
 }
 
 .rightAdd {
-    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -326,11 +325,12 @@ input[type=text]:focus {
     border-style: dotted;
     z-index: 2;
     border-width: 5px;
-    margin-top: 25%;
     width: 2vw;
-    height: 135px;
+    height: 30vw;
     padding: 15px;
-    margin-left: 5px;
+    margin-top: 10px;
+    right: 20%;
+    margin-left: 10px;
 }
 
 .rightAdd span {
@@ -344,6 +344,7 @@ input[type=text]:focus {
 
 .leftAdd {
     margin-left: 10px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -352,12 +353,9 @@ input[type=text]:focus {
     border-style: dotted;
     z-index: 2;
     border-width: 5px;
-    width: 25%;
-    left: 25%;
+    width: 30vw;
     height: 2vw;
     padding: 15px;
-    margin-top: 5px;
-
 }
 
 .leftAdd span {
@@ -371,6 +369,7 @@ input[type=text]:focus {
 
 .upperContent {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
 }
 
@@ -651,9 +650,17 @@ input[type=text]:focus {
 
 .rows{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .cols{
     display: flex;
+}
+
+.hiddenContainerx{
+    width: 0;
+}
+
+.hiddenContainery{
+    height: 0;
 }

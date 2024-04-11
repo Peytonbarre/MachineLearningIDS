@@ -41,7 +41,6 @@ function showHeatmap() {
     ctx.canvas.width = containerWidth;
     ctx.canvas.height = containerHeight;
     const newFormatData = convertToNewFormat(heatmapData.datasets[0].data);
-    console.log(newFormatData)
     const minValue = Math.min(...newFormatData.map(value => value.v));
     const maxValue = Math.max(...newFormatData.map(value => value.v));
     const colorScale = chroma.scale(['#f7fbff', '#04AA6D']).domain([minValue, maxValue]);
@@ -158,8 +157,76 @@ function cancelGraph(){
     }
 }
 
-function addRight() {
+
+function updateBoxes(){
+    var rows = document.querySelectorAll('.rows');
+    var rowContainer = document.querySelector('.upperContent')
+    var rowIterator = 1;
+    // console.log(rows[2].childNodes[1])
+    rows.forEach((cols) => {
+        var colIterator = 1;
+        var altColIterator = 1;
+        cols.childNodes.forEach((canvas) => {
+            if(canvas.nodeType !== Node.TEXT_NODE){
+                //console.log(canvas);
+                //If next col doesn't exist OR next col's ...
+                //if(typeof rows[rowIterator+1] === 'undefined' || typeof rows[rowIterator+1].childNodes[colIterator*2+1] === 'undefined'){
+                if(typeof cols.childNodes[colIterator+3] === 'undefined'){    
+                    console.log("LAST: " + String(rowIterator) + ' ' + String(colIterator))
+                    canvas.childNodes[1].childNodes[1].childNodes[3].style.display = 'flex';
+                }else{
+                    canvas.childNodes[1].childNodes[1].childNodes[3].style.display = 'none';
+                    canvas.style.padding = ""
+                }
+                
+                if(typeof rowContainer.childNodes[rowIterator+2].childNodes[altColIterator] == 'undefined'){
+                    canvas.childNodes[1].childNodes[3].style.display = 'flex';
+                }else{
+                    //console.log(rowContainer.childNodes[rowIterator+2])
+                    canvas.childNodes[1].childNodes[3].style.display = 'none';
+                }
+                colIterator += 3;
+                altColIterator += 2;
+            }
+        })
+        rowIterator += 2;
+    })
+}
+
+function addRight(id) {
+    console.log("ID: " + id)
+    newCol = String(id).split(" ")[0]
+    newRow = String(id).split(" ")[1]
     displaySidebar();
+    var row = document.getElementsByClassName('rows')
+
+    //Index of Rows
+    var colPos = document.getElementsByClassName('upperContent')[0].childNodes.length-2
+    console.log(newCol)
+    
+    //Index of Cols
+    var rowPos = (row.length-1)*3 + 1
+    console.log(newRow)
+
+    var copiedContainer = document.querySelector('#myContent')
+    var containerClone = copiedContainer.cloneNode(true)
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    containerClone.id = uniqueId
+
+    var newCol = document.createElement('div');
+    newCol.classList.add('cols')
+    newCol.appendChild(document.createTextNode(''))
+    newCol.appendChild(containerClone)
+    newCol.appendChild(document.createTextNode(''))
+
+    row[0].appendChild(document.createTextNode(''))
+    row[0].appendChild(newCol)
+    row[0].appendChild(document.createTextNode(''))
+
+
+    updateBoxes();
+
+    /*
     var graphContainers = document.querySelectorAll('.graphContainer');
     graphContainers.forEach(function(container) {
        var graphContent = container.closest('.contentSeperator');
@@ -174,33 +241,6 @@ function addRight() {
        }
     });
 
-    var rows = document.querySelectorAll('.cols');
-    var rowIterator = 0;
-    // console.log(rows[2].childNodes[1])
-    rows.forEach((cols) => {
-        var colIterator = 0;
-        cols.childNodes.forEach((canvas) => {
-            if(canvas.nodeType !== Node.TEXT_NODE){
-                // console.log(canvas);
-                if(typeof rows[rowIterator+1] === 'undefined' || typeof rows[rowIterator+1].childNodes[colIterator*2+1] === 'undefined'){
-                    console.log(+ String(rowIterator) + ' ' + String(colIterator))
-                    console.log(canvas)
-                    canvas.childNodes[3].style.display = 'flex';
-                }else{
-                    canvas.childNodes[3].style.display = 'none';
-                    canvas.style.padding = ""
-                }
-
-                if(typeof rows[rowIterator].childNodes[(colIterator+1)*2+1] === 'undefined'){
-                    canvas.childNodes[1].childNodes[3].style.display = 'flex';
-                }else{
-                    canvas.childNodes[1].childNodes[3].style.display = 'none';
-                }
-                colIterator += 1;
-            }
-        })
-        rowIterator += 1;
-    })
     var newRow = document.createElement('div');
     newRow.classList.add('rows');
     var newCol = document.createElement('div');
@@ -219,8 +259,7 @@ function addRight() {
     newGraphCanvas.appendChild(newContentSeperator);
     newCol.appendChild(newGraphCanvas);
     newRow.appendChild(newCol);
-    console.log(newRow)
-    /*    
+    console.log(newRow)   
     var graphContainer = document.createElement('div');
     graphContainer.classList.add('graphContainer');
     var canvas = document.createElement('canvas');
@@ -270,12 +309,37 @@ function addRight() {
 }
 
 function addBelow() {
-    //displaySidebar();
+    displaySidebar();
+    
+    //Copy the container and give it an ID
+    var copiedContainer = document.querySelector('#myContent')
+    var containerClone = copiedContainer.cloneNode(true)
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    containerClone.id = uniqueId
+
+    //Create new col
+    var newCol = document.createElement('div');
+    newCol.classList.add('cols')
+    newCol.appendChild(document.createTextNode(''))
+    newCol.appendChild(containerClone)
+    newCol.appendChild(document.createTextNode(''))
+
+    //Create new row (TODO row detection)
+    var newRow = document.createElement('div');
+    newRow.classList.add('rows')
+    newRow.appendChild(newCol)
+    newRow.appendChild(document.createTextNode(''))
+
+    var upperContent = document.getElementsByClassName('upperContent')[0]
+    upperContent.appendChild(newRow)
+    upperContent.appendChild(document.createTextNode(''))
+
+    updateBoxes();
     //var graphContainers = document.querySelectorAll('.graphContainer');
     //graphContainers.forEach(function(container) {
     //    var graphContent = container.closest('.graphcontent');
     //    var leftAdd = container.previousElementSibling;
-//
+    //
     //    if (!leftAdd || leftAdd.classList.contains('rightAdd')) {
     //        var addButton = document.createElement('div');
     //        addButton.classList.add('leftAdd');
@@ -315,10 +379,6 @@ document.addEventListener('mousedown', function(e) {
         initialLeft = container.offsetLeft;
         initialTop = container.offsetTop;
         e.preventDefault();
-        console.log(startX);
-        console.log(startY);
-        console.log(initialLeft);
-        console.log(initialTop);
     }
 });
 
@@ -787,7 +847,8 @@ document.getElementById('generateDataButton').addEventListener('click', function
          body: JSON.stringify(formData)
      }).then(response => {
          console.log(response)
-         addRightHelper(graphType, parameter, response);
+         addRight()
+         //addRightHelper(graphType, parameter, response);
      }).catch(error => {
          console.error(error)
      });
@@ -825,12 +886,12 @@ function addRightHelper(graphType, parameter, data){
                 label: 'Heatmap Data',
             }],
         };
+        //TODO WATCH OUT!!
         const container = document.getElementById('content');
         const containerWidth = container.clientWidth;
         const containerHeight = container.clientHeight;
         ctx.canvas.width = containerWidth;
         ctx.canvas.height = containerHeight;
-        console.log(newHeatMapData)
         const newFormatData = convertToNewFormat(newHeatMapData.datasets[0].data);
         const minValue = Math.min(...newFormatData.map(value => value.v));
         const maxValue = Math.max(...newFormatData.map(value => value.v));
@@ -949,3 +1010,4 @@ function addRightHelper(graphType, parameter, data){
 //});
 
 showHeatmap();
+updateBoxes();

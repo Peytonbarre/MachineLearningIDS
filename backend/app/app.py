@@ -5,6 +5,7 @@ from flask_cors import CORS
 from sqlalchemy import create_engine, text
 from datetime import datetime
 import pandas as pd
+import json
 import MTH, LCCDE, TreeBased
 #pip install mysqlclient
 
@@ -27,19 +28,22 @@ def processParameters():
     #{"classifier":"LCCDE","slideValue":"59","SMOTEValue":"2:1000","graphType":"Matrix","parameter":"Confusion Matrix"}
     
     SMOTE = data.get('SMOTEValue')
-    trainValue = str(round(float(data.get('slideValue'))/100,2))
+    trainValue = round(float(data.get('slideValue'))/100,2)
     classifier = data.get('classifier')
     graphType = data.get('graphType')
     parameter = data.get('parameter')
   
     #TODO When done with metric derivation, make this SQL statement add ALL metrics for each query (move below)
     # Use parameterized query to prevent SQL injection
-    query = text("SELECT * FROM history WHERE Model = :classifier AND smote = :SMOTE AND trainVal = :trainValue")
+    query = text("SELECT * FROM history WHERE Model = :classifier AND smote = :SMOTE AND trainVal = CAST(:trainValue as FLOAT)")
     result = pd.read_sql(query, engine, params={"classifier": classifier, "SMOTE": SMOTE, "trainValue": trainValue}) 
 
     if not result.empty:
         print("Already found! " + str(result.iloc[0]))
+        print(result.iloc[0]['TimeStamps'])
+        data = [result.iloc[0]['Accuracy'], result.iloc[0]['Precisions'], result.iloc[0]['Recall'], result.iloc[0]['F1_Score'], result.iloc[0]['CM'], result.iloc[0]['Avg_of_event'], result.iloc[0]['PrecisionScores'], result.iloc[0]['f1Scores'], result.iloc[0]['recallScores'], result.iloc[0]['accuracyScores']]
     else:
+        print("Not found!")
         if classifier == 'MTH':
             data = MTH.getStacking(trainValue, SMOTE)
         #TODO: Make sure this is working
@@ -52,7 +56,7 @@ def processParameters():
         currentTime = datetime.now()
         addQuery = text("INSERT INTO history (TimeStamps, Model, Accuracy, Precisions, Recall, F1_Score, CM, smote, trainVal, Avg_of_event, PrecisionScores, f1Scores, recallScores, accuracyScores) VALUES (:currentTime, :classifier, :Accuracy, :Precisions, :Recall, :F1_Score, :CM, :SMOTE, :trainValue, :Avg_of_event, :PrecisionScores, :f1Scores, :recallScores, :accuracyScores)")
         with engine.connect() as conn:
-            conn.execute(addQuery, {"currentTime": currentTime, "classifier": classifier, "Accuracy": data[0], "Precisions": data[1], "Recall": data[2], "F1_Score": data[3], "CM": data[4], "SMOTE": SMOTE, "trainValue": trainValue, "Avg_of_event": data[5], "PrecisionScores": data[6], "f1Scores": data[7] , "recallScores": data[8], "accuracyScores": data[9]})
+            conn.execute(addQuery, {"currentTime": currentTime, "classifier": classifier, "Accuracy": data[0], "Precisions": data[1], "Recall": data[2], "F1_Score": data[3], "CM": json.dumps(data[4]), "SMOTE": SMOTE, "trainValue": trainValue, "Avg_of_event": json.dumps(data[5]), "PrecisionScores": json.dumps(data[6]), "f1Scores": json.dumps(data[7]) , "recallScores": json.dumps(data[8]), "accuracyScores": json.dumps(data[9])})
             conn.commit()
     
     #TODO: Add derivation for these parameters in the classifier files

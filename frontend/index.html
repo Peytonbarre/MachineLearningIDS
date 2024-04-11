@@ -193,22 +193,26 @@
             <div class="upperContent">
                 <div class="rows">
                     <div class="cols">
-                        <div class="graphCanvas">
+                        <div class="graphCanvas" id="myContent">
                             <div class="contentSeperator">
                                 <div class="graphContainer" id="content">
                                     <canvas id="myChart"></canvas>
                                 </div>
-                                <div class="rightAdd" onclick=addRight()>
+                                <div class="hiddenContainerx">
+                                    <div class="rightAdd" onclick=addRight(this.id) id="1 1">
+                                        <span class="material-symbols-outlined">
+                                            add_circle
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hiddenContainery">
+                                <div class="leftAdd" onclick=addBelow(this.id) id="1 1">
                                     <span class="material-symbols-outlined">
                                         add_circle
                                     </span>
                                 </div>
                             </div>  
-                            <div class="leftAdd" onclick=addBelow()>
-                                <span class="material-symbols-outlined">
-                                    add_circle
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </div>
