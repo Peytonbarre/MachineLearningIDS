@@ -345,12 +345,12 @@ document.addEventListener('DOMContentLoaded', function() {
     //toggles sidebar display
     document.addEventListener('DOMContentLoaded', function() {
         const btns = document.querySelectorAll('.btn');
-    
+
         btns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const icon = this.querySelector('span.material-symbols-outlined');
                 const content = this.parentNode.nextElementSibling;
-    
+                
                 if (content && content.classList.contains('hideSection')) {
                     content.classList.remove('hideSection');
                     icon.textContent = 'expand_less';
@@ -362,5 +362,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+
+    function copyString(elementId) {
+        var text = document.getElementById(elementId).innerText;
+        var elem = document.createElement("textarea");
+        document.body.appendChild(elem);
+        elem.value = text;
+        elem.select();
+        document.execCommand("copy");
+        document.body.removeChild(elem);
+
+        alert("Copied: " + text);
+    }
+
 // Initial chart display
 showLineChart();
+

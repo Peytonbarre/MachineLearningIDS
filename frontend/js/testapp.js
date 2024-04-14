@@ -1111,3 +1111,4 @@ function addRightHelper(graphType, parameter, data, coord, classifier){
 
 showHeatmap();
 updateBoxes();
+
