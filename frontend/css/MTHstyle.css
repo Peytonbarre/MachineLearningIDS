@@ -416,6 +416,10 @@ input[type=text]:focus {
     margin-bottom: 20px;
 }
 
+#pie{
+    display: none;
+}
+
 .cancelButton:hover {
     background: rgb(130, 130, 130);
 }

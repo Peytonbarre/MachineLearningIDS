@@ -21,7 +21,7 @@ using_stacking = False
 y_test_stacking = []
 y_train_stacking = []
 
-modified_datafile = False
+modified_datafile = True
 df = pd.DataFrame()
 
 engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
@@ -81,6 +81,8 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     global df
     dataframeSetup()
 
+
+    print(df)
     X = df.drop(['Label'],axis=1).values 
     y = df.iloc[:, -1].values.reshape(-1,1)
     y=np.ravel(y)
@@ -435,3 +437,5 @@ def FEATURE_SELECTION(train_size = 0.8, smote_sampling_strategy = "4:1500"): # N
     # plt.show()
     
     return f_list
+
+GET_TB_STACKING()
