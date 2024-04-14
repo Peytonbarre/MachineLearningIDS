@@ -75,13 +75,13 @@ def processParameters():
     elif graphType == 'Line':
         data = data[5]
     elif graphType == 'Bar':
-        if parameter == 'Precision by Event':
+        if parameter == 'Precision By Classifier':
             data = data[6]
-        elif parameter == 'Recall by Event':
+        elif parameter == 'Recall By Classifier':
             data = data[8]
-        elif parameter == 'F1 by Event':
+        elif parameter == 'F-1 Score By Classifier':
             data = data[7]
-        elif parameter == 'Accuracy by Event':
+        elif parameter == 'Accuracy By Classifier':
             data = data[9]
     elif graphType == 'Pie':
         #TODO: Change to classifier composition
@@ -95,6 +95,9 @@ def processParameters():
             data = data[2]
         elif parameter == 'Avg F1':
             data = data[3]
+
+    print("RETURNING: " + str(data))
+    print("FOR: " + graphType)
 
     response = {
         "status": "good",

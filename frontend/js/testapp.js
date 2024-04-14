@@ -196,32 +196,8 @@ function addRight(id) {
     formData = document.getElementById('dataForm')
     formData.querySelector('input[name="coord"]').value = id;
     formData.querySelector('input[name="direction"]').value = "right";
-
-    newCol = String(id).split(" ")[1]
-    newRow = String(id).split(" ")[0]
     
     displaySidebar();
-    var row = document.getElementsByClassName('rows')
-
-    var copiedContainer = document.querySelector('#myContent')
-    var containerClone = copiedContainer.cloneNode(true)
-    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-    containerClone.id = uniqueId
-    containerClone.childNodes[1].childNodes[3].childNodes[1].id = String(newRow + " " + (parseInt(newCol)+3))
-    containerClone.childNodes[3].childNodes[1].id = String(newRow + " " + (parseInt(newCol)+3))
-
-    var newCol = document.createElement('div');
-    newCol.classList.add('cols')
-    newCol.appendChild(document.createTextNode(''))
-    newCol.appendChild(containerClone)
-    newCol.appendChild(document.createTextNode(''))
-
-    row[(newRow-1)/2].appendChild(document.createTextNode(''))
-    row[(newRow-1)/2].appendChild(newCol)
-    row[(newRow-1)/2].appendChild(document.createTextNode(''))
-
-
-    updateBoxes();
 
     /*
     var graphContainers = document.querySelectorAll('.graphContainer');
@@ -268,44 +244,6 @@ function addRight(id) {
     var graphContent = document.querySelector('.contentSeperator');
     graphContent.insertBefore(graphContainer, rightAdd);
     */
-    var uniqueCanvasId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-    canvas = containerClone.childNodes[1].childNodes[1].childNodes[1]
-    canvas.id = uniqueCanvasId;
-    var ctx = canvas.getContext('2d');
-    var myChart = new Chart(ctx, {
-       type: 'bar',
-       data: {
-           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-           datasets: [{
-               label: '# of Votes',
-               data: [12, 19, 3, 5, 2, 3],
-               backgroundColor: [
-                   'rgba(255, 99, 132, 0.2)',
-                   'rgba(54, 162, 235, 0.2)',
-                   'rgba(255, 206, 86, 0.2)',
-                   'rgba(75, 192, 192, 0.2)',
-                   'rgba(153, 102, 255, 0.2)',
-                   'rgba(255, 159, 64, 0.2)'
-               ],
-               borderColor: [
-                   'rgba(255, 99, 132, 1)',
-                   'rgba(54, 162, 235, 1)',
-                   'rgba(255, 206, 86, 1)',
-                   'rgba(75, 192, 192, 1)',
-                   'rgba(153, 102, 255, 1)',
-                   'rgba(255, 159, 64, 1)'
-               ],
-               borderWidth: 1
-           }]
-       },
-       options: {
-           scales: {
-               y: {
-                   beginAtZero: true
-               }
-           }
-       }
-    });
 }
 
 function addBelow(id) {
@@ -856,15 +794,14 @@ document.getElementById('generateDataButton').addEventListener('click', function
              'Content-Type': 'application/json'
          },
          body: JSON.stringify(formData)
-     }).then(response => {
-         console.log(response)
+     }).then(response => response.json()).then(data => {
          dataForm = document.getElementById('dataForm')
-         direction = formData.querySelector('input[name="direction"]').value
-         coord = formData.querySelector('input[name="coord"]').value
+         direction = dataForm.querySelector('input[name="direction"]').value
+         coord = dataForm.querySelector('input[name="coord"]').value
          if(direction === 'right'){
-            addRightHelper(graphType, parameter, response, coord);
+            addRightHelper(graphType, parameter, data['data'], coord);
          }else if(direction === 'left'){
-            addLeftHelper(graphType, parameter, response, coord);
+            addLeftHelper(graphType, parameter, data['data'], coord);
          }else{
             throw error("Direction not recognized!")
          }
@@ -876,8 +813,139 @@ document.getElementById('generateDataButton').addEventListener('click', function
 
 //FLow == add left/right -> generateButton listener -> addLeft/right helper (HERE)
 function addRightHelper(graphType, parameter, data, coord){
+    console.log(parameter)
+    newCol = String(coord).split(" ")[1]
+    newRow = String(coord).split(" ")[0]
+    var row = document.getElementsByClassName('rows')
 
-    
+    var copiedContainer = document.querySelector('#myContent')
+    var containerClone = copiedContainer.cloneNode(true)
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    containerClone.id = uniqueId
+    containerClone.childNodes[1].childNodes[3].childNodes[1].id = String(newRow + " " + (parseInt(newCol)+3))
+    containerClone.childNodes[3].childNodes[1].id = String(newRow + " " + (parseInt(newCol)+3))
+
+    var newCol = document.createElement('div');
+    newCol.classList.add('cols')
+    newCol.appendChild(document.createTextNode(''))
+    newCol.appendChild(containerClone)
+    newCol.appendChild(document.createTextNode(''))
+
+    row[(newRow-1)/2].appendChild(document.createTextNode(''))
+    row[(newRow-1)/2].appendChild(newCol)
+    row[(newRow-1)/2].appendChild(document.createTextNode(''))
+
+
+    updateBoxes();
+
+    var uniqueCanvasId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    canvas = containerClone.childNodes[1].childNodes[1].childNodes[1]
+    canvas.id = uniqueCanvasId;
+    var ctx = canvas.getContext('2d');
+    if(graphType === 'Matrix'){
+        const newHeatMapData = {
+            labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7'],
+            datasets: [{
+                data: data,
+                label: 'Heatmap Data',
+            }],
+        };
+        const container = document.getElementById('content');
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+        ctx.canvas.width = containerWidth;
+        ctx.canvas.height = containerHeight;
+        //console.log(typeof newHeatMapData.datasets[0].data)
+        const newFormatData = convertToNewFormat(JSON.parse(newHeatMapData.datasets[0].data));
+        const minValue = Math.min(...newFormatData.map(value => value.v));
+        const maxValue = Math.max(...newFormatData.map(value => value.v));
+        const colorScale = chroma.scale(['#f7fbff', '#04AA6D']).domain([minValue, maxValue]);
+        const backgroundColors = newFormatData.map(value => colorScale(value.v).hex());
+        const newDataset = [{
+            label: 'My Matrix',
+            data: newFormatData,
+            backgroundColor: backgroundColors,
+            borderWidth: 1,
+            width: ({chart}) => (chart.chartArea || {}).width / 7 - 1,
+            height: ({chart}) =>(chart.chartArea || {}).height / 7 - 1,
+        }];
+        currentChart = new Chart(ctx, {
+            type: 'matrix',
+            data: {
+                labels: heatmapData.labels,
+                datasets: newDataset,
+            },
+            options: {
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                    callbacks: {
+                        title() {
+                        return '';
+                        },
+                        label(context) {
+                        const v = context.dataset.data[context.dataIndex];
+                        return ['x: ' + v.x, 'y: ' + v.y, 'v: ' + v.v];
+                        }
+                    }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            stepSize: 1
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        offset: true,
+                    ticks: {
+                        stepSize: 1
+                    },
+                        grid: {
+                        display: false
+                    }
+                    }
+                },
+            }
+        });
+    }else if(graphType === 'Bar'){
+        console.log(data)
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Decision Trees', 'Random Forest', 'Extra Trees', 'XGBoost', 'Stacking'],
+                datasets: [{
+                    label: parameter,
+                    data: JSON.parse(data),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+         });
+    }
 
     /*
     var graphContainers = document.querySelectorAll('.graphContainer');
