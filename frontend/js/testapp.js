@@ -1105,3 +1105,4 @@ function addRightHelper(graphType, parameter, data, coord){
 
 showHeatmap();
 updateBoxes();
+
