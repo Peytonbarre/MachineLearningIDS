@@ -90,9 +90,9 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     pd.Series(y_train).value_counts()
     return X_train, X_test, y_train, y_test
 
-def XGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def XGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", learning_rate= 0.7340229699980686, n_estimators = 70, max_depth = 14):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
-    xg = xgb.XGBClassifier(n_estimators = 10)
+    xg = xgb.XGBClassifier(learning_rate = learning_rate, n_estimators = n_estimators, max_depth = max_depth)
     xg.fit(X_train,y_train)
     xg_score=xg.score(X_test,y_test)
     y_predict=xg.predict(X_test)
@@ -107,7 +107,7 @@ def XGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
 
-def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", learning_rate= 0.7340229699980686, n_estimators = 70, max_depth = 14):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective(params):
@@ -136,7 +136,7 @@ def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:10
                 max_evals=20)
     print("XGBoost: Hyperopt estimated optimum {}".format(best))
 
-    xg = xgb.XGBClassifier(learning_rate= 0.7340229699980686, n_estimators = 70, max_depth = 14)
+    xg = xgb.XGBClassifier(learning_rate = learning_rate, n_estimators = n_estimators, max_depth = max_depth)
     xg.fit(X_train,y_train)
     xg_score=xg.score(X_test,y_test)
     y_predict=xg.predict(X_test)
@@ -170,7 +170,7 @@ def HPO_BO_TPE_XGBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:10
     xg_test=xg.predict(X_test)
     return xg_train, xg_test, xg_score, precision, recall, fscore
 
-def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", n_estimators = 71, min_samples_leaf = 1, max_depth = 46, min_samples_split = 9, max_features = 20, criterion = 'entropy'):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective2(params):
@@ -203,7 +203,7 @@ def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:100
                 max_evals=20)
     print("Random Forest: Hyperopt estimated optimum {}".format(best))
 
-    rf_hpo = RandomForestClassifier(n_estimators = 71, min_samples_leaf = 1, max_depth = 46, min_samples_split = 9, max_features = 20, criterion = 'entropy')
+    rf_hpo = RandomForestClassifier(n_estimators = n_estimators, min_samples_leaf = min_samples_leaf, max_depth = max_depth, min_samples_split = min_samples_split, max_features = max_features, criterion = criterion)
     rf_hpo.fit(X_train,y_train)
     rf_score=rf_hpo.score(X_test,y_test)
     y_predict=rf_hpo.predict(X_test)
@@ -236,7 +236,7 @@ def HPO_BO_TPE_FOREST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:100
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return rf_train, rf_test, rf_score, precision, recall, fscore
 
-def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", min_samples_leaf = 2, max_depth = 47, min_samples_split = 3, max_features = 19, criterion = 'gini'):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective(params):
@@ -266,7 +266,7 @@ def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000
                 algo=tpe.suggest,
                 max_evals=50)
     print("Decision tree: Hyperopt estimated optimum {}".format(best))
-    dt_hpo = DecisionTreeClassifier(min_samples_leaf = 2, max_depth = 47, min_samples_split = 3, max_features = 19, criterion = 'gini')
+    dt_hpo = DecisionTreeClassifier(min_samples_leaf = min_samples_leaf, max_depth = max_depth, min_samples_split = min_samples_split, max_features = max_features, criterion = criterion)
     dt_hpo.fit(X_train,y_train)
     dt_score=dt_hpo.score(X_test,y_test)
     y_predict=dt_hpo.predict(X_test)
@@ -298,7 +298,7 @@ def HPO_BO_TPE_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "2:1000
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return dt_train, dt_test, dt_score, precision, recall, fscore
 
-def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", n_estimators = 53, min_samples_leaf = 1, max_depth = 31, min_samples_split = 5, max_features = 20, criterion = 'entropy'):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective(params):
@@ -330,7 +330,7 @@ def HPO_BO_TPE_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "2:1000, 
                 algo=tpe.suggest,
                 max_evals=20)
     print("Random Forest: Hyperopt estimated optimum {}".format(best))
-    et_hpo = ExtraTreesClassifier(n_estimators = 53, min_samples_leaf = 1, max_depth = 31, min_samples_split = 5, max_features = 20, criterion = 'entropy')
+    et_hpo = ExtraTreesClassifier(n_estimators = n_estimators, min_samples_leaf = min_samples_leaf, max_depth = max_depth, min_samples_split = min_samples_split, max_features = max_features, criterion = criterion)
     et_hpo.fit(X_train,y_train) 
     et_score=et_hpo.score(X_test,y_test)
     y_predict=et_hpo.predict(X_test)
@@ -389,9 +389,9 @@ def stacking(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     f,ax=plt.subplots(figsize=(5,5))
     sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
 
-def getXGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def getXGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", learning_rate = 0.7340229699980686, n_estimators = 10, max_depth = 14):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
-    xg = xgb.XGBClassifier(n_estimators = 10)
+    xg = xgb.XGBClassifier(learning_rate = learning_rate, n_estimators = n_estimators, max_depth = max_depth)
     xg.fit(X_train,y_train)
     xg_score=xg.score(X_test,y_test)
     y_predict=xg.predict(X_test)
@@ -403,7 +403,7 @@ def getXGBoost(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", n_estimators = 53, min_samples_leaf = 1, max_depth = 31, min_samples_split = 5, max_features = 20, criterion = 'entropy'):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective(params):
@@ -433,7 +433,7 @@ def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
                 space=space,
                 algo=tpe.suggest,
                 max_evals=20)
-    et_hpo = ExtraTreesClassifier(n_estimators = 53, min_samples_leaf = 1, max_depth = 31, min_samples_split = 5, max_features = 20, criterion = 'entropy')
+    et_hpo = ExtraTreesClassifier(n_estimators = n_estimators, min_samples_leaf = min_samples_leaf, max_depth = max_depth, min_samples_split = min_samples_split, max_features = max_features, criterion = criterion)
     et_hpo.fit(X_train,y_train) 
     et_score=et_hpo.score(X_test,y_test)
     acurracy = et_score
@@ -445,7 +445,7 @@ def getExtraTrees(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
     # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(acurracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", min_samples_leaf = 2, max_depth = 47, min_samples_split = 3, max_features = 19, criterion = 'gini'):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective(params):
@@ -474,7 +474,7 @@ def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
                 space=space,
                 algo=tpe.suggest,
                 max_evals=50)
-    dt_hpo = DecisionTreeClassifier(min_samples_leaf = 2, max_depth = 47, min_samples_split = 3, max_features = 19, criterion = 'gini')
+    dt_hpo = DecisionTreeClassifier(min_samples_leaf = min_samples_leaf, max_depth = max_depth, min_samples_split = min_samples_split, max_features = max_features, criterion = criterion)
     dt_hpo.fit(X_train,y_train)
     dt_score=dt_hpo.score(X_test,y_test)
     y_predict=dt_hpo.predict(X_test)
@@ -497,7 +497,7 @@ def getDecisionTree(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
     # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     return(accuracy, precision.tolist(), recall.tolist(), fscore.tolist(), y_true.tolist(), y_predict.tolist(), cm.tolist())
 
-def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
+def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000", n_estimators = 71, min_samples_leaf = 1, max_depth = 46, min_samples_split = 9, max_features = 20, criterion = 'entropy'):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
 
     def objective2(params):
@@ -526,7 +526,7 @@ def getRandomForest(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"
                 space=space,
                 algo=tpe.suggest,
                 max_evals=20)
-    rf_hpo = RandomForestClassifier(n_estimators = 71, min_samples_leaf = 1, max_depth = 46, min_samples_split = 9, max_features = 20, criterion = 'entropy')
+    rf_hpo = RandomForestClassifier(n_estimators = n_estimators, min_samples_leaf = min_samples_leaf, max_depth = max_depth, min_samples_split = min_samples_split, max_features = max_features, criterion = criterion)
     rf_hpo.fit(X_train,y_train)
     rf_score=rf_hpo.score(X_test,y_test)
     accuracy = rf_score
@@ -598,7 +598,7 @@ def getStacking(train_size = 0.8, smote_sampling_strategy = "2:1000,4:1000"):
         #xg
         [xg_score, xg_precision, xg_recall, xg_fscore],
         #stk
-        [stk_score, precision, recall, fscore],
+        [stk_score, precision, recall, fscore]
     ]
 
     #Bar Graph
