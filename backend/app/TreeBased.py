@@ -200,10 +200,10 @@ def GET_TB_STACKING(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     y_test_stacking = []
     y_train_stacking = []
     
-    dt_train, dt_test, _, _, _, _ = GET_TB_DECISION_TREE(train_size, smote_sampling_strategy)
-    et_train, et_test, _, _, _, _ = GET_TB_EXTRA_TREES(train_size, smote_sampling_strategy)
-    rf_train, rf_test, _, _, _, _ = GET_TB_RANDOM_FOREST(train_size, smote_sampling_strategy)
-    xg_train, xg_test, _, _, _, _ = GET_TB_XGBOOST(train_size, smote_sampling_strategy)
+    dt_train, dt_test, dt_score, dt_precision, dt_recall, dt_fscore = GET_TB_DECISION_TREE(train_size, smote_sampling_strategy)
+    et_train, et_test, et_score, et_precision, et_recall, et_fscore = GET_TB_EXTRA_TREES(train_size, smote_sampling_strategy)
+    rf_train, rf_test, rf_score, rf_precision, rf_recall, rf_fscore = GET_TB_RANDOM_FOREST(train_size, smote_sampling_strategy)
+    xg_train, xg_test, xg_score, xg_precision, xg_recall, xg_fscore = GET_TB_XGBOOST(train_size, smote_sampling_strategy)
     # Use the outputs of 4 base models to construct a new ensemble model
     base_predictions_train = pd.DataFrame( {
         'DecisionTree': dt_train.ravel(),
@@ -236,15 +236,36 @@ def GET_TB_STACKING(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     print('Recall of Stacking: '+(str(recall)))
     print('F1-score of Stacking: '+(str(fscore)))
     print(classification_report(y_true,y_predict))
-    # cm=confusion_matrix(y_true,y_predict)
+    cm=confusion_matrix(y_true,y_predict)
     # f,ax=plt.subplots(figsize=(5,5))
     # sns.heatmap(cm,annot=True,linewidth=0.5,linecolor="red",fmt=".0f",ax=ax)
     # plt.xlabel("y_pred")
     # plt.ylabel("y_true")
     # plt.show()
 
-    # TO-DO: Review finalized MTH model for return values
-    # return 
+    #Return for TreeBased stacking
+    #Line graph
+    AvgofEvent = [
+        #dt
+        [dt_score, dt_precision, dt_recall, dt_fscore],
+        #rf
+        [rf_score, rf_precision, rf_recall, rf_fscore],
+        #et
+        [et_score, et_precision, et_recall, et_fscore],
+        #xg
+        [xg_score, xg_precision, xg_recall, xg_fscore],
+        #stk
+        [stk_score, precision, recall, fscore],
+    ]
+
+    #Bar Graph
+    precisionScores = [dt_precision, rf_precision, et_precision, xg_precision, precision]
+    f1Scores = [dt_fscore, rf_fscore, et_fscore, xg_fscore, fscore]
+    recallScores = [dt_recall, rf_recall, et_recall, xg_recall, recall]
+    accuracyScores = [dt_score, rf_score, et_score, xg_score, stk_score]
+    
+    #Pie Chart
+    return(stk_score, precision.tolist(), recall.tolist(), fscore.tolist(), cm.tolist(), AvgofEvent, precisionScores, f1Scores, recallScores, accuracyScores)
 
 def FEATURE_SELECTION(train_size = 0.8, smote_sampling_strategy = "4:1500"): # Note: NOT A MODEL ALGORITHM
     global df

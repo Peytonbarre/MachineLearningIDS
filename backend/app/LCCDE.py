@@ -153,9 +153,9 @@ def LCCDE_CATBOOST(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
     return cb, cb_f1each, cb_accuracy, cb_precision, cb_recall, cb_f1score
 
 def LCCDE_STACKING(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000"):
-    lg, lg_f1, _, _, _, _ = LCCDE_LIGHTGBM(train_size, smote_sampling_strategy)
-    xg, xg_f1, _, _, _, _ = LCCDE_XGBOOST(train_size, smote_sampling_strategy)
-    cb, cb_f1, _, _, _, _ = LCCDE_CATBOOST(train_size, smote_sampling_strategy)
+    lg, lg_f1, lg_accuracy, lg_precision, lg_recall, lg_f1score = LCCDE_LIGHTGBM(train_size, smote_sampling_strategy)
+    xg, xg_f1, xg_accuracy, xg_precision, xg_recall, xg_f1score = LCCDE_XGBOOST(train_size, smote_sampling_strategy)
+    cb, cb_f1, cb_accuracy, cb_precision, cb_recall, cb_f1score = LCCDE_CATBOOST(train_size, smote_sampling_strategy)
     # Leading model list for each class
     model=[]
     for i in range(len(lg_f1)):
@@ -266,5 +266,25 @@ def LCCDE_STACKING(train_size = 0.8, smote_sampling_strategy = "2:1000, 4:1000")
     print("F1 of XGBoost for each type of attack: "+ str(xg_f1))
     print("F1 of CatBoost for each type of attack: "+ str(cb_f1))
 
-    # TO-DO: Review finalized MTH model for return values
-    # return 
+    #Return for LCCDE stacking
+    #Line graph
+    AvgofEvent = [
+        #lg
+        [lg_accuracy, lg_precision, lg_recall, lg_f1score],
+        #xg
+        [xg_accuracy, xg_precision, xg_recall, xg_f1score],
+        #cb
+        [cb_accuracy, cb_precision, cb_recall, cb_f1score],
+        #stk
+        [stk_accuracy, stk_precision, stk_recall, stk_f1score],
+    ]
+
+    #Bar Graph
+    precisionScores = [lg_precision, xg_precision, cb_precision, stk_precision]
+    f1Scores = [lg_f1score, xg_f1score, cb_f1score, stk_f1score]
+    recallScores = [lg_recall, xg_recall, cb_recall, stk_recall]
+    accuracyScores = [lg_accuracy, xg_accuracy, cb_accuracy, stk_accuracy]
+    
+    #Pie Chart
+    cm=confusion_matrix(yt, yp)
+    return(stk_accuracy, stk_precision.tolist(), stk_recall.tolist(), stk_f1score.tolist(), cm.tolist(), AvgofEvent, precisionScores, f1Scores, recallScores, accuracyScores)
