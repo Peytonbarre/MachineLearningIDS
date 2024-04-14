@@ -94,10 +94,10 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     X_train, y_train = smote.fit_resample(X_train, y_train)
     return X_train, X_test, y_train, y_test
 
-def GET_TB_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "4:1500"):
+def GET_TB_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "4:1500", random_state = 0):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     # Decision tree training and prediction
-    dt = DecisionTreeClassifier(random_state = 0)
+    dt = DecisionTreeClassifier(random_state = random_state)
     dt.fit(X_train,y_train) 
     dt_score=dt.score(X_test,y_test)
     y_predict=dt.predict(X_test)
@@ -119,10 +119,10 @@ def GET_TB_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     dt_test=dt.predict(X_test)
     return dt_train, dt_test, dt_score, precision, recall, fscore
 
-def GET_TB_RANDOM_FOREST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
+def GET_TB_RANDOM_FOREST(train_size = 0.8, smote_sampling_strategy = "4:1500", random_state = 0):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     # Random Forest training and prediction
-    rf = RandomForestClassifier(random_state = 0)
+    rf = RandomForestClassifier(random_state = random_state)
     rf.fit(X_train,y_train) 
     rf_score=rf.score(X_test,y_test)
     y_predict=rf.predict(X_test)
@@ -144,10 +144,10 @@ def GET_TB_RANDOM_FOREST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     rf_test=rf.predict(X_test)
     return rf_train, rf_test, rf_score, precision, recall, fscore
 
-def GET_TB_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "4:1500"):
+def GET_TB_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "4:1500", random_state = 0):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     # Extra trees training and prediction
-    et = ExtraTreesClassifier(random_state = 0)
+    et = ExtraTreesClassifier(random_state = random_state)
     et.fit(X_train,y_train) 
     et_score=et.score(X_test,y_test)
     y_predict=et.predict(X_test)
@@ -169,10 +169,10 @@ def GET_TB_EXTRA_TREES(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     et_test=et.predict(X_test)
     return et_train, et_test, et_score, precision, recall, fscore
 
-def GET_TB_XGBOOST(train_size = 0.8, smote_sampling_strategy = "4:1500"):
+def GET_TB_XGBOOST(train_size = 0.8, smote_sampling_strategy = "4:1500", n_estimators = 10):
     X_train, X_test, y_train, y_test = applyDefaultHyperparameters(train_size, smote_sampling_strategy)
     # XGboost training and prediction
-    xg = xgb.XGBClassifier(n_estimators = 10)
+    xg = xgb.XGBClassifier(n_estimators = n_estimators)
     xg.fit(X_train,y_train)
     xg_score=xg.score(X_test,y_test)
     y_predict=xg.predict(X_test)
@@ -263,7 +263,7 @@ def GET_TB_STACKING(train_size = 0.8, smote_sampling_strategy = "4:1500"):
     f1Scores = [dt_fscore, rf_fscore, et_fscore, xg_fscore, fscore]
     recallScores = [dt_recall, rf_recall, et_recall, xg_recall, recall]
     accuracyScores = [dt_score, rf_score, et_score, xg_score, stk_score]
-    
+
     #Pie Chart
     return(stk_score, precision.tolist(), recall.tolist(), fscore.tolist(), cm.tolist(), AvgofEvent, precisionScores, f1Scores, recallScores, accuracyScores)
 
