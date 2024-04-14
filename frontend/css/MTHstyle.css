@@ -614,6 +614,7 @@ input[type=text]:focus {
 .graphTypes.hidden,
 .parametersList.hidden,
 .classifierList.hidden,
+.historyList.hidden,
 .samplingList.hidden {
     display: none;
 }
