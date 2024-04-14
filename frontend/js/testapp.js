@@ -193,8 +193,13 @@ function updateBoxes(){
 }
 
 function addRight(id) {
+    formData = document.getElementById('dataForm')
+    formData.querySelector('input[name="coord"]').value = id;
+    formData.querySelector('input[name="direction"]').value = "right";
+
     newCol = String(id).split(" ")[1]
     newRow = String(id).split(" ")[0]
+    
     displaySidebar();
     var row = document.getElementsByClassName('rows')
 
@@ -244,7 +249,7 @@ function addRight(id) {
     var newgraphContainer = document.createElement('div');
     newgraphContainer.classList.add('graphContainer');
     var canvas = document.createElement('canvas');
-    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    var uniqueId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     canvas.id = uniqueId;
     newgraphContainer.appendChild(canvas);
     newContentSeperator.appendChild(newgraphContainer);
@@ -262,6 +267,10 @@ function addRight(id) {
     var leftAdd = document.querySelector('.leftAdd');
     var graphContent = document.querySelector('.contentSeperator');
     graphContent.insertBefore(graphContainer, rightAdd);
+    */
+    var uniqueCanvasId = 'myChart_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    canvas = containerClone.childNodes[1].childNodes[1].childNodes[1]
+    canvas.id = uniqueCanvasId;
     var ctx = canvas.getContext('2d');
     var myChart = new Chart(ctx, {
        type: 'bar',
@@ -297,10 +306,14 @@ function addRight(id) {
            }
        }
     });
-    */
 }
 
 function addBelow(id) {
+
+    formData = document.getElementById('dataForm')
+    formData.querySelector('input[name="coord"]').value = id;
+    formData.querySelector('input[name="direction"]').value = "left";
+
     displaySidebar();
     
     newCol = String(id).split(" ")[1]
@@ -328,7 +341,6 @@ function addBelow(id) {
     newRow.appendChild(document.createTextNode(''))
     //(parseInt(newRow)+1)/2]
 
-    console.log(document.getElementsByClassName('upperContent')[0].childNodes)
     var upperContent = document.getElementsByClassName('upperContent')[0]
     upperContent.appendChild(newRow)
     upperContent.appendChild(document.createTextNode(''))
@@ -846,14 +858,28 @@ document.getElementById('generateDataButton').addEventListener('click', function
          body: JSON.stringify(formData)
      }).then(response => {
          console.log(response)
-         addRight()
-         //addRightHelper(graphType, parameter, response);
+         dataForm = document.getElementById('dataForm')
+         direction = formData.querySelector('input[name="direction"]').value
+         coord = formData.querySelector('input[name="coord"]').value
+         if(direction === 'right'){
+            addRightHelper(graphType, parameter, response, coord);
+         }else if(direction === 'left'){
+            addLeftHelper(graphType, parameter, response, coord);
+         }else{
+            throw error("Direction not recognized!")
+         }
      }).catch(error => {
          console.error(error)
      });
 });
 
-function addRightHelper(graphType, parameter, data){
+
+//FLow == add left/right -> generateButton listener -> addLeft/right helper (HERE)
+function addRightHelper(graphType, parameter, data, coord){
+
+    
+
+    /*
     var graphContainers = document.querySelectorAll('.graphContainer');
     graphContainers.forEach(function(container) {
         var graphContent = container.closest('.contentSeperator');
@@ -947,6 +973,7 @@ function addRightHelper(graphType, parameter, data){
             }
         });
      }
+      */
 }
 
 //var graphContainers = document.querySelectorAll('.graphContainer');
