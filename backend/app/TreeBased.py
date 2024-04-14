@@ -22,7 +22,7 @@ y_test_stacking = []
 y_train_stacking = []
 
 modified_datafile = False
-df = []
+df = pd.DataFrame()
 
 engine = create_engine('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
 query = "SELECT * FROM csvdata"
@@ -41,6 +41,7 @@ def dataframeSetup():
 
         # Select data file that user decided on
         # df = pd.read_csv(csv_paths[csv_selected.index(1)])
+        global df
         df = pd.read_sql(query, engine)
         
         # Randomly sample instances from majority classes
@@ -54,8 +55,11 @@ def dataframeSetup():
         df_BruteForce = df[(df['Label']=='BruteForce')]
         df_BruteForce = df_BruteForce.sample(n=None, frac=0.2, replace=False, weights=None, random_state=None, axis=0)
 
-        df_s = df_BENIGN.append(df_DoS).append(df_PortScan).append(df_BruteForce).append(df_minor)
+        df_s = df_BENIGN._append(df_DoS)._append(df_PortScan)._append(df_BruteForce)._append(df_minor)
         df_s = df_s.sort_index()
+
+        print("===")
+        print(df_BENIGN)
 
         # Save the sampled dataset
         df_s.to_csv('./backend/app/data/CICIDS2017_sample.csv',index=0)
@@ -80,7 +84,11 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     X = df.drop(['Label'],axis=1).values 
     y = df.iloc[:, -1].values.reshape(-1,1)
     y=np.ravel(y)
-    X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = train_size, test_size = 1 - train_size, random_state = 0,stratify = y)
+    trainSizePlaceholder = float(train_size)
+    testSizePlaceholder = round((1 - trainSizePlaceholder), 2)
+    print(trainSizePlaceholder)
+    print(testSizePlaceholder)
+    X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = trainSizePlaceholder, test_size = testSizePlaceholder, random_state = 0,stratify = y)
 
     pairs = smote_sampling_strategy.split(",")
     sampling_dict = {}

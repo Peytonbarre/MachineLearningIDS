@@ -799,9 +799,9 @@ document.getElementById('generateDataButton').addEventListener('click', function
          direction = dataForm.querySelector('input[name="direction"]').value
          coord = dataForm.querySelector('input[name="coord"]').value
          if(direction === 'right'){
-            addRightHelper(graphType, parameter, data['data'], coord);
+            addRightHelper(graphType, parameter, data['data'], coord, classifier);
          }else if(direction === 'left'){
-            addLeftHelper(graphType, parameter, data['data'], coord);
+            addLeftHelper(graphType, parameter, data['data'], coord, classifier);
          }else{
             throw error("Direction not recognized!")
          }
@@ -812,8 +812,9 @@ document.getElementById('generateDataButton').addEventListener('click', function
 
 
 //FLow == add left/right -> generateButton listener -> addLeft/right helper (HERE)
-function addRightHelper(graphType, parameter, data, coord){
+function addRightHelper(graphType, parameter, data, coord, classifier){
     console.log(parameter)
+    console.log(data)
     newCol = String(coord).split(" ")[1]
     newRow = String(coord).split(" ")[0]
     var row = document.getElementsByClassName('rows')
@@ -846,7 +847,7 @@ function addRightHelper(graphType, parameter, data, coord){
         const newHeatMapData = {
             labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7'],
             datasets: [{
-                data: data,
+                data: JSON.parse(data),
                 label: 'Heatmap Data',
             }],
         };
@@ -855,8 +856,8 @@ function addRightHelper(graphType, parameter, data, coord){
         const containerHeight = container.clientHeight;
         ctx.canvas.width = containerWidth;
         ctx.canvas.height = containerHeight;
-        //console.log(typeof newHeatMapData.datasets[0].data)
-        const newFormatData = convertToNewFormat(JSON.parse(newHeatMapData.datasets[0].data));
+        console.log(newHeatMapData.datasets[0].data)
+        const newFormatData = convertToNewFormat(newHeatMapData.datasets[0].data);
         const minValue = Math.min(...newFormatData.map(value => value.v));
         const maxValue = Math.max(...newFormatData.map(value => value.v));
         const colorScale = chroma.scale(['#f7fbff', '#04AA6D']).domain([minValue, maxValue]);
@@ -912,11 +913,16 @@ function addRightHelper(graphType, parameter, data, coord){
             }
         });
     }else if(graphType === 'Bar'){
+        if(classifier === 'MTH' || classifier === 'Tree-Based'){
+            labelSet = ['Decision Trees', 'Random Forest', 'Extra Trees', 'XGBoost', 'Stacking']
+        }else if(classifier === 'LCCDE'){
+            labelSet = ['LightGBM', 'XGBoost', 'CatBoost', 'Stacking']
+        }
         console.log(data)
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Decision Trees', 'Random Forest', 'Extra Trees', 'XGBoost', 'Stacking'],
+                labels: labelSet,
                 datasets: [{
                     label: parameter,
                     data: JSON.parse(data),
