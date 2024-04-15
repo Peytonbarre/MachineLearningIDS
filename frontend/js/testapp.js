@@ -781,6 +781,7 @@ document
                 } else {
                     throw error("Direction not recognized!");
                 }
+                cancelGraph();
             })
             .catch((error) => {
                 console.error(error);
@@ -1121,6 +1122,34 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
         textContainer.appendChild(parameterData);
         newContainer.appendChild(textContainer);
     }
+
+    var slideValue = document.getElementById("myRange").value;
+    var SMOTEValue1 = document.getElementById("SMOTE1").value;
+    var SMOTEValue2 = document.getElementById("SMOTE2").value;
+
+    var newGraphJson = {
+        GraphType: graphType,
+        Parameter: parameter,
+        Dataval: JSON.parse(data),
+        classifier: classifier,
+        trainval: slideValue,
+        smote: SMOTEValue1 + ":" + SMOTEValue2,
+        hyperparameters: {},
+    };
+
+    fetch("http://localhost:5000/newGraph", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newGraphJson),
+    })
+        .then((response) => {
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    console.log(newGraphJson);
 }
 
 function addLeftHelper(graphType, parameter, data, coord, classifier) {
@@ -1537,5 +1566,20 @@ function populateData() {
 }
 
 function loadGraph(id){
-    
+    const historyElement = document.querySelectorAll('.historyElement')[id];
+    const graphType = historyElement.querySelector('input[name="GraphType"]').value
+    const parameter = historyElement.querySelector('input[name="Parameter"]').value
+    const data = historyElement.querySelector('input[name="Dataval"]').value
+    const classifier = historyElement.querySelector('input[name="classifier"]').value
+    const dataForm = document.getElementById("dataForm");
+    const direction = dataForm.querySelector('input[name="direction"]').value;
+    const coord = dataForm.querySelector('input[name="coord"]').value;
+    if (direction === "right") {
+        addRightHelper(graphType, parameter, data, coord, classifier);
+    } else if (direction === "left") {
+        addLeftHelper(graphType, parameter, data, coord, classifier);
+    } else {
+        throw error("Direction not recognized!");
+    }
+    cancelGraph();
 }
