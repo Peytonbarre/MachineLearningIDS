@@ -128,16 +128,11 @@ def newGraph():
     }
     return response
 
-@app.root('/gethistory')
-
+@app.route('/gethistory', methods=['GET'])
 def gethistory():
-
-
     query = text("SELECT * FROM historydata ORDER BY timestamps DESC LIMIT 5")
     result = pd.read_sql(query, engine)
-
-
-    return jsonify(result)
+    return result.to_json()
 
 if __name__ == '__main__':
     app.run(debug=True)

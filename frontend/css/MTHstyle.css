@@ -619,7 +619,8 @@ input[type=text]:focus {
 .parametersList.hidden,
 .classifierList.hidden,
 .historyList.hidden,
-.samplingList.hidden {
+.samplingList.hidden,
+.historyTable.hidden {
     display: none;
 }
 
@@ -704,4 +705,28 @@ td {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.historyElement{
+    width: 250px;
+    height: 60px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: center;
+    background: darkgray;
+    border-radius: 5px;
+    margin-left: 15px;
+    font-family: "Varela", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 14px;
+    color: whitesmoke;
+}
+
+.historyElement:hover{
+    background: rgb(130, 130, 130);
+}
+
+.historyTable{
+    margin-bottom: 20px;
 }

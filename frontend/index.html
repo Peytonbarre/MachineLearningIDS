@@ -145,39 +145,67 @@
                         <span class="material-symbols-outlined">expand_more</span>
                     </button>
                 </div>
-                <div class="historyTable">
-                        <table border="1">
-                            <tr>
-                                <th> <b>RunID</b> </th>
-                                <th> <b>Select</b> </th>
-                            </tr>
-
-                            <tr>
-                                <td id="string1">String 1</td>
-                                 <td><button class="btn" onclick="copyString('string1')">Compare</button></td>
-                            </tr>
-
-                            <tr>
-                                <td id="string2">String 2</td>
-                                <td><button class="btn" onclick="copyString('string2')">Compare</button></td>
-                            </tr>
-
-                            <tr>
-                                <td id="string3">String 3</td>
-                                 <td><button class="btn" onclick="copyString('string3')">Compare</button></td>
-                            </tr>
-
-                            <tr>
-                                <td id="string4">String 4</td>
-                                 <td><button class="btn" onclick="copyString('string4')">Compare</button></td>
-                            </tr>
-
-                            <tr>
-                                <td id="string5">String 5</td>
-                                 <td><button class="btn" onclick="copyString('string5')">Compare</button></td>
-                            </tr>
-                        </table>
-                    <br>
+                <div class="historyTable" id="historyTableContainer">
+                    <div class="historyElement" onclick=loadGraph(1)>
+                        <input type="hidden" name="Timestamps">
+                        <input type="hidden" name="GraphType">
+                        <input type="hidden" name="Parameter">
+                        <input type="hidden" name="Dataval">
+                        <input type="hidden" name="classifier">
+                        <input type="hidden" name="trainval">
+                        <input type="hidden" name="smote">
+                        <input type="hidden" name="hyperparameters">
+                        <input type="hidden" name="rowID">
+                        <h3>History 1</h3>
+                    </div>
+                    <div class="historyElement" onclick=loadGraph(2)>
+                        <input type="hidden" name="Timestamps">
+                        <input type="hidden" name="GraphType">
+                        <input type="hidden" name="Parameter">
+                        <input type="hidden" name="Dataval">
+                        <input type="hidden" name="classifier">
+                        <input type="hidden" name="trainval">
+                        <input type="hidden" name="smote">
+                        <input type="hidden" name="hyperparameters">
+                        <input type="hidden" name="rowID">
+                        <h3>History 1</h3>
+                    </div>
+                    <div class="historyElement" onclick=loadGraph(3)>
+                        <input type="hidden" name="Timestamps">
+                        <input type="hidden" name="GraphType">
+                        <input type="hidden" name="Parameter">
+                        <input type="hidden" name="Dataval">
+                        <input type="hidden" name="classifier">
+                        <input type="hidden" name="trainval">
+                        <input type="hidden" name="smote">
+                        <input type="hidden" name="hyperparameters">
+                        <input type="hidden" name="rowID">
+                        <h3>History 1</h3>
+                    </div>
+                    <div class="historyElement" onclick=loadGraph(4)>
+                        <input type="hidden" name="Timestamps">
+                        <input type="hidden" name="GraphType">
+                        <input type="hidden" name="Parameter">
+                        <input type="hidden" name="Dataval">
+                        <input type="hidden" name="classifier">
+                        <input type="hidden" name="trainval">
+                        <input type="hidden" name="smote">
+                        <input type="hidden" name="hyperparameters">
+                        <input type="hidden" name="rowID">
+                        <h3>History 1</h3>
+                    </div>
+                    <div class="historyElement" onclick=loadGraph(5)>
+                        <input type="hidden" name="Timestamps">
+                        <input type="hidden" name="GraphType">
+                        <input type="hidden" name="Parameter">
+                        <input type="hidden" name="Dataval">
+                        <input type="hidden" name="classifier">
+                        <input type="hidden" name="trainval">
+                        <input type="hidden" name="smote">
+                        <input type="hidden" name="hyperparameters">
+                        <input type="hidden" name="rowID">
+                        <h3>History 1</h3>
+                    </div>
                 </div>
 
                 <div class="EvenMoreBullshit">

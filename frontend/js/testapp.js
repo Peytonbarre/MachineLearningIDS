@@ -146,6 +146,7 @@ function TreeSelected() {
 }
 
 function displaySidebar() {
+    populateData();
     var idleState = document.getElementsByClassName("idleState");
     var addGraph = document.getElementsByClassName("addingGraph");
     for (let i = 0; i < idleState.length; i++) {
@@ -1505,4 +1506,36 @@ function copyString(elementId) {
     document.body.removeChild(elem);
 
     alert("Copied: " + text);
+}
+
+function populateData() {
+    fetch("http://localhost:5000/gethistory", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => (response.json()))
+        .then((data) => {
+            const historyElements = document.querySelectorAll('.historyElement');
+            for(let i=0; i<5; i++){
+                historyElements[i].querySelector('input[name="Timestamps"]').value = data.Timestamps[i];
+                historyElements[i].querySelector('input[name="GraphType"]').value = data.GraphType[i];
+                historyElements[i].querySelector('input[name="Parameter"]').value = data.Parameter[i];
+                historyElements[i].querySelector('input[name="Dataval"]').value = data.Dataval[i];
+                historyElements[i].querySelector('input[name="classifier"]').value = data.classifier[i];
+                historyElements[i].querySelector('input[name="trainval"]').value = data.trainval[i];
+                historyElements[i].querySelector('input[name="smote"]').value = data.smote[i];
+                historyElements[i].querySelector('input[name="hyperparameters"]').value = data.hyperparameters[i];
+                historyElements[i].querySelector('input[name="rowID"]').value = data.rowID[i];
+                historyElements[i].querySelector('h3').textContent = data.rowID[i]; 
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+function loadGraph(id){
+    
 }
