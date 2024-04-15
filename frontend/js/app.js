@@ -363,18 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    function copyString(elementId) {
-        var text = document.getElementById(elementId).innerText;
-        var elem = document.createElement("textarea");
-        document.body.appendChild(elem);
-        elem.value = text;
-        elem.select();
-        document.execCommand("copy");
-        document.body.removeChild(elem);
-
-        alert("Copied: " + text);
-    }
-
+   
 // Initial chart display
 showLineChart();
 
