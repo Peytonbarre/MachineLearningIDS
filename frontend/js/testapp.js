@@ -79,9 +79,9 @@ function showHeatmap() {
             plugins: {
                 legend: {
                     title: {
-                      display: true,
-                      text: 'Confusion Matrix',
-                    }
+                        display: true,
+                        text: "Confusion Matrix",
+                    },
                 },
                 tooltip: {
                     callbacks: {
@@ -696,10 +696,14 @@ document
     });
 
 //DOES NOT WORK.  I'm guessing this is due to the History div not having children?
-document.getElementById('historyButton').addEventListener('click', function() {
-    toggleSection('historyTable');
-    var button = document.getElementById('historyButton')
-    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
+document.getElementById("historyButton").addEventListener("click", function () {
+    toggleSection("historyTable");
+    var button = document.getElementById("historyButton");
+    button.children[0].textContent = button.children[0].textContent.includes(
+        "less"
+    )
+        ? "expand_more"
+        : "expand_less";
 });
 
 function toggleSection(sectionClass) {
@@ -872,12 +876,12 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
                 plugins: {
                     legend: {
                         title: {
-                          display: false,
-                          text: '',
+                            display: false,
+                            text: "",
                         },
                         labels: {
-                            display: false
-                        }
+                            display: false,
+                        },
                     },
                     tooltip: {
                         callbacks: {
@@ -1075,12 +1079,7 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
                     borderWidth: 1,
                 },
             ];
-            labelSet = [
-                "LightGBM", 
-                "XGBoost", 
-                "CatBoost", 
-                "Stacking"
-            ];
+            labelSet = ["LightGBM", "XGBoost", "CatBoost", "Stacking"];
         }
 
         var myChart = new Chart(ctx, {
@@ -1097,29 +1096,29 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
                 },
                 plugins: {
                     legend: {
-                      title: {
-                        display: true,
-                        text: 'Average of Event Metrics by Classifier',
-                      }
-                    }
-                }
+                        title: {
+                            display: true,
+                            text: "Average of Event Metrics by Classifier",
+                        },
+                    },
+                },
             },
         });
-    }else if(graphType === 'Callout'){
+    } else if (graphType === "Callout") {
         console.log(canvas);
-        canvas.remove()
-        var textContainer = document.createElement('div')
-        textContainer.classList.add('newParameterContainer')
-        var parameterData = document.createElement('div')
-        parameterData.classList.add('parameterData')
-        parameterData.innerHTML = parameter
-        var newContainer = containerClone.childNodes[1].childNodes[1]
-        var textData = document.createElement('div')
-        textData.classList.add('callout')
-        textData.innerHTML = data
-        textContainer.appendChild(textData)
-        textContainer.appendChild(parameterData)
-        newContainer.appendChild(textContainer)
+        canvas.remove();
+        var textContainer = document.createElement("div");
+        textContainer.classList.add("newParameterContainer");
+        var parameterData = document.createElement("div");
+        parameterData.classList.add("parameterData");
+        parameterData.innerHTML = parameter;
+        var newContainer = containerClone.childNodes[1].childNodes[1];
+        var textData = document.createElement("div");
+        textData.classList.add("callout");
+        textData.innerHTML = data;
+        textContainer.appendChild(textData);
+        textContainer.appendChild(parameterData);
+        newContainer.appendChild(textContainer);
     }
 }
 
@@ -1219,12 +1218,12 @@ function addLeftHelper(graphType, parameter, data, coord, classifier) {
                 plugins: {
                     legend: {
                         title: {
-                          display: false,
-                          text: '',
+                            display: false,
+                            text: "",
                         },
                         labels: {
-                            display: false
-                        }
+                            display: false,
+                        },
                     },
                     tooltip: {
                         callbacks: {
@@ -1422,12 +1421,7 @@ function addLeftHelper(graphType, parameter, data, coord, classifier) {
                     borderWidth: 1,
                 },
             ];
-            labelSet = [
-                "LightGBM", 
-                "XGBoost", 
-                "CatBoost", 
-                "Stacking"
-            ];
+            labelSet = ["LightGBM", "XGBoost", "CatBoost", "Stacking"];
         }
 
         var myChart = new Chart(ctx, {
@@ -1444,30 +1438,57 @@ function addLeftHelper(graphType, parameter, data, coord, classifier) {
                 },
                 plugins: {
                     legend: {
-                      title: {
-                        display: true,
-                        text: 'Average of Event Metrics by Classifier',
-                      }
-                    }
-                }
+                        title: {
+                            display: true,
+                            text: "Average of Event Metrics by Classifier",
+                        },
+                    },
+                },
             },
         });
-    }else if(graphType === 'Callout'){
+    } else if (graphType === "Callout") {
         console.log(canvas);
-        canvas.remove()
-        var textContainer = document.createElement('div')
-        textContainer.classList.add('newParameterContainer')
-        var parameterData = document.createElement('div')
-        parameterData.classList.add('parameterData')
-        parameterData.innerHTML = parameter
-        var newContainer = containerClone.childNodes[1].childNodes[1]
-        var textData = document.createElement('div')
-        textData.classList.add('callout')
-        textData.innerHTML = data
-        textContainer.appendChild(textData)
-        textContainer.appendChild(parameterData)
-        newContainer.appendChild(textContainer)
+        canvas.remove();
+        var textContainer = document.createElement("div");
+        textContainer.classList.add("newParameterContainer");
+        var parameterData = document.createElement("div");
+        parameterData.classList.add("parameterData");
+        parameterData.innerHTML = parameter;
+        var newContainer = containerClone.childNodes[1].childNodes[1];
+        var textData = document.createElement("div");
+        textData.classList.add("callout");
+        textData.innerHTML = data;
+        textContainer.appendChild(textData);
+        textContainer.appendChild(parameterData);
+        newContainer.appendChild(textContainer);
     }
+    var slideValue = document.getElementById("myRange").value;
+    var SMOTEValue1 = document.getElementById("SMOTE1").value;
+    var SMOTEValue2 = document.getElementById("SMOTE2").value;
+
+    var newGraphJson = {
+        GraphType: graphType,
+        Parameter: parameter,
+        Data: JSON.parse(data),
+        Classifier: classifier,
+        trainval: slideValue,
+        SMOTEValue: SMOTEValue1 + ":" + SMOTEValue2,
+        hyperParameters: {},
+    };
+
+    fetch("http://localhost:5000/newGraph", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newGraphJson),
+    })
+        .then((response) => {
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    console.log(newGraphJson);
 }
 
 showHeatmap();
