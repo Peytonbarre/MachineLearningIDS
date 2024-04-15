@@ -14,7 +14,7 @@ CORS(app)
 load_dotenv()
 
 #'mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data'
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
 print(DATABASE_URL)
 engine = create_engine(DATABASE_URL, echo=True)
 
