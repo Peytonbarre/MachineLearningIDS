@@ -670,10 +670,12 @@ input[type=text]:focus {
 table {
     width: 100%;
     border-collapse: collapse;
+    color: whitesmoke;
 }
 
 td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    font-style: italic;
 }

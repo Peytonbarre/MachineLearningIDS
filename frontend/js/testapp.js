@@ -736,6 +736,13 @@ document.getElementById('graphParametersButton').addEventListener('click', funct
     button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
 });
 
+//DOES NOT WORK.  I'm guessing this is due to the History div not having children?
+document.getElementById('historyButton').addEventListener('click', function() {
+    toggleSection('historyTable');
+    var button = document.getElementById('historyButton')
+    button.children[0].textContent = button.children[0].textContent.includes('less') ? 'expand_more' : 'expand_less';
+});
+
 function toggleSection(sectionClass) {
     var section = document.querySelector('.' + sectionClass);
     section.classList.toggle('hidden');
