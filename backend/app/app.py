@@ -14,7 +14,7 @@ CORS(app)
 load_dotenv()
 
 #'mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data'
-DATABASE_URL = os.getenv('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+DATABASE_URL = 'mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data'
 print(DATABASE_URL)
 engine = create_engine(DATABASE_URL, echo=True)
 
@@ -106,6 +106,27 @@ def processParameters():
 
     return jsonify(response)
 
+@app.route('/newGraph', methods=['POST'])
+def newGraph():
+    data = request.json
+    GraphType = data['GraphType']
+    Parameter = data['Parameter']
+    Dataval = data['Dataval']
+    classifier = data['classifier']
+    trainval = data['trainval']
+    smote = data['smote']
+    hyperparameters = data['hyperparameters']
+    print(type(hyperparameters))
+    currentTime = datetime.now()
+    rowID = str(currentTime) + '-' + str(GraphType) + '-' + str(classifier) + '-' + str(Parameter)
+    addQuery = text("INSERT INTO historydata (TimeStamps, GraphType, Parameter, Dataval, classifier, trainval, smote, hyperparameters, rowID) VALUES (:currentTime, :GraphType, :Parameter, :Dataval, :classifier, :trainval, :smote, :hyperparameters, :rowID)")
+    with engine.connect() as conn:
+        conn.execute(addQuery, {"currentTime": currentTime, "GraphType": GraphType, "Parameter": Parameter, "Dataval": json.dumps(Dataval), "classifier": classifier, "trainval": trainval, "smote": smote, "hyperparameters": json.dumps(hyperparameters), "rowID": rowID})
+        conn.commit()
+    response = {
+        "status": "good",
+    }
+    return response
 
 ##
 ## Code below is depricated, we probably won't use this but leaving it here just in case

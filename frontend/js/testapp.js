@@ -1469,11 +1469,11 @@ function addLeftHelper(graphType, parameter, data, coord, classifier) {
     var newGraphJson = {
         GraphType: graphType,
         Parameter: parameter,
-        Data: JSON.parse(data),
-        Classifier: classifier,
+        Dataval: JSON.parse(data),
+        classifier: classifier,
         trainval: slideValue,
-        SMOTEValue: SMOTEValue1 + ":" + SMOTEValue2,
-        hyperParameters: {},
+        smote: SMOTEValue1 + ":" + SMOTEValue2,
+        hyperparameters: {},
     };
 
     fetch("http://localhost:5000/newGraph", {
