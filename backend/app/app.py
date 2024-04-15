@@ -43,15 +43,15 @@ def processParameters():
         print(result.iloc[0]['TimeStamps'])
         data = [result.iloc[0]['Accuracy'], result.iloc[0]['Precisions'], result.iloc[0]['Recall'], result.iloc[0]['F1_Score'], result.iloc[0]['CM'], result.iloc[0]['Avg_of_event'], result.iloc[0]['PrecisionScores'], result.iloc[0]['f1Scores'], result.iloc[0]['recallScores'], result.iloc[0]['accuracyScores']]
     else:
-        print("Not found!")
+        print("Not found!: " + str(classifier))
         if classifier == 'MTH':
             data = MTH.getStacking(trainValue, SMOTE)
         #TODO: Make sure this is working
         elif classifier == 'LCCDE':
-            data = LCCDE.applyDefaultHyperparameters(trainValue, SMOTE)
+            data = LCCDE.LCCDE_STACKING(trainValue, SMOTE)
         #TODO: Make sure this is working
         elif classifier == 'Tree-Based':
-            data = TreeBased.applyDefaultHyperparameters(trainValue, SMOTE)
+            data = TreeBased.GET_TB_STACKING(trainValue, SMOTE)
 
         currentTime = datetime.now()
         addQuery = text("INSERT INTO history (TimeStamps, Model, Accuracy, Precisions, Recall, F1_Score, CM, smote, trainVal, Avg_of_event, PrecisionScores, f1Scores, recallScores, accuracyScores) VALUES (:currentTime, :classifier, :Accuracy, :Precisions, :Recall, :F1_Score, :CM, :SMOTE, :trainValue, :Avg_of_event, :PrecisionScores, :f1Scores, :recallScores, :accuracyScores)")
@@ -87,13 +87,13 @@ def processParameters():
         #TODO: Change to classifier composition
         data = data[6]
     elif graphType == 'Callout':
-        if parameter == 'Avg Accuracy':
+        if parameter == 'Average Accuracy':
             data = data[0]
-        elif parameter == 'Avg Precision':
+        elif parameter == 'Average Precision':
             data = data[1]
-        elif parameter == 'Avg Recall':
+        elif parameter == 'Average Recall':
             data = data[2]
-        elif parameter == 'Avg F1':
+        elif parameter == 'Average F-1 Score':
             data = data[3]
 
     print("RETURNING: " + str(data))

@@ -73,7 +73,9 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
 
       
     trainSizePlaceholder = float(train_size)
-    testSizePlaceholder = round((1 - trainSizePlaceholder), 1)
+    testSizePlaceholder = round((1 - trainSizePlaceholder), 2)
+    print(trainSizePlaceholder)
+    print(testSizePlaceholder)
     X_train, X_test, y_train, y_test = train_test_split(X_fss,y, train_size = trainSizePlaceholder, test_size = testSizePlaceholder, random_state = 0,stratify = y)
     pd.Series(y_train).value_counts()
 
