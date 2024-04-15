@@ -61,7 +61,7 @@ function showHeatmap() {
     );
     const newDataset = [
         {
-            label: "My Matrix",
+            label: "Matrix Dataset",
             data: newFormatData,
             backgroundColor: backgroundColors,
             borderWidth: 1,
@@ -77,7 +77,12 @@ function showHeatmap() {
         },
         options: {
             plugins: {
-                legend: false,
+                legend: {
+                    title: {
+                      display: true,
+                      text: 'Confusion Matrix',
+                    }
+                },
                 tooltip: {
                     callbacks: {
                         title() {
@@ -959,7 +964,7 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
         );
         const newDataset = [
             {
-                label: "My Matrix",
+                label: "Confusion Matrix",
                 data: newFormatData,
                 backgroundColor: backgroundColors,
                 borderWidth: 1,
@@ -975,7 +980,15 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
             },
             options: {
                 plugins: {
-                    legend: false,
+                    legend: {
+                        title: {
+                          display: false,
+                          text: '',
+                        },
+                        labels: {
+                            display: false
+                        }
+                    },
                     tooltip: {
                         callbacks: {
                             title() {
@@ -1192,8 +1205,31 @@ function addRightHelper(graphType, parameter, data, coord, classifier) {
                         beginAtZero: false,
                     },
                 },
+                plugins: {
+                    legend: {
+                      title: {
+                        display: true,
+                        text: 'Average of Event Metrics by Classifier',
+                      }
+                    }
+                }
             },
         });
+    }else if(graphType === 'Callout'){
+        console.log(canvas);
+        canvas.remove()
+        var textContainer = document.createElement('div')
+        textContainer.classList.add('newParameterContainer')
+        var parameterData = document.createElement('div')
+        parameterData.classList.add('parameterData')
+        parameterData.innerHTML = parameter
+        var newContainer = containerClone.childNodes[1].childNodes[1]
+        var textData = document.createElement('div')
+        textData.classList.add('callout')
+        textData.innerHTML = data
+        textContainer.appendChild(textData)
+        textContainer.appendChild(parameterData)
+        newContainer.appendChild(textContainer)
     }
 
     /*

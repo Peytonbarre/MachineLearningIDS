@@ -87,13 +87,13 @@ def processParameters():
         #TODO: Change to classifier composition
         data = data[6]
     elif graphType == 'Callout':
-        if parameter == 'Avg Accuracy':
+        if parameter == 'Average Accuracy':
             data = data[0]
-        elif parameter == 'Avg Precision':
+        elif parameter == 'Average Precision':
             data = data[1]
-        elif parameter == 'Avg Recall':
+        elif parameter == 'Average Recall':
             data = data[2]
-        elif parameter == 'Avg F1':
+        elif parameter == 'Average F-1 Score':
             data = data[3]
 
     print("RETURNING: " + str(data))
