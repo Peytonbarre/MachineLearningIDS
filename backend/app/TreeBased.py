@@ -81,27 +81,25 @@ def applyDefaultHyperparameters(train_size, smote_sampling_strategy):
     global df
     dataframeSetup()
 
-
-    print(df)
+    # Min-max normalization
+    numeric_features = df.dtypes[df.dtypes != 'object'].index
+    df[numeric_features] = df[numeric_features].apply(
+        lambda x: (x - x.min()) / (x.max()-x.min()))
+    # Fill empty values by 0
+    df = df.fillna(0)
+    labelencoder = LabelEncoder()
+    df.iloc[:, -1] = labelencoder.fit_transform(df.iloc[:, -1])
     X = df.drop(['Label'],axis=1).values 
     y = df.iloc[:, -1].values.reshape(-1,1)
     y=np.ravel(y)
-    trainSizePlaceholder = float(train_size)
-    testSizePlaceholder = round((1 - trainSizePlaceholder), 2)
-    print(trainSizePlaceholder)
-    print(testSizePlaceholder)
-    X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = trainSizePlaceholder, test_size = testSizePlaceholder, random_state = 0,stratify = y)
-
-    pairs = smote_sampling_strategy.split(",")
-    sampling_dict = {}
-    
-    for pair in pairs:
-        key, value = pair.split(":")
-        sampling_dict[int(key)] = int(value)
-
-    smote=SMOTE(n_jobs=-1,sampling_strategy=sampling_dict) # Default: create 1500 samples for the minority class "4"
-
+    X_train, X_test, y_train, y_test = train_test_split(X,y, train_size = 0.8, test_size = 0.2, random_state = 0,stratify = y)
+    smote=SMOTE(n_jobs=-1,sampling_strategy={4:1500})
     X_train, y_train = smote.fit_resample(X_train, y_train)
+
+    global y_test_stacking, y_train_stacking
+    y_test_stacking = y_test
+    y_train_stacking = y_train
+
     return X_train, X_test, y_train, y_test
 
 def GET_TB_DECISION_TREE(train_size = 0.8, smote_sampling_strategy = "4:1500", random_state = 0):
@@ -437,5 +435,3 @@ def FEATURE_SELECTION(train_size = 0.8, smote_sampling_strategy = "4:1500"): # N
     # plt.show()
     
     return f_list
-
-GET_TB_STACKING()
