@@ -14,7 +14,7 @@ CORS(app)
 load_dotenv()
 
 #'mysql://admin:PASSWORD@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data'
-DATABASE_URL = os.getenv('mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data')
+DATABASE_URL = 'mysql://admin:projectt60@csproject.c5emwcgweqq7.us-east-2.rds.amazonaws.com/data'
 print(DATABASE_URL)
 engine = create_engine(DATABASE_URL, echo=True)
 
@@ -107,79 +107,16 @@ def processParameters():
     return jsonify(response)
 
 
-##
-## Code below is depricated, we probably won't use this but leaving it here just in case
-##
+@app.root('/gethistory')
 
-# @app.route('/MTH_XGBoost', methods=['GET'])
-# def MTH_XGBoost():
-#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getXGBoost()
-#     data = {
-#         "accuracy": acurracy,
-#         "precision": precision,
-#         "recall": recall,
-#         "fscore": fscore,
-#         "y_true": y_true,
-#         "y_predict": y_predict,
-#         "cm": cm
-#     }
-#     return jsonify(data)
+def gethistory():
 
-# @app.route('/MTH_ET', methods=['GET'])
-# def MTH_ET():
-#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getExtraTrees()
-#     data = {
-#         "accuracy": acurracy,
-#         "precision": precision,
-#         "recall": recall,
-#         "fscore": fscore,
-#         "y_true": y_true,
-#         "y_predict": y_predict,
-#         "cm": cm
-#     }
-#     return jsonify(data)
 
-# @app.route('/MTH_DT', methods=['GET'])
-# def MTH_DT():
-#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getDecisionTree()
-#     data = {
-#         "accuracy": acurracy,
-#         "precision": precision,
-#         "recall": recall,
-#         "fscore": fscore,
-#         "y_true": y_true,
-#         "y_predict": y_predict,
-#         "cm": cm
-#     }
-#     return jsonify(data)
+    query = text("SELECT * FROM historydata ORDER BY timestamps DESC LIMIT 5")
+    result = pd.read_sql(query, engine)
 
-# @app.route('/MTH_RF', methods=['GET'])
-# def MTH_RF():
-#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getRandomForest()
-#     data = {
-#         "accuracy": acurracy,
-#         "precision": precision,
-#         "recall": recall,
-#         "fscore": fscore,
-#         "y_true": y_true,
-#         "y_predict": y_predict,
-#         "cm": cm
-#     }
-#     return jsonify(data)
 
-# @app.route('/MTH_STACK', methods=['GET'])
-# def MTH_STACK():
-#     acurracy, precision, recall, fscore, y_true, y_predict,cm = MTH.getStacking()
-#     data = {
-#         "accuracy": acurracy,
-#         "precision": precision,
-#         "recall": recall,
-#         "fscore": fscore,
-#         "y_true": y_true,
-#         "y_predict": y_predict,
-#         "cm": cm
-#     }
-#     return jsonify(data)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True)
