@@ -157,6 +157,20 @@ function displaySidebar() {
     }
 }
 
+function KMSelected() {
+    var sampleButton = document.getElementById("CICIDS2017_sample");
+    var sampleKmButton = document.getElementById("CICIDS2017_sample_km");
+    sampleButton.style.background = "#04AA6D";
+    sampleKmButton.style.background = "darkgray";
+}
+
+function sampleKMSelected() {
+    var sampleButton = document.getElementById("CICIDS2017_sample");
+    var sampleKmButton = document.getElementById("CICIDS2017_sample_km");
+    sampleKmButton.style.background = "#04AA6D";
+    sampleButton.style.background = "darkgray";
+}
+
 function cancelGraph() {
     var idleState = document.getElementsByClassName("idleState");
     var addGraph = document.getElementsByClassName("addingGraph");
@@ -643,6 +657,18 @@ document
     .addEventListener("click", function () {
         toggleSection("classifierList");
         var button = document.getElementById("classifierButton");
+        button.children[0].textContent = button.children[0].textContent.includes(
+            "less"
+        )
+            ? "expand_more"
+            : "expand_less";
+    });
+
+document
+    .getElementById("datasetButton")
+    .addEventListener("click", function () {
+        toggleSection("datasetList");
+        var button = document.getElementById("datasetButton");
         button.children[0].textContent = button.children[0].textContent.includes(
             "less"
         )
@@ -1521,10 +1547,6 @@ function addLeftHelper(graphType, parameter, data, coord, classifier) {
     console.log(newGraphJson);
 }
 
-showHeatmap();
-updateBoxes();
-
-
 function copyString(elementId) {
     var text = document.getElementById(elementId).innerText;
     var elem = document.createElement("textarea");
@@ -1583,3 +1605,101 @@ function loadGraph(id){
     }
     cancelGraph();
 }
+
+function showHistory(){
+    let dateList = [];
+    var timelabels;
+    var timedata;
+    fetch("http://localhost:5000/getHistoryData", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then(response => (response.json()))
+    .then((data) => {
+        Object.values(data.Timestamps).forEach(timestamp => {
+            dateObject = new Date(timestamp)
+            const year = dateObject.getFullYear();
+            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObject.getDate()).padStart(2, '0');
+            dateList.push(`${year}-${month}-${day}`)
+        })
+        var counts = {};
+            dateList.forEach((date) => {
+                if(!(date in counts)){
+                    counts[date] = 1
+                }else{
+                    counts[date] += 1
+                }
+            })
+
+        timelabels = Object.keys(counts)
+        timedata = Object.values(counts)
+        destroyCurrentChart();
+        const container = document.getElementById("content");
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+        ctx.canvas.width = containerWidth;
+        ctx.canvas.height = containerHeight;
+        console.log(timedata)
+        console.log(timelabels)
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: timelabels,
+                datasets: [
+                    {
+                        label: "Number of Runs by Date",
+                        data: timedata,
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(54, 162, 235, 0.2)",
+                            "rgba(255, 206, 86, 0.2)",
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(153, 102, 255, 0.2)",
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(54, 162, 235, 0.2)",
+                            "rgba(255, 206, 86, 0.2)",
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(153, 102, 255, 0.2)",  
+                        ],
+                        borderColor: [
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                        ],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    })
+    .catch((error) => {
+        console.error(error);
+        dateList = []
+    })
+}
+
+function random_rgba() {
+    var o = Math.round, r = Math.random, s = 255;
+    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+}
+
+
+showHistory();
+updateBoxes();

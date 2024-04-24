@@ -134,5 +134,12 @@ def gethistory():
     result = pd.read_sql(query, engine)
     return result.to_json()
 
+@app.route('/getHistoryData', methods=['GET'])
+def getHistoryData():
+    query = text("SELECT * FROM historydata")
+    result = pd.read_sql(query, engine)
+    return result.to_json()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

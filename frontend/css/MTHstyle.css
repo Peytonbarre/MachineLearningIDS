@@ -130,6 +130,38 @@ body {
     color: whitesmoke;
 }
 
+#CICIDS2017_sample_km {
+    margin-top: 5px;
+    margin-bottom: 7px;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: center;
+    background: darkgray;
+    border-radius: 5px;
+    margin-left: 75px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column; 
+}
+
+#CICIDS2017_sample {
+    margin-top: 5px;
+    margin-bottom: 7px;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: center;
+    background: darkgray;
+    border-radius: 5px;
+    margin-left: 75px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column; 
+}
+
 #MTH {
     margin-top: 5px;
     margin-bottom: 7px;
@@ -450,7 +482,11 @@ input[type=text]:focus {
 }
 
 .EvenMoreBullshit {
-    height: 100%;
+    position: fixed;
+    background: rgb(55, 69, 92);
+    height: 150px;
+    width: 280px;
+    bottom: 0;
 }
 
 #matrix:hover{
@@ -618,6 +654,7 @@ input[type=text]:focus {
 .graphTypes.hidden,
 .parametersList.hidden,
 .classifierList.hidden,
+.datasetList.hidden,
 .historyList.hidden,
 .samplingList.hidden,
 .historyTable.hidden {
